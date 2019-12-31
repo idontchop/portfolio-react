@@ -1,12 +1,10 @@
 import React from 'react';
-import PortfolioImageCrop from './Components/PortfolioImageCrop.js';
-import LoginPortfolio from './Components/LoginPortfolio';
 import Profile from './Components/Profile';
 import styled from 'styled-components';
+import ShowUser from './ShowUser';
 
 const GuestBookWrapper = styled.div`
-    display: flex;
-    flex-wrap: wrap;    
+    display: block;    
     margin: 1em auto;
 
     
@@ -32,10 +30,18 @@ const GuestBookWrapper = styled.div`
 `;
 
 const ProfileWrapper = styled.div`
-    display: flex;
-    flex: 1;
     margin: .4em;
-    justify-content: center;
+    display: inline-block;
+    background-color: #86888B;
+    opacity: 0.8;
+    border-radius: 9px;
+    
+`;
+
+const SignatureDiv = styled.div`
+    font-family: Ink Free, cursive;
+    color: white;
+    padding: .4em;
 `;
 
 
@@ -69,11 +75,14 @@ class GuestBook extends React.Component {
         console.log (this.state);
         return (
             <GuestBookWrapper>
+            { this.state.isLoading && <div>Loading...</div>}
             {!this.state.isLoading && this.state.data.map ( ( visitor ) => 
                 <ProfileWrapper key={visitor.id} >
                     <Profile {...visitor} />
+                    <SignatureDiv>{visitor.profile.name ? visitor.profile.name : "anonymous"}</SignatureDiv>
                 </ProfileWrapper>
-            )}
+            )} 
+                <ShowUser />
             </GuestBookWrapper>
         );
 

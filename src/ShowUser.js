@@ -1,10 +1,15 @@
 import React from 'react';
 import PortfolioImageCrop from './Components/PortfolioImageCrop.js';
 import LoginPortfolio from './Components/LoginPortfolio';
-import GuestBook from './GuestBook.js';
+import styled from 'styled-components';
 
 const FBGRAPHAPI = 'https://graph.facebook.com';
 const FBPICTUREEXT = '/me/picture';
+
+const UserWrapperDiv = styled.div`
+    background-color: rgb(134,136,139,.6);
+    border-radius: 9px;
+`;
 
 class ShowUser extends React.Component {
 
@@ -71,11 +76,9 @@ class ShowUser extends React.Component {
         else if ( !this.state.loggedIn )
             return <LoginPortfolio />
         else return (
-            <div>                
-                {cookies}
-                <GuestBook />
+            <UserWrapperDiv>                                
                 <PortfolioImageCrop profileUrl={this.profileUrl} reload={() => this.loadProfilePic()} />
-            </div>
+            </UserWrapperDiv>
         )
     }
 }

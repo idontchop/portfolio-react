@@ -3,6 +3,36 @@ import React, { useImperativeHandle } from 'react';
 import ReactCrop from 'react-image-crop';
 import Dropzone from 'react-dropzone';
 import 'react-image-crop/dist/ReactCrop.css';
+import styled from 'styled-components';
+
+const PortfolioImageWrapperDiv = styled.div`
+    max-width: 40%;
+    height: auto;
+    padding: 1.2em;
+`;
+
+const DragWrapperDiv = styled.div`
+    padding: ${props => props.inside ? "0": "0.8em"};
+    box-shadow: ${props => props.inside ? "1px 1px 8px 5px rgba(0,0,0,0.61)":""};
+    color: white;
+    margin: 4px;
+    text-align: center;
+    border-radius: 9px;
+    background-color: rgb(134,136,139,${props => dragOpacity(props)});
+`;
+
+const DragP = styled.p`
+    color: white;
+    margin: 1px;
+`;
+
+const dragOpacity = (props) => {
+    if ( props.isDragActive ) {
+        return '1';
+    }
+
+    return '0';
+}
 
 /**
  * Uses react plugin: https://www.npmjs.com/package/react-image-crop
@@ -136,20 +166,28 @@ class PortfolioImageCrop extends React.Component {
         console.log(this.state)
         console.log(this.props)
         return (
-            <div>
+            <PortfolioImageWrapperDiv>
                 <Dropzone onDrop= { (e) => this.onDrop(e)}>
-                {( {getRootProps, getInputProps} ) => (
-                    <div {...getRootProps()}>
+                {( {getRootProps, getInputProps, isDragActive, isDragAccept, isDragReject} ) => (
+                    <DragWrapperDiv {...getRootProps({isDragActive, isDragAccept, isDragReject})}>
                         <ReactCrop
                             src={this.state.portfolioUrl}
                             crop={this.state.crop}
                             onChange={ (c, cp) => this.onCropChange(c,cp) }
                             />
-                    </div>
+                        <Dropzone onDrop= { (e) => this.onDrop(e)}>
+                        {( {getRootProps, getInputProps, isDragActive, isDragAccept, isDragReject} ) => (
+                            <DragWrapperDiv {...getRootProps({isDragActive, isDragAccept, isDragReject})} inside={true}>
+                                <input {...getInputProps()} />
+                                <DragP>Drop or click to upload</DragP>
+                            </DragWrapperDiv>
+                        )}
+                        </Dropzone>
+                    </DragWrapperDiv>
                 )}
                 </Dropzone>
             <button onClick={ () => this.handleSubmit() } >Save Profile Pic</button>
-            </div>
+            </PortfolioImageWrapperDiv>
         )
     }
 

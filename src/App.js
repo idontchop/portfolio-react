@@ -1,11 +1,11 @@
 import React from 'react';
-import ShowUser from './ShowUser.js';
+import GuestBook from './GuestBook.js';
 import './App.css';
 
 function App() {
   return (
     <div>
-      <ShowUser />
+      <GuestBook />
     </div>
   );
 }
