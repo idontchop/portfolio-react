@@ -1,7 +1,7 @@
 import React from 'react';
 import PortfolioImageCrop from './Components/PortfolioImageCrop.js';
-import portfoliotestimage from './images/response.jpeg';
 import LoginPortfolio from './Components/LoginPortfolio';
+import GuestBook from './GuestBook.js';
 
 const FBGRAPHAPI = 'https://graph.facebook.com';
 const FBPICTUREEXT = '/me/picture';
@@ -13,6 +13,9 @@ class ShowUser extends React.Component {
 
         this.state = {isLoading: true, loggedIn: false };
         this.loadUser();
+
+        this.profileUrl = `/portfolio/me/image`;
+
     }
 
     /**
@@ -34,52 +37,44 @@ class ShowUser extends React.Component {
             this.setState({ user: responseData});
             this.setState({ loggedIn: true, isLoading: false});
             console.log(this.state)
+            this.loadProfilePic();
+
         } else {
             this.setState ( {loggedIn: false, isLoading: false} );
         }
-        
 
     }
 
-    async loadFacebookProfilePic () {
+    async loadProfilePic () {
 
+        let response = await fetch (this.profileUrl);
 
-        let testUrl = `http://www.25hourclock.com/response.jpeg`;
+        if ( response.status !== 200 ) {
+            // user doesn't have a profile pic
+            // this is ok, just leave blank
+            this.setState({portfolioImage: {}});
+        } else {
 
-        let response = await fetch (testUrl);
-        console.log(response);
-        let responseData = await response.blob();
-        console.log(responseData);
-        /* disabled in testing CORS
-        let fbUrl = `${FBGRAPHAPI + FBPICTUREEXT}`
-        let headers = {
-            'Authorization': 'Bearer ' + this.state.user.principal.oUserRequest.accessToken.tokenValue,
-            
+            let responseData = await response.blob();
+            console.log(responseData);
+            this.setState( { portfolioImage: URL.createObjectURL(responseData) } );
         }
-
-        console.log(headers);
-
-        let response = await fetch(fbUrl, headers);
-        console.log(response);
-        let responseData = await response.blob();
-        console.log(responseData);
-        */
     }
-
 
     render() {
 
         let cookies = document.cookie;
         console.log(cookies)
+        console.log(this.state)
         if ( this.state.isLoading )
             return <div>loading</div>
         else if ( !this.state.loggedIn )
             return <LoginPortfolio />
         else return (
-            <div>
-                {this.state.user.tokenValue}
+            <div>                
                 {cookies}
-                <PortfolioImageCrop src={portfoliotestimage} />
+                <GuestBook />
+                <PortfolioImageCrop profileUrl={this.profileUrl} reload={() => this.loadProfilePic()} />
             </div>
         )
     }
