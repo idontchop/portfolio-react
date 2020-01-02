@@ -6,24 +6,24 @@ import 'react-image-crop/dist/ReactCrop.css';
 import styled from 'styled-components';
 
 const PortfolioImageWrapperDiv = styled.div`
-    max-width: 40%;
-    height: auto;
-    padding: 1.2em;
+    padding: ;
 `;
 
 const DragWrapperDiv = styled.div`
     padding: ${props => props.inside ? "0": "0.8em"};
-    box-shadow: ${props => props.inside ? "1px 1px 8px 5px rgba(0,0,0,0.61)":""};
+    /*box-shadow: ${props => props.inside ? "1px 1px 8px 5px rgba(0,0,0,0.61)":""};*/
+    border: ${props => props.inside ? "solid 1px black" : ""}
     color: white;
     margin: 4px;
     text-align: center;
-    border-radius: 9px;
+    border-radius: ${props => props.inside ? "6px":"9px"};;
     background-color: rgb(134,136,139,${props => dragOpacity(props)});
 `;
 
 const DragP = styled.p`
-    color: white;
-    margin: 1px;
+    color: #A68181;
+    margin: 1px 1px;
+    padding: 3px 1px;
 `;
 
 const dragOpacity = (props) => {
@@ -47,8 +47,11 @@ class PortfolioImageCrop extends React.Component {
         console.log(props)
         this.state = {            
             crop: {
-                unit: '%',
-                width: 150,
+                width: 96,
+                height: 96,
+                x: 2,
+                y: 2,
+                unit: '%',                
                 aspect: 4 / 4,
             },
         };     
@@ -186,7 +189,9 @@ class PortfolioImageCrop extends React.Component {
                     </DragWrapperDiv>
                 )}
                 </Dropzone>
-            <button onClick={ () => this.handleSubmit() } >Save Profile Pic</button>
+            <button onClick={ () => this.handleSubmit() } 
+                className={"btn btn-info"}
+                >Save Profile Pic</button>
             </PortfolioImageWrapperDiv>
         )
     }

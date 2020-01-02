@@ -2,14 +2,16 @@ import React from 'react';
 import Profile from './Components/Profile';
 import styled from 'styled-components';
 import ShowUser from './ShowUser';
+import RegisterForm from './Components/RegisterForm';
 
 const GuestBookWrapper = styled.div`
-    display: block;    
-    margin: 1em auto;
-
+    display: block;  
+    text-align: left;
     
+    margin: 1px auto;
+ 
     @media only screen and (max-width: 600px) {
-        width: 525px;
+        width: 340px;
     }
 
     @media only screen and (min-width: 600px) {
@@ -27,6 +29,7 @@ const GuestBookWrapper = styled.div`
     @media only screen and (min-width: 1200px) {
         width: 1025px;
     }
+
 `;
 
 const ProfileWrapper = styled.div`
@@ -36,12 +39,18 @@ const ProfileWrapper = styled.div`
     opacity: 0.8;
     border-radius: 9px;
     
+    
 `;
 
 const SignatureDiv = styled.div`
     font-family: Ink Free, cursive;
     color: white;
     padding: .4em;
+`;
+
+const CenterDiv = styled.div`
+    display: block;
+    width: 100%;
 `;
 
 
@@ -74,16 +83,21 @@ class GuestBook extends React.Component {
     render () {
         console.log (this.state);
         return (
-            <GuestBookWrapper>
+            <CenterDiv>
+            <GuestBookWrapper >
             { this.state.isLoading && <div>Loading...</div>}
             {!this.state.isLoading && this.state.data.map ( ( visitor ) => 
                 <ProfileWrapper key={visitor.id} >
+                    
                     <Profile {...visitor} />
                     <SignatureDiv>{visitor.profile.name ? visitor.profile.name : "anonymous"}</SignatureDiv>
+                    
                 </ProfileWrapper>
             )} 
-                <ShowUser />
+            <ShowUser />
             </GuestBookWrapper>
+            
+            </CenterDiv>
         );
 
     }
