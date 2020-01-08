@@ -94,8 +94,10 @@ class GuestBook extends React.Component {
                     
                 </ProfileWrapper>
             )} 
-            <ShowUser />
+            
             </GuestBookWrapper>
+
+            <ShowUser />
             
             </CenterDiv>
         );

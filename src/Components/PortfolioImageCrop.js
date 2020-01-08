@@ -4,6 +4,7 @@ import ReactCrop from 'react-image-crop';
 import Dropzone from 'react-dropzone';
 import 'react-image-crop/dist/ReactCrop.css';
 import styled from 'styled-components';
+import no_profile_pic from '../images/no-profile-pic.svg'
 
 const PortfolioImageWrapperDiv = styled.div`
     padding: ;
@@ -16,6 +17,7 @@ const DragWrapperDiv = styled.div`
     color: white;
     margin: 4px;
     text-align: center;
+    
     border-radius: ${props => props.inside ? "6px":"9px"};;
     background-color: rgb(134,136,139,${props => dragOpacity(props)});
 `;
@@ -26,6 +28,19 @@ const DragP = styled.p`
     padding: 3px 1px;
 `;
 
+const NoProfileImage = styled.img`
+    
+    background-color: rgba(255,255,255,0.2);
+    border-radius: 9px;
+    width: 80%;
+    height: auto;
+    padding: 1.5em;
+`;
+
+const cropImageStyle = {
+    width: "80%",
+};
+
 const dragOpacity = (props) => {
     if ( props.isDragActive ) {
         return '1';
@@ -34,8 +49,19 @@ const dragOpacity = (props) => {
     return '0';
 }
 
+const initialCropSettings = {
+    width: 96,
+    height: 96,
+    x: 2,
+    y: 2,
+    unit: '%',                
+    aspect: 4 / 4,
+};
+
 /**
  * Uses react plugin: https://www.npmjs.com/package/react-image-crop
+ * 
+ * TODO: load profile pic at highest level so guestbook entry changes upon crop
  * 
  * bug: ok, this will have to be refactored to pull the profile image in here no matter what
  * instead of pulling it from showuser
@@ -46,14 +72,7 @@ class PortfolioImageCrop extends React.Component {
         super(props);
         console.log(props)
         this.state = {            
-            crop: {
-                width: 96,
-                height: 96,
-                x: 2,
-                y: 2,
-                unit: '%',                
-                aspect: 4 / 4,
-            },
+            crop: initialCropSettings,
         };     
         
         this.postImageUrl = '/portfolio/uploadImage';
@@ -110,8 +129,10 @@ class PortfolioImageCrop extends React.Component {
 
         // Tell parent to pull the new portfolio image which will now be cropped
         if ( typeof this.props.reload !== 'undefined' ) {
-            this.props.reload();
+            await this.props.reload();
         }
+        this.loadProfilePic();
+        this.setState({crop: initialCropSettings});
 
     }
 
@@ -173,11 +194,13 @@ class PortfolioImageCrop extends React.Component {
                 <Dropzone onDrop= { (e) => this.onDrop(e)}>
                 {( {getRootProps, getInputProps, isDragActive, isDragAccept, isDragReject} ) => (
                     <DragWrapperDiv {...getRootProps({isDragActive, isDragAccept, isDragReject})}>
+                        {!! this.state.portfolioUrl ? 
                         <ReactCrop
                             src={this.state.portfolioUrl}
                             crop={this.state.crop}
+                            
                             onChange={ (c, cp) => this.onCropChange(c,cp) }
-                            />
+                            /> : <NoProfileImage src={no_profile_pic} alt="profile pic" />} 
                         <Dropzone onDrop= { (e) => this.onDrop(e)}>
                         {( {getRootProps, getInputProps, isDragActive, isDragAccept, isDragReject} ) => (
                             <DragWrapperDiv {...getRootProps({isDragActive, isDragAccept, isDragReject})} inside={true}>
@@ -191,7 +214,7 @@ class PortfolioImageCrop extends React.Component {
                 </Dropzone>
             <button onClick={ () => this.handleSubmit() } 
                 className={"btn btn-info"}
-                >Save Profile Pic</button>
+                >Crop & Save</button>
             </PortfolioImageWrapperDiv>
         )
     }

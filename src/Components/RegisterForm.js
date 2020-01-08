@@ -2,8 +2,9 @@ import React from 'react';
 
 import Form from 'react-jsonschema-form';
 
+// default register schema, if schema is passed in props, this is not used
 const schema = {
-    title: "Register",
+    title: "Sign Guest Book!",
     type: "object",
     required: ["name", "email"],
     properties: {
@@ -12,14 +13,14 @@ const schema = {
         company: {type: "string", title: "Company"},
         url: {type: "string", title: "Url", default: "http://", format: "url"},
         social: {type: "array", title: "Social Urls",
-                "minItems": 0, "maxItems": 3, uniqueItems: true,
+                "minItems": 0, "maxItems": 4, uniqueItems: true,
                 items: {
                     type: "object",
                     properties: {
                         network: {  type: "string",
                                     title: "network",
                                     default: "facebook",
-                                    enum: ["facebook", "github", "linkedin"]},
+                                    enum: ["facebook", "github", "linkedin", "twitter"]},
                         url: {  type: "string",
                                 default: "http://",
                                 format: "url"}
@@ -32,6 +33,7 @@ const schema = {
 };
 
 const uiSchema = {
+
     "ui:options": {
         orderable: false
     }
@@ -61,6 +63,30 @@ const twoColumnTemplate = (props) => {
     );
   }
 
+const HorizontalFieldTemplate = ({ TitleField, properties, title, description }) => {
+    return (
+      <div>
+        <TitleField title={title} />
+        <div className="row">
+          {properties.map(prop => (
+            <div
+              className="col-lg-4 col-md-4 col-sm-12 col-xs-12"
+              key={prop.content.key}>
+              {prop.content}
+            </div>
+          ))}
+        </div>
+        {description}
+      </div>
+    );
+  }
+
+const validate = (formData, errors) => {
+    if ( formData.password !== formData.confPassword ) {
+        errors.confPassword.addError("Passwords don't match.");
+    }
+    return errors;
+}  
 const ErrorListTemplate = (props) => (<div></div>);
 
 /**
@@ -70,10 +96,15 @@ const ErrorListTemplate = (props) => (<div></div>);
  * @param {*} props 
  */
 const RegisterForm = (props) => (
-    <Form schema = {schema}   
-            uiSchema={uiSchema}   
+    <Form schema = { !!props.schema ? props.schema : schema}   
+            onSubmit={ !!props.onSubmit && props.onSubmit }
+            uiSchema={ !!props.uiSchema ? props.uiSchema : uiSchema}   
             ErrorList={ErrorListTemplate}             
             ArrayFieldTemplate={socialTemplate}
+            ObjectFieldTemplate={ !!props.horizontal ? HorizontalFieldTemplate : null}
+            formData={!!props.formData && props.formData }
+            validate={validate}
+            liveValidate={true}
         />
 );
 
