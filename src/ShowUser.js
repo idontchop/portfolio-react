@@ -66,10 +66,12 @@ class ShowUser extends React.Component {
         super(props);
 
         this.state = {isLoading: true, loggedIn: false };
-        this.loadUser();
+        this.profilePicUrl = this.props.portfolioUrl +  `/me/image`;
+        this.profileUrl = this.props.portfolioUrl + `/me/profile`;
+        this.userUrl = this.props.portfolioUrl + `/user`;
 
-        this.profilePicUrl = `/portfolio/me/image`;
-        this.profileUrl = `/portfolio/me/profile`;
+
+        this.loadUser();
 
     }
 
@@ -79,15 +81,18 @@ class ShowUser extends React.Component {
     async loadUser () {
 
         let headerArgs = { credentials: 'include' };
-        let response = await fetch ( "/portfolio/user", headerArgs ).catch (() => {
+
+        let response = await fetch ( this.userUrl, headerArgs ).catch (() => {
             console.log("fetch failed - user not logged in?");
             this.setState ({loggedIn: false, isLoading: false});
         });
 
         if ( response.status === 200  ) {
-            
-            console.log(response)
-            let responseData = await response.json();
+        
+            let responseData = await response.json().catch ( () => {
+                console.log("json fail");
+                
+            });
 
             this.setState({ user: responseData});
             this.setState({ loggedIn: true, isLoading: false});
@@ -149,7 +154,7 @@ class ShowUser extends React.Component {
 
     async loadProfilePic () {
 
-        let response = await fetch (this.profilePicUrl);
+        let response = await fetch (this.profilePicUrl, {credentials: 'include'});
 
         if ( response.status !== 200 ) {
             // user doesn't have a profile pic
@@ -158,6 +163,7 @@ class ShowUser extends React.Component {
         } else {
 
             let responseData = await response.blob();
+            console.log(this.profilePicUrl)
             console.log(responseData);
             this.setState( { portfolioImage: URL.createObjectURL(responseData) } );
         }
@@ -215,7 +221,8 @@ class ShowUser extends React.Component {
                 <div className={"row"}>
                     <FormDiv className={"col-sm-5"}>
                         <PortfolioImageCrop className={"col"}
-                            profileUrl={this.profilePicUrl} reload={() => this.loadProfilePic()}
+                            portfolioUrl={this.props.portfolioUrl}
+                            profilePicUrl={this.profilePicUrl} 
                             reload={ () => this.loadProfilePic() } />
                     </FormDiv>
                     <FormDiv className={"col-sm-6"}>

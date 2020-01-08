@@ -75,8 +75,9 @@ class PortfolioImageCrop extends React.Component {
             crop: initialCropSettings,
         };     
         
-        this.postImageUrl = '/portfolio/uploadImage';
+        this.postImageUrl = this.props.portfolioUrl + '/uploadImage';
         this.imageUploadHeaderArgs = { method: 'POST', credentials: 'include' };
+        this.imageGetHeaderArgs = { credentials: 'include'};
 
         this.loadProfilePic();
     }
@@ -112,8 +113,9 @@ class PortfolioImageCrop extends React.Component {
         console.log (JSON.stringify(this.state.crop))
 
         // upload via post
-        let response = await fetch ( '/portfolio/uploadImage', {
+        let response = await fetch ( this.postImageUrl, {
             method: 'POST',
+            credentials: 'include',
             headers: this.imageUploadHeaderArgs,
             body: formData
         });
@@ -121,10 +123,12 @@ class PortfolioImageCrop extends React.Component {
         console.log(response)
         if ( response.status !== 200 ) {
             // error here
+
         } else {
 
-            let responseData = response.json();
+            let responseData = await response.json();
             console.log ( responseData );
+
         }
 
         // Tell parent to pull the new portfolio image which will now be cropped
@@ -143,8 +147,8 @@ class PortfolioImageCrop extends React.Component {
      */
     async loadProfilePic () {
 
-        let response = await fetch (this.props.profileUrl);
-
+        let response = await fetch ( this.props.profilePicUrl, this.imageGetHeaderArgs );
+        
         if ( response.status !== 200 ) {
             // user doesn't have a profile pic
             // this is ok, just leave blank
@@ -152,7 +156,6 @@ class PortfolioImageCrop extends React.Component {
         } else {
 
             let responseData = await response.blob();
-            console.log(responseData);
             this.setProfileImageState (responseData);
 
         }

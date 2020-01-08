@@ -5,7 +5,7 @@ const ProfileWrapperDiv = styled.div`
     width: 150px;
     height: 150px;
     border-radius: 9px;
-    background-image: ${props => `url(/portfolio/image/${props.media[0].id});
+    background-image: ${props => `url(${props.portfolioUrl}/image/${props.media[0].id});
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;

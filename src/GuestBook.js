@@ -53,6 +53,8 @@ const CenterDiv = styled.div`
     width: 100%;
 `;
 
+const portfolioUrl = "http://localhost:8080/portfolio";
+
 
 class GuestBook extends React.Component {
 
@@ -61,7 +63,7 @@ class GuestBook extends React.Component {
 
         this.state = {isLoading: true };
 
-        this.restUrl = '/portfolio/guestBook';
+        this.restUrl = portfolioUrl + '/guestBook';
         this.headerArgs = { credentials: 'include' };
         this.postHeaderArgs = { method: 'post', credentials: 'include' };
 
@@ -89,7 +91,7 @@ class GuestBook extends React.Component {
             {!this.state.isLoading && this.state.data.map ( ( visitor ) => 
                 <ProfileWrapper key={visitor.id} >
                     
-                    <Profile {...visitor} />
+                    <Profile {...visitor} portfolioUrl={portfolioUrl} />
                     <SignatureDiv>{visitor.profile.name ? visitor.profile.name : "anonymous"}</SignatureDiv>
                     
                 </ProfileWrapper>
@@ -97,7 +99,7 @@ class GuestBook extends React.Component {
             
             </GuestBookWrapper>
 
-            <ShowUser />
+            <ShowUser portfolioUrl={portfolioUrl} />
             
             </CenterDiv>
         );
