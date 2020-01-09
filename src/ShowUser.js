@@ -56,6 +56,9 @@ const FormDiv = styled.div`
     }
 `;
 
+/**
+ * Handles API calls for the user control panel below the guestbook
+ */
 class ShowUser extends React.Component {
 
     constructor(props) {
@@ -65,6 +68,8 @@ class ShowUser extends React.Component {
         this.profilePicUrl = this.props.portfolioUrl +  `/me/image`;
         this.profileUrl = this.props.portfolioUrl + `/me/profile`;
         this.userUrl = this.props.portfolioUrl + `/user`;
+        this.formLoginUrl = this.props.portfolioUrl + `/login`;
+        this.newFormUserUrl = this.props.portfolioUrl + `/newFormUser`;
 
 
         this.loadUser();
@@ -106,7 +111,7 @@ class ShowUser extends React.Component {
 
     async loadProfile() {
         
-        let response = await fetch (this.profileUrl, {credentials: 'include', cache: 'no-cache'} ).catch ( () => {
+        let response = await fetch (this.profileUrl, {credentials: 'include'} ).catch ( () => {
             console.log (" fetch profile failed");            
         });
 
@@ -194,10 +199,69 @@ class ShowUser extends React.Component {
 
         } else return {};
     }
+
+    /**
+     * Handles submission from the username & password register form
+     * 
+     * TODO: handle username already exists on server. Probably wrap the 
+     * validate function in the registerform module.
+     * @param {} form 
+     * @param {*} e 
+     */
+    async registerForm ( form, e ) {
+        
+        let loginFormData = new FormData();
+        loginFormData.append("username", form.formData.name);
+        loginFormData.append("password", form.formData.password);
+
+        let formUserHeaders = {method: 'POST', credentials: 'include', body: loginFormData};
+
+        if ( !!form.formData.confPassword ) {
+            // confPassword exists so this is a registration
+
+            let response = await fetch ( this.newFormUserUrl,
+                {method: 'POST', body: loginFormData});
+
+            if ( response.status === 409 ) {
+                console.log ("Error: username conflict");
+                // TODO
+            } else if ( response.status === 200 ) {
+                // we are good
+                this.setState({loggedIn: true})
+                this.loadProfile();
+                this.loadProfilePic();
+            } else {
+                // different error (server broken)
+                console.log("Unable to create user", response);
+            }
+
+        } else {
+            // continue as if we are trying to log in
+
+            let response = await fetch (this.formLoginUrl, 
+                formUserHeaders);
+
+            let cookies = document.cookie;
+            console.log(cookies);
+
+            let responseData = await response.json().catch ( () => {
+                // if json error, login unsuccessful
+                console.log ("Unsuccessful login: server responded bad credentials.");
+                console.log( "Register Form un/pw", form, e);
+            });
+            
+            if ( responseData && responseData.registration === 'form' ) {
+                // successful form log in
+                this.setState({loggedIn: true});
+                this.loadProfile();
+                this.loadProfilePic();
+                console.log(responseData);
+            }
+        }
+    }
     render() {
 
-        let cookies = document.cookie;
-        console.log(cookies)
+        
         console.log(this.state)
         if ( this.state.isLoading ) // loading
             return <div>loading</div>
@@ -206,7 +270,7 @@ class ShowUser extends React.Component {
                 <UserWrapperDiv >
                     <div className={"row"}>
                         <FormDiv>
-                            <LoginPortfolio />
+                            <LoginPortfolio registerForm = {(f,e) => this.registerForm(f,e)}/>
                         </FormDiv>
                     </div>
                 </UserWrapperDiv>

@@ -82,7 +82,9 @@ const HorizontalFieldTemplate = ({ TitleField, properties, title, description })
   }
 
 const validate = (formData, errors) => {
-    if ( formData.password !== formData.confPassword ) {
+    if (  !!formData.confPassword &&
+          formData.confPassword.length > 0 && 
+          formData.password !== formData.confPassword ) {
         errors.confPassword.addError("Passwords don't match.");
     }
     return errors;
@@ -92,6 +94,11 @@ const ErrorListTemplate = (props) => (<div></div>);
 /**
  * Uses jsonschema-form lib:
  * https://react-jsonschema-form.readthedocs.io/en/latest/advanced-customization/#custom-array-field-buttons
+ * 
+ * Live Validation issue:
+ * https://github.com/rjsf-team/react-jsonschema-form/issues/512
+ * Happens because we pass a formData
+ * Can be fixed in the validate function?
  * 
  * @param {*} props 
  */

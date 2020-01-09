@@ -36,9 +36,8 @@ const ProfileWrapper = styled.div`
     margin: .4em;
     display: inline-block;
     background-color: #86888B;
-    opacity: 0.8;
     border-radius: 9px;
-    
+    padding: 2px;
     
 `;
 
@@ -46,6 +45,14 @@ const SignatureDiv = styled.div`
     font-family: Ink Free, cursive;
     color: white;
     padding: .4em;
+`;
+
+const CompanyDiv = styled.div`
+    font-family: serif;
+    color: #dedede;
+    padding: .1em .5em;
+    font-size: .7em;
+
 `;
 
 const CenterDiv = styled.div`
@@ -93,7 +100,10 @@ class GuestBook extends React.Component {
                     
                     <Profile {...visitor} portfolioUrl={portfolioUrl} />
                     <SignatureDiv>{visitor.profile.name ? visitor.profile.name : "anonymous"}</SignatureDiv>
-                    
+                    {!!visitor.profile.company ? 
+                        <CompanyDiv>{visitor.profile.company}</CompanyDiv> :
+                        <CompanyDiv>{" "}</CompanyDiv>
+                    }
                 </ProfileWrapper>
             )} 
             

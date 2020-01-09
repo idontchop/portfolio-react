@@ -62,7 +62,7 @@ const uiSchema = {
 };
 
 
-const LoginPortfolio = () => (
+const LoginPortfolio = (props) => (
     <LoginWrapperDiv>
         <legend>Login / Sign Guestbook with: </legend>
         <div className={"row"}>
@@ -110,7 +110,11 @@ const LoginPortfolio = () => (
             </div>
         </div>
         <RegisterFormDiv >
-            <RegisterForm schema={schema} uiSchema={uiSchema} horizontal={true} />
+            <RegisterForm 
+                schema={schema}
+                uiSchema={uiSchema}
+                onSubmit={!!props.registerForm && props.registerForm}
+                horizontal={true} />
         </RegisterFormDiv>
 
     </LoginWrapperDiv>
