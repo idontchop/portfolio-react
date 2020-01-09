@@ -4,10 +4,6 @@ import LoginPortfolio from './Components/LoginPortfolio';
 import RegisterForm from './Components/RegisterForm';
 import styled from 'styled-components';
 
-
-const FBGRAPHAPI = 'https://graph.facebook.com';
-const FBPICTUREEXT = '/me/picture';
-
 const UserWrapperDiv = styled.div`
     background-color: rgb(134,136,139,.6);
     padding: 0px 5px;
@@ -110,7 +106,7 @@ class ShowUser extends React.Component {
 
     async loadProfile() {
         
-        let response = await fetch (this.profileUrl, {credentials: 'include'} ).catch ( () => {
+        let response = await fetch (this.profileUrl, {credentials: 'include', cache: 'no-cache'} ).catch ( () => {
             console.log (" fetch profile failed");            
         });
 
@@ -135,7 +131,7 @@ class ShowUser extends React.Component {
         });
 
         let response = await fetch ( this.profileUrl, 
-            { credentials: 'include', method: 'post',
+            { credentials: 'include', method: 'put',
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
