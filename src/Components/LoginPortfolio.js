@@ -6,6 +6,7 @@ import FacebookIcon from '../images/facebook.svg';
 import LinkedinIcon from '../images/linkedin.svg';
 
 
+const oauth2Ext = "/oauth2/authorization/"
 
 const LoginWrapperDiv = styled.div`
     width: 100%;
@@ -67,7 +68,7 @@ const LoginPortfolio = (props) => (
         <legend>Login / Sign Guestbook with: </legend>
         <div className={"row"}>
             <div className={"col-lg-4"}>
-            <a href="http://localhost:8080/portfolio/oauth2/authorization/facebook">
+            <a href={props.portfolioUrl + oauth2Ext + "facebook"}>
                 <SocialButton>
                 <div className={"row"}>
                         <div className={"col-3"}>
@@ -81,7 +82,7 @@ const LoginPortfolio = (props) => (
             </a>
             </div>
             <div className={"col-lg-4"}>
-            <a href="http://localhost:8080/portfolio/oauth2/authorization/linkedin">
+            <a href={props.portfolioUrl + oauth2Ext + "linkedin"}>
                 <SocialButton>
                 <div className={"row"}>
                         <div className={"col-3"}>
@@ -95,7 +96,7 @@ const LoginPortfolio = (props) => (
             </a>
             </div>
             <div className={"col-lg-4"}>
-            <a href="http://localhost:8080/portfolio/oauth2/authorization/github">
+            <a href={props.portfolioUrl + oauth2Ext + "github"}>
                 <SocialButton>
                     <div className={"row"}>
                         <div className={"col-3"}>

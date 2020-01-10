@@ -60,8 +60,10 @@ const CenterDiv = styled.div`
     width: 100%;
 `;
 
+// dev
 const portfolioUrl = "http://localhost:8080/portfolio";
-
+// prod
+//const portfolioUrl = "https://idontchop.com/portfolio";
 
 class GuestBook extends React.Component {
 

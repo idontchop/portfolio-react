@@ -21,8 +21,7 @@ const schema = {
                                     title: "network",
                                     default: "facebook",
                                     enum: ["facebook", "github", "linkedin", "twitter"]},
-                        url: {  type: "string",
-                                default: "http://",
+                        url: {  type: "string",                                
                                 format: "url"}
                     }
                 }
@@ -109,7 +108,7 @@ const RegisterForm = (props) => (
             ErrorList={ErrorListTemplate}             
             ArrayFieldTemplate={socialTemplate}
             ObjectFieldTemplate={ !!props.horizontal ? HorizontalFieldTemplate : null}
-            formData={!!props.formData && props.formData }
+            formData={!!props.formData ? props.formData : false }
             validate={validate}
             liveValidate={true}
         />

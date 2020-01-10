@@ -270,7 +270,7 @@ class ShowUser extends React.Component {
                 <UserWrapperDiv >
                     <div className={"row"}>
                         <FormDiv>
-                            <LoginPortfolio registerForm = {(f,e) => this.registerForm(f,e)}/>
+                            <LoginPortfolio portfolioUrl={this.props.portfolioUrl} registerForm = {(f,e) => this.registerForm(f,e)}/>
                         </FormDiv>
                     </div>
                 </UserWrapperDiv>
@@ -293,7 +293,7 @@ class ShowUser extends React.Component {
                 </div>
                 <div className={"row"} >
                     <div className={"col"}>
-                        <a href="http://localhost:8080/portfolio/logout"><p className={"text-center"}>Logout</p></a>
+                        <a href={this.props.portfolioUrl + "/logout"}><p className={"text-center"}>Logout</p></a>
                     </div>
                 </div>
 

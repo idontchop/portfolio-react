@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect } from 'react';
 import styled, { keyframes } from 'styled-components';
 import GithubIcon from '../images/github.svg';
 import FacebookIcon from '../images/facebook.svg';
@@ -13,6 +13,16 @@ const keyFrameFadeIn = keyframes`
     }
 `;
 
+/**
+ * Looped through in function linkSm to display the user's url
+ */
+const smSites = ["facebook", "linkedin", "twitter", "github"];
+
+/**
+ * The transparent image for our icon sprite
+ */
+const timg = "https://idontchop.com/images/img-trans.gif";
+
 const ProfileWrapperDiv = styled.div`
     width: 150px;
     height: 150px;
@@ -26,11 +36,14 @@ const ProfileWrapperDiv = styled.div`
     `}
 `;
 
-const OnHoverWrapperDiv = styled.div`
+
+
+const OnHoverDiv = styled.div`
     margin-left: -4px;
     padding: 18px;
     height: 150px;
     width: 155px;
+    display: block;
     
     background-color: rgb(134, 136, 139, 0.5);
 `;
@@ -39,61 +52,128 @@ const smImg = styled.img`
     width: 50px;
     height: 50px;
     opacity: 1;
-    animation: ${keyFrameFadeIn} 1s ease-in-out;
+    animation: ${keyFrameFadeIn} ${props => props.trans}s ease-in-out;    
     margin: auto;`;
 
-const FacebookImg = styled(smImg)`
-    background: url("http://idontchop.com/images/portfolio-circles-export.png") -10px -7px;
+const FacebookImg =  styled(smImg)`
+    background: url("https://idontchop.com/images/portfolio-circles-export.png") -10px -7px;
 `;
 
 const LinkedinImg = styled(smImg)`
-    background: url("http://idontchop.com/images/portfolio-circles-export.png") -77px -7px;
+    background: url("https://idontchop.com/images/portfolio-circles-export.png") -77px -7px;
 `;
 
 const GithubImg = styled(smImg)`
-    background: url("http://idontchop.com/images/portfolio-circles-export.png") -143px -7px;
+    background: url("https://idontchop.com/images/portfolio-circles-export.png") -143px -7px;
 `;
 
 const TwitterImg = styled(smImg)`
-    background: url("http://idontchop.com/images/portfolio-circles-export.png") -10px -62px;
+    background: url("https://idontchop.com/images/portfolio-circles-export.png") -10px -62px;
 `;
 
+/**
+ * Returns the social site link if user has
+ */
+const linkSm = (props) => {
+    
+    // each count returns different transitions,
+    // so icons appear to go left to right, top to bottom
+    // 0, 2 = opening row
+    // 1, 3 = closing row
+    if ( typeof linkSm.count == 'undefined' || props === 0) {
+        linkSm.count = 0;
+    }
+
+    if ( typeof linkSm.remainingSites == 'undefined' || props === 0) {
+        linkSm.remainingSites = smSites;
+    }
+
+    if (props === 0) return;
+
+    // the image we may need to return
+    const switchCase = {
+        "facebook": (props) => <FacebookImg src={timg} {...props} />,
+        "linkedin": (props) => <LinkedinImg src={timg} {...props} />,
+        "github": (props) => <GithubImg src={timg} {...props} />,
+        "twitter": (props) => <TwitterImg src={timg} {...props} />
+    }
+
+    console.log(linkSm.count, linkSm.remainingSites.length)
+    // reduces the list of social sites until we've used all the user's profile
+    linkSm.remainingSites = linkSm.remainingSites.filter ( (v, i) => {
+        return !!props.profile[v];
+    });
+
+
+    // break out check. if none of these are true, we will be returning an img component
+    if ( linkSm.count > 3 || linkSm.remainingSites.length === 0) {
+        return <div></div>
+    }
+
+    /* this pops out the first site which is used now 
+       Sets transition value for the image.
+    */
+    let index = linkSm.remainingSites[0];
+    linkSm.remainingSites.shift();
+    let transValue = linkSm.count * .6;
+    linkSm.count++;
+    return (
+        <a href={props.profile[index]}>
+            {switchCase[index]({trans: transValue})}
+        </a>
+        
+    );
+    
+}
 
 
 
-const Profile = (props) => (
+const Profile = (props) => {
+
+    const [hover, setHover] = useState(false);
+    
+    return (
     <div>
-        <ProfileWrapperDiv {...props}>
-            <ProfileOnHover {...props} />
+        <ProfileWrapperDiv {...props}
+            onMouseEnter={() => setHover(true)}
+            onMouseLeave={() => setHover(false)}>
+            {hover && <ProfileOnHover {...props} /> }
         </ProfileWrapperDiv>
     </div>
-);
+    )
+};
 
-const ProfileOnHover = (props) => (
-    <OnHoverWrapperDiv>
-        <div className={"row"} style={{paddingBottom: "7px"}}>
-            <div className={"col-6"}>
-                <FacebookImg src={"http://idontchop.com/images/img-trans.gif"} />
+const ProfileOnHover = (props) => {
+
+    // if no urls, we don't want to show anything
+    if ( smSites.filter ( (v) => {return !!props.profile[v]}).length === 0) return <div></div>
+    return (
+        <OnHoverDiv>
+            {linkSm(0) /* resets static counters: new profile */ }
+            <div className={"row"} style={{paddingBottom: "7px"}}>
+                <div className={"col-6"}>
+                    {linkSm(props)}                
+                </div>
+                <div className={"col-6"}>
+                    {linkSm(props)} 
+                </div>                    
             </div>
-            <div className={"col-6"}>
-                <LinkedinImg src={"http://idontchop.com/images/img-trans.gif"} />
-            </div>                    
-        </div>
-        <div className={"row"}>
-            <div className={"col-6"}>
-                <GithubImg src={"http://idontchop.com/images/img-trans.gif"} />
+            <div className={"row"}>
+                <div className={"col-6"}>
+                    {linkSm(props)} 
+                </div>
+                <div className={"col-6"}>
+                    {linkSm(props)} 
+                </div>
             </div>
-            <div className={"col-6"}>
-                <TwitterImg src={"http://idontchop.com/images/img-trans.gif"} />
+            <div className={"row"}>
+                <div className={"col-12"}>
+                    
+                </div>
             </div>
-        </div>
-        <div className={"row"}>
-            <div className={"col-12"}>
-                
-            </div>
-        </div>
-    </OnHoverWrapperDiv>
-);
+        </OnHoverDiv>
+    );
+};
 
 
 
