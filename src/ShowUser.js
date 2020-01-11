@@ -71,9 +71,20 @@ class ShowUser extends React.Component {
         this.formLoginUrl = this.props.portfolioUrl + `/login`;
         this.newFormUserUrl = this.props.portfolioUrl + `/newFormUser`;
 
+}
 
-        this.loadUser();
+    async componentDidMount () {
 
+        if ( this.state.isLoading ) {
+
+            await this.loadUser();
+        }
+
+        // loadUser must have failed
+        // set interval for retry
+        if ( this.state.isLoading ) {
+
+        }
     }
 
     /**
@@ -86,9 +97,9 @@ class ShowUser extends React.Component {
         let response = await fetch ( this.userUrl, headerArgs ).catch (() => {
             console.log("fetch failed - user not logged in?");
             this.setState ({loggedIn: false, isLoading: false});
-        });
+        })
 
-        if ( response.status === 200  ) {
+        if ( response && response.status === 200  ) {
         
             let responseData = await response.json().catch ( () => {
                 console.log("json fail");
