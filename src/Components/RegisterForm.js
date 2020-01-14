@@ -2,48 +2,28 @@ import React from 'react';
 
 import Form from 'react-jsonschema-form';
 
-// default register schema, if schema is passed in props, this is not used
-const schema = {
-    title: "Sign Guest Book!",
-    type: "object",
-    required: ["name", "email"],
-    properties: {
-        name: { type: "string", title: "Name", default: ""},
-        email: {type: "string", title: "Email", format: "email", default: ""},
-        company: {type: "string", title: "Company"},
-        url: {type: "string", title: "Url", default: "http://", format: "url"},
-        social: {type: "array", title: "Social Urls",
-                "minItems": 0, "maxItems": 4, uniqueItems: true,
-                items: {
-                    type: "object",
-                    properties: {
-                        network: {  type: "string",
-                                    title: "network",
-                                    default: "facebook",
-                                    enum: ["facebook", "github", "linkedin", "twitter"]},
-                        url: {  type: "string",                                
-                                format: "url"}
-                    }
-                }
-        }
 
-    }
-    
-};
 
-const uiSchema = {
 
-    "ui:options": {
-        orderable: false
-    }
-};
 
 const socialTemplate = (props) => (
     <div>
         <legend>Social Urls</legend>
-        {props.items.map(e => <div key={e.index}>{e.children}
-            {e.hasRemove && <button type="button" onClick={e.onDropIndexClick(e.index)}>Remove</button>}
-        </div> )}
+        {props.items.map(e => 
+            <div key={e.index} className="container">
+              <div className="row">
+                <div className="col-11">
+                {e.children}
+                </div>
+                <div className="col-1">
+                  {e.hasRemove && 
+                  
+                  <button type="button" style={{marginTop: "24px"}}
+                    onClick={e.onDropIndexClick(e.index)}
+                    >X</button>}
+                </div>
+              </div>
+            </div> )}
         {props.canAdd && <button type="button" onClick={props.onAddClick}>Add</button>}
         
     </div>
@@ -80,6 +60,23 @@ const HorizontalFieldTemplate = ({ TitleField, properties, title, description })
     );
   }
 
+const SocialObjectTemplate = ( props ) => {
+  return (
+    <div className="container-fluid">
+      <div className="row no-gutters">
+          <div className="col-4">
+            {props.properties[0].content}
+          </div>
+          <div className="col-8">
+            {props.properties[1].content}
+          </div>
+      </div>
+    </div>
+  );
+}
+
+const fields = { social: SocialObjectTemplate };
+
 const validate = (formData, errors) => {
     if (  !!formData.confPassword &&
           formData.confPassword.length > 0 && 
@@ -89,6 +86,55 @@ const validate = (formData, errors) => {
     return errors;
 }  
 const ErrorListTemplate = (props) => (<div></div>);
+
+// default register schema, if schema is passed in props, this is not used
+const schema = {
+  title: "Sign Guest Book!",
+  type: "object",
+  required: ["name", "email"],
+  properties: {
+      name: { type: "string", title: "Name", default: ""},
+      email: {type: "string", title: "Email", format: "email", default: ""},
+      company: {type: "string", title: "Company"},
+      url: {type: "string", title: "Url", default: "http://", format: "url"},
+      social: {type: "array", title: "Social Urls",
+              "minItems": 0, "maxItems": 4, uniqueItems: true,
+              items: {
+                  type: "object",
+                  properties: {
+                      network: {  type: "string",
+                                  title: "network",
+                                  default: "facebook",
+                                  enum: ["facebook", "github", "linkedin", "twitter"]},
+                      url: {  type: "string",                                
+                              format: "url"}
+                  }
+              }
+      }
+
+  }
+  
+};
+
+const uiSchema = {
+
+  "ui:options": {
+      orderable: false
+  },
+  social: {
+    items: {
+      classNames: "row",
+      "ui:ObjectFieldTemplate": SocialObjectTemplate,
+      network: {
+       
+      },
+      url: {
+        
+      }
+  }
+}
+
+};
 
 /**
  * Uses jsonschema-form lib:
@@ -111,6 +157,7 @@ const RegisterForm = (props) => (
             formData={!!props.formData ? props.formData : false }
             validate={validate}
             liveValidate={true}
+            fields={fields}
         />
 );
 

@@ -136,6 +136,8 @@ const Profile = (props) => {
     return (
     <div>
         <ProfileWrapperDiv {...props}
+            onTouchStart= { () => setHover(true) }
+            onTouchCancel= { () => setHover(false)}
             onMouseEnter={() => setHover(true)}
             onMouseLeave={() => setHover(false)}>
             {hover && <ProfileOnHover {...props} /> }
