@@ -3,15 +3,12 @@ import React from 'react';
 import Form from 'react-jsonschema-form';
 
 
-
-
-
 const socialTemplate = (props) => (
     <div>
         <legend>Social Urls</legend>
         {props.items.map(e => 
-            <div key={e.index} className="container">
-              <div className="row">
+            <div key={e.index} className="row no-gutters">
+              
                 <div className="col-11">
                 {e.children}
                 </div>
@@ -22,7 +19,7 @@ const socialTemplate = (props) => (
                     onClick={e.onDropIndexClick(e.index)}
                     >X</button>}
                 </div>
-              </div>
+              
             </div> )}
         {props.canAdd && <button type="button" onClick={props.onAddClick}>Add</button>}
         
@@ -75,8 +72,6 @@ const SocialObjectTemplate = ( props ) => {
   );
 }
 
-const fields = { social: SocialObjectTemplate };
-
 const validate = (formData, errors) => {
     if (  !!formData.confPassword &&
           formData.confPassword.length > 0 && 
@@ -118,12 +113,12 @@ const schema = {
 
 const uiSchema = {
 
+  classNames: "container-fluid",
   "ui:options": {
       orderable: false
   },
   social: {
     items: {
-      classNames: "row",
       "ui:ObjectFieldTemplate": SocialObjectTemplate,
       network: {
        
@@ -157,7 +152,6 @@ const RegisterForm = (props) => (
             formData={!!props.formData ? props.formData : false }
             validate={validate}
             liveValidate={true}
-            fields={fields}
         />
 );
 

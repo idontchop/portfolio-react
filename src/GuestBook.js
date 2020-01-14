@@ -2,6 +2,7 @@ import React from 'react';
 import Profile from './Components/Profile';
 import styled from 'styled-components';
 import ShowUser from './ShowUser';
+import PortfolioApi from './lib/PortfolioApi.js';
 import RegisterForm from './Components/RegisterForm';
 
 const GuestBookWrapper = styled.div`
@@ -81,12 +82,10 @@ class GuestBook extends React.Component {
 
     async loadGuestBook () {
 
-        let response = await fetch ( this.restUrl, this.headerArgs );
+        let guestBookData = await PortfolioApi.getJson('guestBook');
 
-        if ( response.status === 200 ) {
-            let responseData = await response.json();
-
-            this.setState( {data: responseData, isLoading: false } );
+        if ( ! guestBookData.error ) {
+            this.setState( {data: guestBookData, isLoading: false } );
         }
 
     }

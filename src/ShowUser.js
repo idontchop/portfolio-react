@@ -3,6 +3,7 @@ import PortfolioImageCrop from './Components/PortfolioImageCrop.js';
 import LoginPortfolio from './Components/LoginPortfolio';
 import RegisterForm from './Components/RegisterForm';
 import styled from 'styled-components';
+import PortfolioApi from './lib/PortfolioApi.js';
 
 const UserWrapperDiv = styled.div`
     background-color: rgb(134,136,139,.6);
@@ -92,48 +93,34 @@ class ShowUser extends React.Component {
      */
     async loadUser () {
 
-        let headerArgs = { credentials: 'include' };
+        let userData = await PortfolioApi.getJson('user');
 
-        let response = await fetch ( this.userUrl, headerArgs ).catch (() => {
-            console.log("fetch failed - user not logged in?");
-            this.setState ({loggedIn: false, isLoading: false});
-        })
-
-        if ( response && response.status === 200  ) {
-        
-            let responseData = await response.json().catch ( () => {
-                console.log("json fail");
-                
-            });
-
-            this.setState({ user: responseData});
-            this.setState({ loggedIn: true, isLoading: false});
-            console.log(this.state)
-
-            // successful login so load user info
-            this.loadProfilePic();
-            this.loadProfile();
+        if ( !userData.error ) {
+            // something went wrong with fetch, set not logged in
+            this.setState ( {loggedIn: false} );
 
         } else {
-            this.setState ( {loggedIn: false, isLoading: false} );
+            // we are good, we have a user
+
+            this.setState({user: userData, loggedIn: true});
+
+            // try to load full profile and pic
+            this.loadProfilePic();
+            this.loadProfile();
         }
+
+        // as good as it gets
+        this.setState ( {isLoading: false} );
 
     }
 
     async loadProfile() {
         
-        let response = await fetch (this.profileUrl, {credentials: 'include'} ).catch ( () => {
-            console.log (" fetch profile failed");            
-        });
-
-        if ( response.status === 200 ) {
-
-            let responseData = await response.json();
-
-            console.log("profile fetch:")
-            this.setState ( {userProfile: responseData} );
-            console.log(this.state.userProfile)
-        } 
+        let userProfileData = await PortfolioApi.getJson('profile');
+        
+        if ( !userProfileData.error ) {
+            this.setState ( {userProfile: userProfileData} );            
+        }        
 
         this.setState ( {isLoading: false} );
     }
@@ -290,13 +277,13 @@ class ShowUser extends React.Component {
             
             <UserWrapperDiv >
                 <div className={"row"}>
-                    <FormDiv className={"col-sm-5"}>
+                    <FormDiv className={"col-md-5"}>
                         <PortfolioImageCrop className={"col"}
                             portfolioUrl={this.props.portfolioUrl}
                             profilePicUrl={this.profilePicUrl} 
                             reload={ () => this.loadProfilePic() } />
                     </FormDiv>
-                    <FormDiv className={"col-sm-6"}>
+                    <FormDiv className={"col-md-6"}>
                         <RegisterForm className={"col"}
                             formData={this.profileToFormData()}
                             onSubmit={(f,e) => this.updateProfile(f,e)} />
