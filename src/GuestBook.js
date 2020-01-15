@@ -61,10 +61,8 @@ const CenterDiv = styled.div`
     width: 100%;
 `;
 
-// dev
-const portfolioUrl = "http://localhost:8080/portfolio";
-// prod
-//const portfolioUrl = "https://idontchop.com/portfolio";
+const portfolioUrl = process.env.NODE_ENV === "development" ?
+    "http://localhost:8080/portfolio" : "https://idontchop.com/portfolio";
 
 class GuestBook extends React.Component {
 
@@ -94,7 +92,7 @@ class GuestBook extends React.Component {
         console.log (this.state);
         return (
             <CenterDiv>
-            <GuestBookWrapper >
+            <GuestBookWrapper >                
             { this.state.isLoading && <div>Loading...</div>}
             {!this.state.isLoading && this.state.data.map ( ( visitor ) => 
                 <ProfileWrapper key={visitor.id} >

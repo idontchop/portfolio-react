@@ -76,96 +76,94 @@ class ShowUser extends React.Component {
 
     async componentDidMount () {
 
-        if ( this.state.isLoading ) {
 
+        if ( this.state.isLoading ) {
             await this.loadUser();
         }
 
-        // loadUser must have failed
-        // set interval for retry
-        if ( this.state.isLoading ) {
-
-        }
-    }
-
-    /**
-     * Load the user's data
-     */
-    async loadUser () {
-
-        let userData = await PortfolioApi.getJson('user');
-
-        if ( !userData.error ) {
-            // something went wrong with fetch, set not logged in
-            this.setState ( {loggedIn: false} );
-
-        } else {
-            // we are good, we have a user
-
-            this.setState({user: userData, loggedIn: true});
-
+        if ( this.state.loggedIn ) {
             // try to load full profile and pic
-            this.loadProfilePic();
-            this.loadProfile();
+            try {
+                this.loadProfilePic();
+                this.loadProfile();
+            } catch (err) {
+                // error fetching here is different
+                // would likely indicated corrupted data or bug
+                this.setState({error: "Error in loadProfile", errorMessage: err})
+            }
         }
 
         // as good as it gets
-        this.setState ( {isLoading: false} );
+        this.setState ( {isLoading: false} );        
+
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+
+        // Error display handling
+        if ( !!prevState.error && prevState.error === this.state.error) {
+            // an error happened
+            console.log("ERROR", this.state.error, this.state.errorMessage);
+        }
+        
+    }
+
+    /**
+     * Load the user's data.
+     *
+     */
+    async loadUser () {
+
+        let userData;
+        try {
+            userData = await PortfolioApi.getJson('user');
+            this.setState({user: userData, loggedIn: true});
+        } catch (err) {
+            
+            // error loading current user
+            // a 404 error here is normal for visitors
+            this.setState( {loggedIn: false})
+        }
 
     }
 
     async loadProfile() {
-        
-        let userProfileData = await PortfolioApi.getJson('profile');
-        
-        if ( !userProfileData.error ) {
-            this.setState ( {userProfile: userProfileData} );            
-        }        
+    
+        try {
+            let userProfileData = await PortfolioApi.getJson('profile');
+            this.setState ( {userProfile: userProfileData} );
+        } catch (err) {
+            throw err;
+        }
 
-        this.setState ( {isLoading: false} );
     }
 
     async updateProfile( {formData}, e) {
         
         // refactor form to match userprofileDto
-
         formData.social.forEach( e => {
             formData[e.network] = e.url;
         });
-
-        let response = await fetch ( this.profileUrl, 
-            { credentials: 'include', method: 'put',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-              },
-            body: JSON.stringify(formData)});
-
-        if ( response.status === 200 ) {
-            console.log("successful update")
-            let responseData = await response.json();
-            this.setState({userProfile: responseData});
-        } else {
-            console.log("unsuccessful update", JSON.stringify(formData));
-        }
+        
+        try {
+            let userProfileData = await PortfolioApi.putJson('profile',formData);
+            this.setState({userProfile: userProfileData});
+        } catch (err) {
+            // could indicate several problems.
+            this.setState({'error': "Error in updateProfile", 'errorMessage': err});
+        }   
         
     }
 
     async loadProfilePic () {
 
-        let response = await fetch (this.profilePicUrl, {credentials: 'include'});
-
-        if ( response.status !== 200 ) {
-            // user doesn't have a profile pic
-            // this is ok, just leave blank
-            this.setState({portfolioImage: {}});
+        let profilePic;
+        if (( profilePic = await PortfolioApi.getPic('profilePic')).error ) {
+            // not pic
         } else {
-
-            let responseData = await response.blob();
-            console.log(this.profilePicUrl)
-            console.log(responseData);
-            this.setState( { portfolioImage: URL.createObjectURL(responseData) } );
+            this.setState( { portfolioImage: URL.createObjectURL(profilePic) } );
         }
+
     }
 
     profileToFormData () {
@@ -234,27 +232,22 @@ class ShowUser extends React.Component {
             }
 
         } else {
+
             // continue as if we are trying to log in
+            try {
 
-            let response = await fetch (this.formLoginUrl, 
-                formUserHeaders);
+                let responseData = await PortfolioApi.postForm('formLogin', loginFormData);
+                if ( responseData.registration === 'form') {
+                    this.setState({loggedIn: true});
+                    this.loadProfile();
+                    this.loadProfilePic();
+                } else throw {"error": "login credential mismatch", errorMessage: "weird lol tampering?"};
 
-            let cookies = document.cookie;
-            console.log(cookies);
-
-            let responseData = await response.json().catch ( () => {
-                // if json error, login unsuccessful
-                console.log ("Unsuccessful login: server responded bad credentials.");
-                console.log( "Register Form un/pw", form, e);
-            });
-            
-            if ( responseData && responseData.registration === 'form' ) {
-                // successful form log in
-                this.setState({loggedIn: true});
-                this.loadProfile();
-                this.loadProfilePic();
-                console.log(responseData);
+            } catch (err) {
+                console.log("login error", err);
+                this.setState({error: "Login Error", errorMessage: err});
             }
+            
         }
     }
     render() {
