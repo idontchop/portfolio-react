@@ -3,6 +3,7 @@ import Profile from './Components/Profile';
 import styled from 'styled-components';
 import ShowUser from './ShowUser';
 import PortfolioApi from './lib/PortfolioApi.js';
+import PortfolioSocket from './lib/PortfolioSocket';
 
 import RegisterForm from './Components/RegisterForm';
 
@@ -101,6 +102,14 @@ class GuestBook extends React.Component {
         else this.state.displayAmount = 6;
 
         this.loadGuestBook();
+    }
+
+    componentDidMount () {
+
+        PortfolioSocket.register ( 
+            [{route: '/topic/updateUser', callback: (message) => console.log("socket received!", message)},
+            {route: '/topic/newUser', callback: (message) => console.log("New User!", message)}]);
+
     }
 
     loadMoreVisitors () {
