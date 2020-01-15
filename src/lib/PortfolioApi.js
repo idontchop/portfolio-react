@@ -11,7 +11,7 @@ const buildHeaders = (method, type, formData) => {
         credentials: 'include',
         method: method,
         headers: type === 'json' ? { 'Accept': 'application/json', 'Content-type': 'application/json'} : {},
-        body: JSON.stringify(formData)
+        body: type === 'form' ? formData : JSON.stringify(formData)
     }
 }
 
@@ -81,7 +81,7 @@ const PortfolioApi = {
             })
         
         if ( !checkResponse(response) ) {
-            throw {'error': response.status, 'errorMessage': "Error putting"}
+            throw {'error': response.status, 'errorMessage': "Error returned from Post"}
         }
 
         return await getPayload(response,'json').catch ( (err) => {

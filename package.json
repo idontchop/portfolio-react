@@ -12,6 +12,7 @@
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
     "react-dropzone": "^10.2.1",
+    "react-fittext": "^1.0.0",
     "react-image-crop": "^8.4.2",
     "react-jsonschema-form": "^1.8.1",
     "react-scripts": "3.3.0",

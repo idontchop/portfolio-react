@@ -101,7 +101,8 @@ class ShowUser extends React.Component {
     componentDidUpdate(prevProps, prevState) {
 
         // Error display handling
-        if ( !!prevState.error && prevState.error === this.state.error) {
+        if ( !prevState.error && !!this.state.error || 
+             ( !!prevState.error && prevState.error !== this.state.error) ) {
             // an error happened
             console.log("ERROR", this.state.error, this.state.errorMessage);
         }
@@ -157,11 +158,11 @@ class ShowUser extends React.Component {
 
     async loadProfilePic () {
 
-        let profilePic;
-        if (( profilePic = await PortfolioApi.getPic('profilePic')).error ) {
-            // not pic
-        } else {
+        try {
+            let profilePic = await PortfolioApi.getPic('profilePic');
             this.setState( { portfolioImage: URL.createObjectURL(profilePic) } );
+        } catch (err) {
+            this.setState({error: "Load Profile pic failed", errorMessage: err});
         }
 
     }
@@ -199,8 +200,6 @@ class ShowUser extends React.Component {
     /**
      * Handles submission from the username & password register form
      * 
-     * TODO: handle username already exists on server. Probably wrap the 
-     * validate function in the registerform module.
      * @param {} form 
      * @param {*} e 
      */
@@ -209,46 +208,30 @@ class ShowUser extends React.Component {
         let loginFormData = new FormData();
         loginFormData.append("username", form.formData.name);
         loginFormData.append("password", form.formData.password);
-
-        let formUserHeaders = {method: 'POST', credentials: 'include', body: loginFormData};
-
-        if ( !!form.formData.confPassword ) {
+        
+        let formType = 'formLogin';
+        if ( !!form.formData.confPassword ) {            
             // confPassword exists so this is a registration
+            formType = 'newFormUser';
+        }
 
-            let response = await fetch ( this.newFormUserUrl,
-                {method: 'POST', body: loginFormData});
+       
+        try {
 
-            if ( response.status === 409 ) {
-                console.log ("Error: username conflict");
-                // TODO
-            } else if ( response.status === 200 ) {
-                // we are good
-                this.setState({loggedIn: true})
+            let responseData = await PortfolioApi.postForm(formType, loginFormData);
+            if ( !responseData.registration || responseData.registration === 'form') {
+                // successful if registration is form (login) or reponse doesn't include registration (new)
+                this.setState({loggedIn: true});
                 this.loadProfile();
                 this.loadProfilePic();
-            } else {
-                // different error (server broken)
-                console.log("Unable to create user", response);
-            }
+            } else throw {"error": "login credential mismatch", errorMessage: "weird lol tampering?"};
 
-        } else {
-
-            // continue as if we are trying to log in
-            try {
-
-                let responseData = await PortfolioApi.postForm('formLogin', loginFormData);
-                if ( responseData.registration === 'form') {
-                    this.setState({loggedIn: true});
-                    this.loadProfile();
-                    this.loadProfilePic();
-                } else throw {"error": "login credential mismatch", errorMessage: "weird lol tampering?"};
-
-            } catch (err) {
-                console.log("login error", err);
-                this.setState({error: "Login Error", errorMessage: err});
-            }
-            
+        } catch (err) {            
+            this.setState({error: err.error === 409 ? "Username Conflict" : "Login Error", 
+                errorMessage: err});
         }
+        
+    
     }
     render() {
 
