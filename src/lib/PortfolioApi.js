@@ -29,6 +29,10 @@ const buildUrl = (type) => {
     return portfolioUrl + urlExt[type];
 }
 
+const buildUrlWithPathParam = (type, pathParam) => {
+    return portfolioUrl + urlExt[type] + "/" + pathParam;
+}
+
 /**
  * Accepts a response object and runs checks that the fetch successed.
  * Returns boolean true / false
@@ -112,9 +116,14 @@ const PortfolioApi = {
     },
 
     // for retrieving data (profile, guestbook)
-    getJson: async (type) => {
+    getJson: async (type, pathParam) => {
 
-        let response = await fetch ( buildUrl(type),
+        let url = buildUrl(type);
+        if (!!pathParam) {
+            url = buildUrlWithPathParam(type, pathParam);
+        }
+
+        let response = await fetch ( url,
         buildHeaders('get','json')).catch ( () => {
             console.log("fetch failed",buildUrl(type));
         })

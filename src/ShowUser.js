@@ -38,7 +38,7 @@ const FormDiv = styled.div`
     margin: 5px auto;
 
     button {
-        font-family: Ink Free, cursive;
+        font-family: serif, Ink Free, cursive;
     }
     input {
         height: 80%;       
@@ -46,6 +46,7 @@ const FormDiv = styled.div`
     }
 
     label {
+        font-family: serif;
         font-size: 1em;
         padding: 0;
         margin: 0;

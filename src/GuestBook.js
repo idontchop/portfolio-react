@@ -106,18 +106,26 @@ class GuestBook extends React.Component {
 
     componentDidMount () {
 
+        // Register sockets for updates to user profiles and new users
         PortfolioSocket.register ( 
-            [{route: '/topic/updateUser', callback: (message) => console.log("socket received!", message)},
-            {route: '/topic/newUser', callback: (message) => console.log("New User!", message)}]);
+            [{route: '/topic/updateUser', callback: (message) => this.updateGuest(message.body)},
+            {route: '/topic/newUser', callback: (message) => this.addGuest(message.body)}]);
 
     }
 
+    /**
+     * Activated by user Load More Profiles button
+     * Adjusts the amounttodisplay state
+     */
     loadMoreVisitors () {
         this.setState({displayAmount: this.state.displayAmount+6 >= this.state.data.length ?
              this.state.data.length : this.state.displayAmount + 6});
         console.log(this.state.displayAmount);
     }
 
+    /**
+     * Initial loading
+     */
     async loadGuestBook () {
 
         try {
@@ -128,6 +136,45 @@ class GuestBook extends React.Component {
             this.setState({error: "Error loading guestbook", errorMessage: err});
             console.log("Error loading guestbook", err);
         }
+    }
+    
+    /**
+     * Fetches/adds a single profile
+     * @param {} id 
+     */
+    async addGuest (id) {
+        console.log("fetching " + id)
+        try {
+            let guest = await PortfolioApi.getJson('guestBook', id);
+            this.setState ( prevState => {
+                let newGuestBook = [...prevState.data];
+                newGuestBook.unshift(guest);
+                return {data: newGuestBook};
+            })
+        } catch ( err ) {
+            this.setState( {error: "Error updating user", errorMessage: err});
+        }
+    }
+
+    /**
+     * Fetches/updates a single profile
+     * @param {id of profile} id 
+     */
+    async updateGuest(id) {
+        console.log("fetching " + id)
+        try {
+            let guest = await PortfolioApi.getJson('guestBook', id);
+            let i = this.state.data.findIndex ( e => e.id == id );
+            this.setState ( prevState => {
+                let newGuestBook = [...prevState.data];
+                newGuestBook[i] = guest;
+                console.log(guest, i)
+                return {data: newGuestBook};
+            });
+        } catch ( err ) {
+            this.setState ( {error: "Error updating user", errorMessage: err});
+        }
+
     }
 
     render () {
