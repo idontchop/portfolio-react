@@ -99,7 +99,7 @@ const linkSm = (props) => {
         "twitter": (props) => <TwitterImg src={timg} {...props} />
     }
 
-    console.log(linkSm.count, linkSm.remainingSites.length)
+    //console.log(linkSm.count, linkSm.remainingSites.length)
     // reduces the list of social sites until we've used all the user's profile
     linkSm.remainingSites = linkSm.remainingSites.filter ( (v, i) => {
         return !!props.profile[v];

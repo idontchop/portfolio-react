@@ -70,7 +70,7 @@ class PortfolioImageCrop extends React.Component {
 
     constructor (props) {
         super(props);
-        console.log(props)
+ 
         this.state = {            
             crop: initialCropSettings,
         };     
@@ -86,7 +86,7 @@ class PortfolioImageCrop extends React.Component {
     onCropChange (crop, percentCrop) {
 
         this.setState({crop: percentCrop})
-        console.log(this.state)
+        
     }
 
     onCropComplete ( c ) {
@@ -120,14 +120,14 @@ class PortfolioImageCrop extends React.Component {
             body: formData
         });
 
-        console.log(response)
+        
         if ( response.status !== 200 ) {
             // error here
 
         } else {
 
             let responseData = await response.json();
-            console.log ( responseData );
+            
 
         }
 
@@ -189,9 +189,7 @@ class PortfolioImageCrop extends React.Component {
     }
 
     render () {
-        console.log(!!this.state.src)
-        console.log(this.state)
-        console.log(this.props)
+
         return (
             <PortfolioImageWrapperDiv>
                 <Dropzone onDrop= { (e) => this.onDrop(e)}>

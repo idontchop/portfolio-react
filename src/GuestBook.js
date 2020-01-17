@@ -108,8 +108,8 @@ class GuestBook extends React.Component {
 
         // Register sockets for updates to user profiles and new users
         PortfolioSocket.register ( 
-            [{route: '/topic/updateUser', callback: (message) => this.updateGuest(message.body)},
-            {route: '/topic/newUser', callback: (message) => this.addGuest(message.body)}]);
+            [{route: '/topic/updateUser', callback: (message) => this.updateGuest(message.body)}
+            ]);
 
     }
 
@@ -137,24 +137,6 @@ class GuestBook extends React.Component {
             console.log("Error loading guestbook", err);
         }
     }
-    
-    /**
-     * Fetches/adds a single profile
-     * @param {} id 
-     */
-    async addGuest (id) {
-        console.log("fetching " + id)
-        try {
-            let guest = await PortfolioApi.getJson('guestBook', id);
-            this.setState ( prevState => {
-                let newGuestBook = [...prevState.data];
-                newGuestBook.unshift(guest);
-                return {data: newGuestBook};
-            })
-        } catch ( err ) {
-            this.setState( {error: "Error updating user", errorMessage: err});
-        }
-    }
 
     /**
      * Fetches/updates a single profile
@@ -165,12 +147,15 @@ class GuestBook extends React.Component {
         try {
             let guest = await PortfolioApi.getJson('guestBook', id);
             let i = this.state.data.findIndex ( e => e.id == id );
-            this.setState ( prevState => {
+
+             this.setState ( prevState => {
                 let newGuestBook = [...prevState.data];
-                newGuestBook[i] = guest;
+                if ( i === -1 ) newGuestBook.unshift(guest);    // new user
+                else newGuestBook[i] = guest;                   // update
                 console.log(guest, i)
                 return {data: newGuestBook};
             });
+
         } catch ( err ) {
             this.setState ( {error: "Error updating user", errorMessage: err});
         }

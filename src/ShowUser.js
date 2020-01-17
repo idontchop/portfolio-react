@@ -220,9 +220,11 @@ class ShowUser extends React.Component {
         try {
 
             let responseData = await PortfolioApi.postForm(formType, loginFormData);
+            
             if ( !responseData.registration || responseData.registration === 'form') {
                 // successful if registration is form (login) or reponse doesn't include registration (new)
                 this.setState({loggedIn: true});
+                PortfolioApi.setToken(responseData.tokenValue);
                 this.loadProfile();
                 this.loadProfilePic();
             } else throw {"error": "login credential mismatch", errorMessage: "weird lol tampering?"};

@@ -6,11 +6,21 @@ const portfolioUrl = process.env.NODE_ENV === "development" ?
     "http://localhost:8080/portfolio" : "https://idontchop.com/portfolio";
 
 const buildHeaders = (method, type, formData) => {
+
+    let bheaders = new Headers();
+    
+    if (window.localStorage.hasOwnProperty('token')) {
+       bheaders.append ('Authorization', 'Bearer ' + window.localStorage.getItem("token"));
+    }
+    
+    if ( type === 'json' ) {
+        bheaders.append ('Accept', 'application/json');
+        bheaders.append ('Content-type', 'application/json');
+    }
     
     return {
-        credentials: 'include',
         method: method,
-        headers: type === 'json' ? { 'Accept': 'application/json', 'Content-type': 'application/json'} : {},
+        headers: bheaders,
         body: type === 'form' ? formData : JSON.stringify(formData)
     }
 }
@@ -74,6 +84,9 @@ const getPayload = async (response, type) => {
  */
 const PortfolioApi = {
 
+    setToken: ( token ) => {
+        window.localStorage.setItem('token',token);
+    },
     // form login
     postForm: async (type, formData) => {
 
