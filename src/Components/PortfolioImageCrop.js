@@ -5,6 +5,7 @@ import Dropzone from 'react-dropzone';
 import 'react-image-crop/dist/ReactCrop.css';
 import styled from 'styled-components';
 import no_profile_pic from '../images/no-profile-pic.svg'
+import PortfolioApi from '../lib/PortfolioApi';
 
 const PortfolioImageWrapperDiv = styled.div`
     padding: ;
@@ -113,22 +114,10 @@ class PortfolioImageCrop extends React.Component {
         console.log (JSON.stringify(this.state.crop))
 
         // upload via post
-        let response = await fetch ( this.postImageUrl, {
-            method: 'POST',
-            credentials: 'include',
-            headers: this.imageUploadHeaderArgs,
-            body: formData
-        });
-
-        
-        if ( response.status !== 200 ) {
-            // error here
-
-        } else {
-
-            let responseData = await response.json();
-            
-
+        try {
+            await PortfolioApi.postForm('uploadImage', formData);
+        } catch (err) {
+            this.setState({error: 'pic upload error', errorMessage: err});
         }
 
         // Tell parent to pull the new portfolio image which will now be cropped
@@ -147,17 +136,11 @@ class PortfolioImageCrop extends React.Component {
      */
     async loadProfilePic () {
 
-        let response = await fetch ( this.props.profilePicUrl, this.imageGetHeaderArgs );
-        
-        if ( response.status !== 200 ) {
-            // user doesn't have a profile pic
-            // this is ok, just leave blank
-            this.setState({portfolioImage: {}});
-        } else {
-
-            let responseData = await response.blob();
+        try {
+            let responseData = await PortfolioApi.getPic('profilePic');
             this.setProfileImageState (responseData);
-
+        } catch (err) {
+            this.setState({error: "error loading profile pic", errorMessage: err})
         }
     }
 

@@ -32,7 +32,8 @@ const urlExt = {
     user: `/user`,
     formLogin: `/login`,
     newFormUser: `/newFormUser`,
-    guestBook: `/guestBook`
+    guestBook: `/guestBook`,
+    uploadImage: `/uploadImage`
 }
 
 const buildUrl = (type) => {
@@ -86,6 +87,9 @@ const PortfolioApi = {
 
     setToken: ( token ) => {
         window.localStorage.setItem('token',token);
+    },
+    logout: () => {
+        window.localStorage.removeItem('token');
     },
     // form login
     postForm: async (type, formData) => {

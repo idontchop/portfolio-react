@@ -111,15 +111,18 @@ class ShowUser extends React.Component {
     }
 
     /**
-     * Load the user's data.
+     * Load the user's basic data.
      *
      */
     async loadUser () {
 
         let userData;
         try {
+
             userData = await PortfolioApi.getJson('user');
+            PortfolioApi.setToken(userData.tokenValue);     // refreshes token with new expiration
             this.setState({user: userData, loggedIn: true});
+
         } catch (err) {
             
             // error loading current user
@@ -223,18 +226,27 @@ class ShowUser extends React.Component {
             
             if ( !responseData.registration || responseData.registration === 'form') {
                 // successful if registration is form (login) or reponse doesn't include registration (new)
-                this.setState({loggedIn: true});
                 PortfolioApi.setToken(responseData.tokenValue);
+                
                 this.loadProfile();
                 this.loadProfilePic();
+                this.setState({loggedIn: true});
             } else throw {"error": "login credential mismatch", errorMessage: "weird lol tampering?"};
 
         } catch (err) {            
             this.setState({error: err.error === 409 ? "Username Conflict" : "Login Error", 
                 errorMessage: err});
         }
-        
-    
+    }
+
+    logout () {
+
+        // clear token
+        PortfolioApi.logout();
+
+        // clear state
+        this.setState ( {loggedIn: false, data: {}});
+        console.log(this.state);
     }
     render() {
 
@@ -270,7 +282,7 @@ class ShowUser extends React.Component {
                 </div>
                 <div className={"row"} >
                     <div className={"col"}>
-                        <a href={this.props.portfolioUrl + "/logout"}><p className={"text-center"}>Logout</p></a>
+                        <a href="#" onClick={() => this.logout() }><p className={"text-center"}>Logout</p></a>
                     </div>
                 </div>
 
