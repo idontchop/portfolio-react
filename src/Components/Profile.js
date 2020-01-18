@@ -130,15 +130,20 @@ const linkSm = (props) => {
 
 
 
+
 const Profile = (props) => {
 
+    let pwref = React.createRef()
+
     const [hover, setHover] = useState(false);
-    
+
+    // Fuck this, gonna need a workaround that puts the ProfileOnHover in a popup
+ 
+    // necessary to stop touch bubbling on touch devices
     return (
     <div>
-        <ProfileWrapperDiv {...props}
-            onTouchStart= { () => setHover(true) }
-            onTouchCancel= { () => setHover(false)}
+        <ProfileWrapperDiv ref={pwref} {...props} 
+            
             onMouseEnter={() => setHover(true)}
             onMouseLeave={() => setHover(false)}>
             {hover && <ProfileOnHover {...props} /> }

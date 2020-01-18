@@ -20,7 +20,7 @@ const DragWrapperDiv = styled.div`
     text-align: center;
     
     border-radius: ${props => props.inside ? "6px":"9px"};;
-    background-color: rgb(134,136,139,${props => dragOpacity(props)});
+    background-color: ${props => dragOpacity(props)};
 `;
 
 const DragP = styled.p`
@@ -43,11 +43,17 @@ const cropImageStyle = {
 };
 
 const dragOpacity = (props) => {
-    if ( props.isDragActive ) {
-        return '1';
+
+    let opacity = 0;
+    let color = `134,136,139`;  // theme
+    if ( props.isDragReject ) {
+        opacity = 1;
+        color = `207,56,39`; // red
+    } else if ( props.isDragActive) {
+        opacity = 1;
     }
 
-    return '0';
+    return `rgb(${color},${opacity})`;
 }
 
 const initialCropSettings = {
@@ -76,6 +82,7 @@ class PortfolioImageCrop extends React.Component {
             crop: initialCropSettings,
         };     
         
+        this.state.dropMessage = `Drop or click to upload`;
         this.postImageUrl = this.props.portfolioUrl + '/uploadImage';
         this.imageUploadHeaderArgs = { method: 'POST', credentials: 'include' };
         this.imageGetHeaderArgs = { credentials: 'include'};
@@ -151,7 +158,11 @@ class PortfolioImageCrop extends React.Component {
      */
     async onDrop ( acceptedFiles ) {
         
-        this.setProfileImageState (acceptedFiles[0]);
+        if ( acceptedFiles.length != 1 ) {
+            this.setState({dropMessage: "Drop an Image"})
+        } else {
+            this.setProfileImageState (acceptedFiles[0]);
+        }
         /* why does this not work???
         acceptedFiles.foreach (  async (file) => {
             this.setProfileImageState (file);
@@ -175,7 +186,7 @@ class PortfolioImageCrop extends React.Component {
 
         return (
             <PortfolioImageWrapperDiv>
-                <Dropzone onDrop= { (e) => this.onDrop(e)}>
+                <Dropzone accept="image/*" onDrop={ (e) => this.onDrop(e)} >
                 {( {getRootProps, getInputProps, isDragActive, isDragAccept, isDragReject} ) => (
                     <DragWrapperDiv {...getRootProps({isDragActive, isDragAccept, isDragReject})}>
                         {!! this.state.portfolioUrl ? 
@@ -185,11 +196,11 @@ class PortfolioImageCrop extends React.Component {
                             
                             onChange={ (c, cp) => this.onCropChange(c,cp) }
                             /> : <NoProfileImage src={no_profile_pic} alt="profile pic" />} 
-                        <Dropzone onDrop= { (e) => this.onDrop(e)}>
+                        <Dropzone accept="image/*" onDrop={ (e) => this.onDrop(e)}>
                         {( {getRootProps, getInputProps, isDragActive, isDragAccept, isDragReject} ) => (
                             <DragWrapperDiv {...getRootProps({isDragActive, isDragAccept, isDragReject})} inside={true}>
                                 <input {...getInputProps()} />
-                                <DragP>Drop or click to upload</DragP>
+                                <DragP>{this.state.dropMessage}</DragP>
                             </DragWrapperDiv>
                         )}
                         </Dropzone>
