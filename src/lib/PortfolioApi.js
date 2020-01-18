@@ -9,10 +9,17 @@ const buildHeaders = (method, type, formData) => {
 
     let bheaders = new Headers();
     
-    if (window.localStorage.hasOwnProperty('token')) {
-       bheaders.append ('Authorization', 'Bearer ' + window.localStorage.getItem("token"));
+    let params = new URLSearchParams(window.location.search);
+
+    if ( params.has("t")) {
+        bheaders.append('Authorization', 'Bearer ' + params.get("t"));
     }
-    
+    else if (window.localStorage.hasOwnProperty('token')) {
+        bheaders.append ('Authorization', 'Bearer ' + window.localStorage.getItem("token"));
+    }
+
+    // token in url always higher priority
+  
     if ( type === 'json' ) {
         bheaders.append ('Accept', 'application/json');
         bheaders.append ('Content-type', 'application/json');

@@ -101,6 +101,8 @@ class GuestBook extends React.Component {
             this.state.displayAmount = 4;    // number of profiles to display
         else this.state.displayAmount = 6;
 
+
+
         this.loadGuestBook();
     }
 
@@ -110,6 +112,10 @@ class GuestBook extends React.Component {
         PortfolioSocket.register ( 
             [{route: '/topic/updateUser', callback: (message) => this.updateGuest(message.body)}
             ]);
+
+        let p = new URLSearchParams(window.location.search);          
+
+        console.log(p.get('token'));
 
     }
 

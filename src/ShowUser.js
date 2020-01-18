@@ -58,6 +58,15 @@ const FormDiv = styled.div`
     }
 `;
 
+const AccountButton = styled.button`
+    color: black;
+    font-family: serif;
+    font-size: 0.8em;
+    margin: 5px auto;
+    padding: 2px;
+    border-radius: 2px;
+`;
+
 /**
  * Handles API calls for the user control panel below the guestbook
  */
@@ -246,7 +255,7 @@ class ShowUser extends React.Component {
 
         // clear state
         this.setState ( {loggedIn: false, data: {}});
-        console.log(this.state);
+        
     }
     render() {
 
@@ -280,9 +289,17 @@ class ShowUser extends React.Component {
                             onSubmit={(f,e) => this.updateProfile(f,e)} />
                     </FormDiv>
                 </div>
-                <div className={"row"} >
-                    <div className={"col"}>
-                        <a href="#" onClick={() => this.logout() }><p className={"text-center"}>Logout</p></a>
+                <div className={"container"}>
+                    <div className={"row"} >
+                        <div className={"col-3"}>
+                            <AccountButton onClick={ () => this.unPublish() }>Unpublish</AccountButton>
+                        </div>
+                        <div className={"col-6"}>
+
+                        </div>
+                        <div className={"col-3"}>
+                            <AccountButton onClick={() => this.logout() }>Logout</AccountButton>
+                        </div>
                     </div>
                 </div>
 

@@ -91,7 +91,7 @@ const schema = {
       name: { type: "string", title: "Name", maxLength: 21, default: ""},
       email: {type: "string", title: "Email", format: "email", default: ""},
       company: {type: "string", title: "Company"},
-      url: {type: "string", title: "Url", default: "http://", format: "url"},
+      url: {type: "string", title: "Url", format: "url"},
       social: {type: "array", title: "Social Urls",
               "minItems": 0, "maxItems": 4, uniqueItems: true,
               items: {
