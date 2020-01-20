@@ -34,43 +34,47 @@ const ProfileWrapperDiv = styled.div`
     background-repeat: no-repeat;
     background-size: cover;
     margin: 2px 0;
-    opacity: .7;
+    opacity: .95;
+    position: relative;
     `}
 `;
-
-
-
 const OnHoverDiv = styled.div`
-    margin-left: -4px;
-    padding: 18px;
-    height: 150px;
+    margin-left: 0px;
+    margin-bottom: -1px;
+    height: 32px;
     width: 155px;
     display: block;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    border-radius: 11px 12px 0 0;
+    opacity: .95;
     
-    background-color: rgb(134, 136, 139, 0.5);
+    background-color: rgb(172, 176, 181, 0.55);
+    #background-color: rgb(134, 136, 139, 0.65);
 `;
 
 const smImg = styled.img`
-    width: 50px;
-    height: 50px;
+    width: 30px;
+    height: 31px;
     opacity: 1;
     animation: ${keyFrameFadeIn} ${props => props.trans}s ease-in-out;    
     margin: auto;`;
 
 const FacebookImg =  styled(smImg)`
-    background: url("https://idontchop.com/images/portfolio-circles-export.png") -10px -7px;
+    background: url("https://idontchop.com/images/portfolio-circles-export.png") -5px -4px;
 `;
 
 const LinkedinImg = styled(smImg)`
-    background: url("https://idontchop.com/images/portfolio-circles-export.png") -77px -7px;
+    background: url("https://idontchop.com/images/portfolio-circles-export.png") -46px -4px;
 `;
 
 const GithubImg = styled(smImg)`
-    background: url("https://idontchop.com/images/portfolio-circles-export.png") -143px -7px;
+    background: url("https://idontchop.com/images/portfolio-circles-export.png") -85px -3px;
 `;
 
 const TwitterImg = styled(smImg)`
-    background: url("https://idontchop.com/images/portfolio-circles-export.png") -10px -62px;
+    background: url("https://idontchop.com/images/portfolio-circles-export.png") -5px -37px;
 `;
 
 /**
@@ -100,12 +104,10 @@ const linkSm = (props) => {
         "twitter": (props) => <TwitterImg src={timg} {...props} />
     }
 
-    //console.log(linkSm.count, linkSm.remainingSites.length)
     // reduces the list of social sites until we've used all the user's profile
     linkSm.remainingSites = linkSm.remainingSites.filter ( (v, i) => {
         return !!props.profile[v];
     });
-
 
     // break out check. if none of these are true, we will be returning an img component
     if ( linkSm.count > 3 || linkSm.remainingSites.length === 0) {
@@ -119,11 +121,12 @@ const linkSm = (props) => {
     linkSm.remainingSites.shift();
     let transValue = linkSm.count * .6;
     linkSm.count++;
+    
+    // Returns Single Social Icon
     return (
         <a href={props.profile[index]}>
             {switchCase[index]({trans: transValue})}
-        </a>
-        
+        </a>        
     );
     
 }
@@ -135,18 +138,10 @@ const Profile = (props) => {
 
     let pwref = React.createRef()
 
-    const [hover, setHover] = useState(false);
-
-    // Fuck this, gonna need a workaround that puts the ProfileOnHover in a popup
- 
-    // necessary to stop touch bubbling on touch devices
     return (
     <div>
-        <ProfileWrapperDiv ref={pwref} {...props} 
-            
-            onMouseEnter={() => setHover(true)}
-            onMouseLeave={() => setHover(false)}>
-            {hover && <ProfileOnHover {...props} /> }
+        <ProfileWrapperDiv ref={pwref} {...props}>
+            <ProfileOnHover {...props} />
         </ProfileWrapperDiv>
     </div>
     )
@@ -156,33 +151,36 @@ const ProfileOnHover = (props) => {
 
     // if no urls, we don't want to show anything
     if ( smSites.filter ( (v) => {return !!props.profile[v]}).length === 0) return <div></div>
+
     return (
-        <OnHoverDiv>
-            {linkSm(0) /* resets static counters: new profile */ }
-            <div className={"row"} style={{paddingBottom: "7px"}}>
-                <div className={"col-6"}>
-                    {linkSm(props)}                
-                </div>
-                <div className={"col-6"}>
-                    {linkSm(props)} 
-                </div>                    
-            </div>
-            <div className={"row"}>
-                <div className={"col-6"}>
-                    {linkSm(props)} 
-                </div>
-                <div className={"col-6"}>
-                    {linkSm(props)} 
-                </div>
-            </div>
-            <div className={"row"}>
-                <div className={"col-12"}>
-                    
-                </div>
-            </div>
+
+        <OnHoverDiv className={"container-fluid"}>
+            {smPopMenu(props)}
         </OnHoverDiv>
+
     );
+    
 };
+
+const smPopMenu = (props) => {
+        linkSm(0);
+    return (
+        <div className={"row no-gutters"}>
+            <div className={"col-3"}>
+                {linkSm(props)}                
+            </div>
+            <div className={"col-3"}>
+                {linkSm(props)} 
+            </div>                    
+            <div className={"col-3"}>
+                {linkSm(props)} 
+            </div>
+            <div className={"col-3"}>
+                {linkSm(props)} 
+            </div>
+        </div>
+    );
+}
 
 
 

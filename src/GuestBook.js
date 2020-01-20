@@ -39,7 +39,7 @@ const ProfileWrapper = styled.div`
     margin: .4em;
     display: inline-block;
     background-color: #86888B;
-    border-radius: 9px;
+    border-radius: 9px 9px 5px 5px;
     padding: 2px;
     
 `;
@@ -194,11 +194,14 @@ class GuestBook extends React.Component {
                 this.state.data.length != this.state.displayAmount &&
                 <LoadMoreButton onClick={() => this.loadMoreVisitors()}>Load More Visitors</LoadMoreButton>}
             
+
+            <ShowUser portfolioUrl={portfolioUrl} />
+            
             </GuestBookWrapper>
 
             
 
-            <ShowUser portfolioUrl={portfolioUrl} />
+            
             
             </CenterDiv>
         );

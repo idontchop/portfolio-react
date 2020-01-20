@@ -9,8 +9,8 @@ const UserWrapperDiv = styled.div`
     background-color: rgb(134,136,139,.6);
     padding: 0px 5px;
     border-radius: 9px;
-    width: 95%;
-    margin: 5px auto;
+    width: 100%;
+    margin: 15px auto;
     display: block;
 
     button {
