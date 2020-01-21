@@ -174,7 +174,10 @@ class GuestBook extends React.Component {
             <CenterDiv>
             <GuestBookWrapper >                
             { this.state.isLoading && <div>Loading...</div>}
-            {!this.state.isLoading && this.state.data.slice(0,this.state.displayAmount).map ( ( visitor ) => 
+            {!this.state.isLoading && this.state.data
+                .filter ( visitor => visitor.publish )  // publish could have false if user unpublishes
+                .slice(0,this.state.displayAmount)
+                .map ( ( visitor ) => 
                 <ProfileWrapper key={visitor.id} >
                     
                     <Profile {...visitor} portfolioUrl={portfolioUrl} />

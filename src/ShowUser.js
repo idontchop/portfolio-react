@@ -257,9 +257,21 @@ class ShowUser extends React.Component {
         this.setState ( {loggedIn: false, data: {}});
         
     }
-    render() {
 
+    togglePublish () {
+
+        // send request, no need to see response. UI changes will be sent via websocket
+        let formData = new FormData();
+        formData.append ("publish", !this.state.user.publish );
+
+        PortfolioApi.putForm('publish', formData);
+
+    }
+
+    render() {
         
+        let publishButtonText = !!this.state.user && this.state.user.publish === true ?
+            'Unpublish' : 'Publish';
         console.log(this.state)
         if ( this.state.isLoading ) // loading
             return <div>loading</div>
@@ -283,22 +295,28 @@ class ShowUser extends React.Component {
                             profilePicUrl={this.profilePicUrl} 
                             reload={ () => this.loadProfilePic() } />
                     </FormDiv>
-                    <FormDiv className={"col-md-6"}>
+                    <FormDiv className={"col-md-7"}>
                         <RegisterForm className={"col"}
                             formData={this.profileToFormData()}
-                            onSubmit={(f,e) => this.updateProfile(f,e)} />
-                    </FormDiv>
+                            onSubmit={(f,e) => this.updateProfile(f,e)} />                            
+                    </FormDiv>                    
                 </div>
                 <div className={"container"}>
                     <div className={"row"} >
-                        <div className={"col-3"}>
-                            <AccountButton onClick={ () => this.unPublish() }>Unpublish</AccountButton>
+                        <div className={"col-md-5"}>
+                            
                         </div>
-                        <div className={"col-6"}>
-
-                        </div>
-                        <div className={"col-3"}>
-                            <AccountButton onClick={() => this.logout() }>Logout</AccountButton>
+                        <div className={"col-md-7"}>
+                            <div className={"container"}>
+                                <div className={"row"}>
+                                    <div className={"col-6"}>
+                                        <AccountButton onClick={ () => this.togglePublish() }>{publishButtonText}</AccountButton>
+                                    </div>
+                                    <div className={"col-6"}>
+                                        <AccountButton onClick={() => this.logout() }>Logout</AccountButton>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

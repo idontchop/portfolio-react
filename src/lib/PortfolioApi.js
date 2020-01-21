@@ -1,9 +1,13 @@
+import ChatApi from './ChatApi'; // "injected" dependancy for chat impl
 
 // dev
 //const portfolioUrl = "http://localhost:8080/portfolio";
 // prod
 const portfolioUrl = process.env.NODE_ENV === "development" ?
     "http://localhost:8080/portfolio" : "https://idontchop.com/portfolio";
+
+const portfolioHome = process.env.NODE_ENV === "development" ?
+    "http://localhost:3000" : "https://idontchop.com/portfolio-prototype";
 
 const buildHeaders = (method, type, formData) => {
 
@@ -40,7 +44,8 @@ const urlExt = {
     formLogin: `/login`,
     newFormUser: `/newFormUser`,
     guestBook: `/guestBook`,
-    uploadImage: `/uploadImage`
+    uploadImage: `/uploadImage`,
+    publish: `/me/publish`
 }
 
 const buildUrl = (type) => {
@@ -92,18 +97,24 @@ const getPayload = async (response, type) => {
  */
 const PortfolioApi = {
 
+    chat: ChatApi,
+
     setToken: ( token ) => {
         window.localStorage.setItem('token',token);
     },
+
     logout: () => {
         window.localStorage.removeItem('token');
+        window.history.replaceState({}, document.title, portfolioHome );
     },
+
     // form login
-    postForm: async (type, formData) => {
+    putForm: (type, formData) => PortfolioApi.postForm(type, formData,'put'),
+    postForm: async (type, formData, method = 'post') => {
 
         let response = await fetch (
             buildUrl(type),
-            buildHeaders('post','form',formData)
+            buildHeaders(method,'form',formData)
             ).catch ( () => {
                 console.log("form post failed", buildUrl(type));
             })
