@@ -1,43 +1,81 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#000000" />
-    <meta
-      name="description"
-      content="Web site created using create-react-app"
-    />
-    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
-    <!--
-      manifest.json provides metadata used when your web app is installed on a
-      user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
-    -->
-    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-    <!--
-      Notice the use of %PUBLIC_URL% in the tags above.
-      It will be replaced with the URL of the `public` folder during the build.
-      Only files inside the `public` folder can be referenced from the HTML.
+   <head>
+      <meta charset="utf-8"/>
+      <link rel="icon" href="/portfolio-prototype/favicon.ico"/>
+      <meta name="viewport" content="width=device-width,initial-scale=1"/>
+      <meta name="theme-color" content="#000000"/>
+      <meta name="description" content="Web site created using create-react-app"/>
+      <link rel="apple-touch-icon" href="/portfolio-prototype/logo192.png"/>
+      <link rel="manifest" href="/portfolio-prototype/manifest.json"/>      
+      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+      <link rel="stylesheet" type="text/css" href="css/style.css?v=0.23"/>
+      <link href="https://fonts.googleapis.com/css?family=Coming+Soon|Inknut+Antiqua|Kalam|Merienda|Roboto&display=swap" rel="stylesheet">
+      <title>Nathan Dunn Portfolio</title>
+      <link href="/portfolio-prototype/static/css/2.4609250b.chunk.css" rel="stylesheet">
+      <link href="/portfolio-prototype/static/css/main.d1b05096.chunk.css" rel="stylesheet">
+   </head>
+   <body>
+    <Header class="pageSection1">
+     <div class="container-fluid headerContainer">
+       <div class="row no-gutters">
+        <div class="col-2">
+          <div class="container-fluid social-left">
+            <div class="row no-gutters">
+              <div class="col-sm-6">
+                <img src="https://idontchop.com/images/img-trans.gif" class="facebookImg socialImg" />
+              </div>
+              <div class="col-sm-6">
+                <img src="https://idontchop.com/images/img-trans.gif" class="githubImg socialImg" />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-8 headerBar">
+          <h1 class="titleBig">N A T H A N &nbsp; D U N N</h1>
+          <h1 class="titleSmall">N A T H A N<BR>D U N N</h1>
+          <h2>Software Developer - Dating Site Theme</h2>
+        </div>
+        <div class="col-2">
+          <div class="container social-right">
+            <div class="row no-gutters">
+              <div class="col-sm-6">
+                <img src="https://idontchop.com/images/img-trans.gif" class="linkedinImg socialImg" />
+              </div>
+              <div class="col-sm-6">
+                <img src="https://idontchop.com/images/img-trans.gif" class="twitterImg socialImg" />
+              </div>
+            </div>
+          </div>
 
-      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
-      work correctly both with client-side routing and a non-root public URL.
-      Learn how to configure a non-root public URL by running `npm run build`.
-    -->
-    <title>React App</title>
-  </head>
-  <body>
-    <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div id="react-root"></div>
-    <!--
-      This HTML file is a template.
-      If you open it directly in the browser, you will see an empty page.
+        </div>
+       </div>
+      </div>
+       <div class="videoContainer">
+        <video width="100%" height="auto" autoplay muted>
+            <!--<source src="C:\Users\micro\OneDrive\CC\portfolio\opening.mp4" type="video/mp4"> -->
+           <source src="/videos/opening.mp4" type="video/mp4">
+             Video Alt Display
+        </video>
+       </div>
+      </Header>
 
-      You can add webfonts, meta tags, or analytics to this file.
-      The build step will place the bundled scripts into the <body> tag.
+      
+        <div class="pageSection2">
+          
+          <div class="sectionHeader container dateTheme">
+            <div class="sectionHeaderH2Wrapper">
+              <h2>Guest Book</h2>
+            </div>
+          </div>
 
-      To begin the development, run `npm start` or `yarn start`.
-      To create a production bundle, use `npm run build` or `yarn build`.
-    -->
-  </body>
+          <div class="sectionSubHeader container">
+            <p>Thanks to my recent visitors...</p>
+            <p>Please take a momemnt to sign my Guest Book. Help me appear popular!</p>
+            <noscript>You need to enable JavaScript to run this app.</noscript>
+            <div id="react-root"></div>
+          </div>
+            
+        </div>
+   </body>
 </html>
