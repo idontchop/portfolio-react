@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import ShowUser from './ShowUser';
 import PortfolioApi from './lib/PortfolioApi.js';
 import PortfolioSocket from './lib/PortfolioSocket';
+import Loading from './Components/Loading';
 
 import RegisterForm from './Components/RegisterForm';
 
@@ -41,7 +42,7 @@ const ProfileWrapper = styled.div`
     background-color: #86888B;
     border-radius: 9px 9px 5px 5px;
     padding: 2px;
-    
+
 `;
 
 const SignatureDiv = styled.div`
@@ -50,6 +51,7 @@ const SignatureDiv = styled.div`
     color: white;
     padding: .4em;
     max-width: 150px;
+    overflow: hidden;
     white-space: nowrap;
 `;
 
@@ -58,6 +60,9 @@ const CompanyDiv = styled.div`
     color: #dedede;
     padding: .1em .5em;
     font-size: .7em;
+    max-width: 150px;
+    overflow: hidden;
+    white-space: nowrap;
 
 `;
 
@@ -68,9 +73,11 @@ const CenterDiv = styled.div`
 
 const LoadMoreButton = styled.button`
     display: block;
-    width: 150px;
+    
     margin: 5px auto;
 
+    border-radius: 9px;
+    padding: 5px 15px;
     color: black;
     background-color: #A68181;
     border: black 1px solid;
@@ -173,7 +180,7 @@ class GuestBook extends React.Component {
         return (
             <CenterDiv>
             <GuestBookWrapper >                
-            { this.state.isLoading && <div>Loading...</div>}
+            { this.state.isLoading && <Loading />}
             {!this.state.isLoading && this.state.data
                 .filter ( visitor => visitor.publish )  // publish could have false if user unpublishes
                 .slice(0,this.state.displayAmount)
@@ -195,7 +202,7 @@ class GuestBook extends React.Component {
 
             { !this.state.isLoading &&
                 this.state.data.length != this.state.displayAmount &&
-                <LoadMoreButton onClick={() => this.loadMoreVisitors()}>Load More Visitors</LoadMoreButton>}
+                <LoadMoreButton onClick={() => this.loadMoreVisitors()}>Show More Visitors</LoadMoreButton>}
             
 
             <ShowUser portfolioUrl={portfolioUrl} />

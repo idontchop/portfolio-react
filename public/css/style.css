@@ -1,5 +1,6 @@
 
 
+
 .social-left {
     background-color: #b5b5b5;
     padding: 10px;
@@ -54,6 +55,13 @@
     border-radius: 5px; 
 }
 
+.sectionHeader2 {
+    margin-top: 5px;
+    display: block;
+    padding: 15px;
+    border-radius: 5px;
+}
+
 .sectionHeader h2 {
     margin: 0 15px;
     font-size: 1.8em;
@@ -71,17 +79,17 @@
     border-bottom: 1px solid black;    
 }
 
-.sectionSubHeader {
+.sectionBody {
     border: 2px solid #86888B;
-    padding: 5px;
-    margin-top: -5px;
+    width: 100%;
+    margin: -5px auto -5px auto;
     position: relative;
     z-index: 0;
     border-radius: 5px
 
 }
 
-.sectionSubHeader p {
+.sectionBody p {
     margin: 1.5em;
     font-family: "Roboto", Arial, Helvetica, sans-serif;
 }
@@ -107,6 +115,10 @@
 }
 
 @media only screen and (max-width: 576px) {
+
+    .sectionBody {
+        border: none;
+    }
     .titleBig {
         display: none;
     }
@@ -116,6 +128,32 @@
         display: block;
     }
         
+}
+
+@media only screen and (min-width: 576px) {
+
+    .sectionBody {
+        max-width: 540px;
+    }
+}
+
+@media only screen and (min-width: 768px) {
+    .sectionBody {
+        max-width: 720px;
+    }
+}
+
+@media only screen and (min-width: 992px) {
+    .sectionBody {
+        max-width: 960px;
+    }
+}
+
+@media only screen and (min-width: 1200px) {
+    .sectionBody {
+        max-width: 1140px;
+    }
+
 }
 
 .headerBar h2 {

@@ -2,8 +2,10 @@ import React from 'react';
 import PortfolioImageCrop from './Components/PortfolioImageCrop.js';
 import LoginPortfolio from './Components/LoginPortfolio';
 import RegisterForm from './Components/RegisterForm';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import PortfolioApi from './lib/PortfolioApi.js';
+import Loading from './Components/Loading.js';
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
 const UserWrapperDiv = styled.div`
     background-color: rgb(134,136,139,.6);
@@ -19,9 +21,15 @@ const UserWrapperDiv = styled.div`
         background-color: #A68181;
         border: black 1px solid;
         margin: 3px auto;
+        font-family: "Merienda", Arial, Helvetica, sans-serif;
         display: block;
         -webkit-box-shadow: 0px 0px 5px 5px rgba(219,219,219,0.7); 
         box-shadow: 0px 0px 5px 5px rgba(219,219,219,0.7);
+
+        p {
+            margin: 0;
+            font-family: "Roboto", Arial, Helvetica, sans-serif;
+        }
 
         :hover {
             color: black;
@@ -66,6 +74,48 @@ const AccountButton = styled.button`
     padding: 2px;
     border-radius: 2px;
 `;
+
+const blink = (color) => keyframes`
+    0% {
+        background-color: inherit;
+    }
+
+    50% {
+        background-color: ${color};
+    }
+
+    100% {
+        background-color: inherit;
+    }
+`;
+
+const MessageDiv = styled.div`
+    color: ${props => {
+        if (!!props.type) {
+            return props.type === 'error' ? '#dc3545' : 'Black';
+        } else {
+            return 'black';
+        }
+    }};
+
+    text-align: center;
+    display: block;
+    max-width: 66%;    
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 0.9em;
+    margin: 9px auto;
+    border-radius: 7px;
+    content: ${props => props.text}
+    animation: ${props => blink(!!props.type && props.type === 'error' ? '#dc3545' : 'White')} 300ms linear;
+
+`;
+
+const MessageWrapperDiv = styled.div`
+    margin: 9px auto;
+    min-height: 20px;
+`;
+
+
 
 /**
  * Handles API calls for the user control panel below the guestbook
@@ -258,23 +308,61 @@ class ShowUser extends React.Component {
         
     }
 
-    togglePublish () {
+    async togglePublish () {
 
         // send request, no need to see response. UI changes will be sent via websocket
         let formData = new FormData();
         formData.append ("publish", !this.state.user.publish );
 
-        PortfolioApi.putForm('publish', formData);
+        try {
+            await PortfolioApi.putForm('publish', formData);
+            this.message ( 'Toggled!', 'info')
+        } catch (err) {
+            this.message ( 'Unable to contact server', 'error');
+        }
+
+        // call to make sure the publish was performed and update state
+        this.loadUser()
+
+    }
+
+    /**
+     * Reponsible for updating the message div to the user.
+     * 
+     * 
+     * @param {The text to display} message 
+     * @param {'info', 'error', 'none'} type 
+     */
+    message ( message, type ) {
+
+        // if timeout exists, clear timeout and clear message
+        // to force a remount for animation
+        if ( this.messageTimeout ) {
+            window.clearTimeout(this.messageTimeout);
+            this.setState({message:{}});
+        }
+
+        // setup message
+        let newMessage = { text: message, type: type };
+
+        this.setState ({message: newMessage});
+
+        // setup a timeout to remove the message:        
+        this.messageTimeout = window.setTimeout (
+            () => this.setState({message: {}})
+        , 5000);
 
     }
 
     render() {
         
+        // handle button text
         let publishButtonText = !!this.state.user && this.state.user.publish === true ?
             'Unpublish' : 'Publish';
         console.log(this.state)
+
         if ( this.state.isLoading ) // loading
-            return <div>loading</div>
+            return <Loading size="small" />
         else if ( !this.state.loggedIn )  // not logged in
             return (
                 <UserWrapperDiv >
@@ -295,10 +383,16 @@ class ShowUser extends React.Component {
                             profilePicUrl={this.profilePicUrl} 
                             reload={ () => this.loadProfilePic() } />
                     </FormDiv>
-                    <FormDiv className={"col-md-7"}>
+                    <FormDiv className={"col-md-7"}>                        
                         <RegisterForm className={"col"}
                             formData={this.profileToFormData()}
-                            onSubmit={(f,e) => this.updateProfile(f,e)} />                            
+                            onSubmit={(f,e) => this.updateProfile(f,e)} />
+                        <MessageWrapperDiv>
+                            {this.state.message && <MessageDiv {...this.state.message}>
+                                {!!this.state.message ? this.state.message.text : ""}
+                            </MessageDiv>}
+                        </MessageWrapperDiv>
+
                     </FormDiv>                    
                 </div>
                 <div className={"container"}>
