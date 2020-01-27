@@ -5,7 +5,6 @@ import RegisterForm from './Components/RegisterForm';
 import styled, { keyframes } from 'styled-components';
 import PortfolioApi from './lib/PortfolioApi.js';
 import Loading from './Components/Loading.js';
-import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
 const UserWrapperDiv = styled.div`
     background-color: rgb(134,136,139,.6);
