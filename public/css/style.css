@@ -182,6 +182,34 @@
     display: block;
 }
 
+.nate-forms input {
+    border: 2px solid #86888B;
+    border-radius: 0;
+    font-size: 1em;
+    height: 38px;
+    font-family: serif;
+    margin-left: 5px;
+}
+
+.nate-forms select {
+    border-color: #86888B;
+    border-radius: 0;
+    height: 38px;
+    font-family: serif;
+}
+
+.nate-forms button {
+    font-family: serif;
+    border-radius: 0;
+}
+
+.nate-forms label {
+    font-family: serif;
+    padding: 0;
+    margin: 0;
+    font-size: 1em;
+}
+
 .facebookImg {
     background: url("https://idontchop.com/images/portfolio-circles-export.png") -5px -4px;
 }

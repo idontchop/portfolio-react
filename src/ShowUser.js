@@ -21,7 +21,7 @@ const UserWrapperDiv = styled.div`
         background-color: #A68181;
         border: black 1px solid;
         margin: 3px auto;
-        font-family: "Merienda", Arial, Helvetica, sans-serif;
+        font-family: Arial, Helvetica, sans-serif;
         display: block;
         -webkit-box-shadow: 0px 0px 5px 5px rgba(219,219,219,0.7); 
         box-shadow: 0px 0px 5px 5px rgba(219,219,219,0.7);
@@ -45,25 +45,6 @@ const FormDiv = styled.div`
     font-family: Ink Free, cursive;
     margin: 5px auto;
 
-    button {
-        font-family: serif, Ink Free, cursive;
-    }
-    input {
-        height: 80%;       
-        font-family: serif; 
-    }
-
-    label {
-        font-family: serif;
-        font-size: 1em;
-        padding: 0;
-        margin: 0;
-    }
-
-    select {
-        height: 80%;
-        font-family: serif;
-    }
 `;
 
 const AccountButton = styled.button`

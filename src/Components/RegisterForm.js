@@ -15,7 +15,7 @@ const socialTemplate = (props) => (
                 <div className="col-1">
                   {e.hasRemove && 
                   
-                  <button type="button" style={{marginTop: "24px"}}
+                  <button type="button" style={{marginTop: "26px", height: "34px"}}
                     onClick={e.onDropIndexClick(e.index)}
                     >X</button>}
                 </div>
@@ -113,7 +113,7 @@ const schema = {
 
 const uiSchema = {
 
-  classNames: "container-fluid",
+  classNames: "container-fluid nate-forms",
   "ui:options": {
       orderable: false
   },
@@ -135,6 +135,8 @@ const uiSchema = {
  * Uses jsonschema-form lib:
  * https://react-jsonschema-form.readthedocs.io/en/latest/advanced-customization/#custom-array-field-buttons
  * 
+ * Using this was bad idea. Might be useful on sites that need lots of forms and/or generated forms.
+ * 
  * Live Validation issue:
  * https://github.com/rjsf-team/react-jsonschema-form/issues/512
  * Happens because we pass a formData
@@ -152,7 +154,11 @@ const RegisterForm = (props) => (
             formData={!!props.formData ? props.formData : false }
             validate={validate}
             liveValidate={true}
-        />
+        >
+          <div>
+            <button type="submit" className="nate-forms btn">Ok!</button>
+          </div>
+        </Form>
 );
 
 export default RegisterForm;
