@@ -95,7 +95,7 @@ const LoadMoreButton = styled.button`
 `;
 
 const portfolioUrl = process.env.NODE_ENV === "development" ?
-    "http://localhost:8080/portfolio" : "https://idontchop.com/portfolio";
+    "http://localhost:8080/portfolio" : "https://idontchop.com/portfolio-war";
 
 class GuestBook extends React.Component {
 

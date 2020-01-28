@@ -1,7 +1,7 @@
 import Stomp from 'stompjs';
 
 const portfolioUrl = process.env.NODE_ENV === "development" ?
-    "http://localhost:8080/portfolio" : "https://idontchop.com/portfolio";
+    "http://localhost:8080/portfolio" : "https://idontchop.com/portfolio-war";
 
 const SockJS = require('sockjs-client');
 

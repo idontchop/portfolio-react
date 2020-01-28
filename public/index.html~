@@ -2,18 +2,18 @@
 <html lang="en">
    <head>
       <meta charset="utf-8"/>
-      <link rel="icon" href="/portfolio/favicon.ico"/>
+      <link rel="icon" href="/portfolio-prototype/favicon.ico"/>
       <meta name="viewport" content="width=device-width,initial-scale=1"/>
       <meta name="theme-color" content="#000000"/>
       <meta name="description" content="Web site created using create-react-app"/>
-      <link rel="apple-touch-icon" href="/portfolio/logo192.png"/>
-      <link rel="manifest" href="/portfolio/manifest.json"/>      
+      <link rel="apple-touch-icon" href="/portfolio-prototype/logo192.png"/>
+      <link rel="manifest" href="/portfolio-prototype/manifest.json"/>      
       <link rel="stylesheet" type="text/css" href="css/style.css?v=0.25"/>
       <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
       <link href="https://fonts.googleapis.com/css?family=Coming+Soon|Inknut+Antiqua|Kalam|Merienda|Roboto&display=swap" rel="stylesheet">
       <title>Nathan Dunn Portfolio</title>
-      <link href="/portfolio/static/css/2.4609250b.chunk.css" rel="stylesheet">
-      <link href="/portfolio/static/css/main.d1b05096.chunk.css" rel="stylesheet">
+      <link href="/portfolio-prototype/static/css/2.4609250b.chunk.css" rel="stylesheet">
+      <link href="/portfolio-prototype/static/css/main.d1b05096.chunk.css" rel="stylesheet">
 
    </head>
    <body>
