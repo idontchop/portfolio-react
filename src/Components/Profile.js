@@ -184,11 +184,9 @@ const lastVisited = (date) => {
 }
 
 const addS = (i,s) => {
-    if ( Math.floor(i) > 1 ) {
-        s = s + 's';
-    }
-
-    return Math.floor(i) + " " + s + " ago";
+    return  Math.floor(i) + " " 
+    + ( ( Math.floor(i) > 1 ) ? s + 's' : s )
+    + " ago";
 }
 
 
