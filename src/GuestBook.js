@@ -6,8 +6,6 @@ import PortfolioApi from './lib/PortfolioApi.js';
 import PortfolioSocket from './lib/PortfolioSocket';
 import Loading from './Components/Loading';
 
-import RegisterForm from './Components/RegisterForm';
-
 const GuestBookWrapper = styled.div`
     display: block;  
     text-align: left;
@@ -159,7 +157,7 @@ class GuestBook extends React.Component {
         console.log("fetching " + id)
         try {
             let guest = await PortfolioApi.getJson('guestBook', id);
-            let i = this.state.data.findIndex ( e => e.id == id );
+            let i = this.state.data.findIndex ( e => e.id === id );
 
              this.setState ( prevState => {
                 let newGuestBook = [...prevState.data];
@@ -176,7 +174,7 @@ class GuestBook extends React.Component {
     }
 
     render () {
-        console.log (this.state);
+        //console.log (this.state);
         return (
             <CenterDiv>
             <GuestBookWrapper >                
@@ -201,7 +199,7 @@ class GuestBook extends React.Component {
             )} 
 
             { !this.state.isLoading &&
-                this.state.data.length != this.state.displayAmount &&
+                this.state.data.length !== this.state.displayAmount &&
                 <LoadMoreButton onClick={() => this.loadMoreVisitors()}>Show More Visitors</LoadMoreButton>}
             
 

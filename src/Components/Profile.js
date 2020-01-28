@@ -1,8 +1,5 @@
-import React, {useState, useEffect } from 'react';
+import React from 'react';
 import styled, { keyframes } from 'styled-components';
-import GithubIcon from '../images/github.svg';
-import FacebookIcon from '../images/facebook.svg';
-import LinkedinIcon from '../images/linkedin.svg';
 
 const keyFrameFadeIn = keyframes`
     0% {
@@ -150,7 +147,6 @@ const linkSm = (props) => {
 
 const lastVisited = (date) => {
 
-    console.log("date: ", date);
     let sec = Math.floor( (new Date() - new Date(date) ) / 1000 );
 
     // years
@@ -161,21 +157,15 @@ const lastVisited = (date) => {
 
     // months
     interval = sec / 2592000;
-    if ( interval >= 1 ) {
-        return addS(interval, "month");
-    }
-
+    if ( interval >= 1 ) return addS(interval, "month");
+    
     // days
     interval = sec / 86400;
-    if ( interval >= 1 ) {
-        return addS(interval, "day");
-    }
-
+    if ( interval >= 1 ) return addS(interval, "day");
+    
     // hours
     interval = sec / 3600;
-    if ( interval >= 1 ) {
-        return addS(interval, "hour");
-    }
+    if ( interval >= 1 ) return addS(interval, "hour");
 
     // days
     interval = sec / 60;

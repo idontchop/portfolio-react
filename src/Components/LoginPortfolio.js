@@ -43,8 +43,8 @@ const schema = {
     required: ["name", "password" ],
     properties: {
         name: { type: "string", title: "Name", default: ""},
-        password: {type: "string", title: "Password", format: "password" },
-        confPassword: {type: "string", title: "Repeat Password (for signup)", format: "password"}
+        password: {type: "string", title: "Password" },
+        confPassword: {type: "string", title: "Repeat Password (for signup)"}
     }
     
 };
@@ -72,7 +72,7 @@ const LoginPortfolio = (props) => (
                 <SocialButton>
                 <div className={"row"}>
                         <div className={"col-3"}>
-                            <img src={FacebookIcon} style={{ height: "50px", width: "auto"}} />
+                            <img src={FacebookIcon} alt="Facebook Logo" style={{ height: "50px", width: "auto"}} />
                         </div>
                         <div className={"col-9"}>
                             <p>Facebook</p>        
@@ -86,7 +86,7 @@ const LoginPortfolio = (props) => (
                 <SocialButton>
                 <div className={"row"}>
                         <div className={"col-3"}>
-                            <img src={LinkedinIcon} style={{ height: "50px", width: "auto"}} />
+                            <img src={LinkedinIcon} alt="Linkedin Logo" style={{ height: "50px", width: "auto"}} />
                         </div>
                         <div className={"col-9"}>
                             <p>LinkedIn</p>        
@@ -100,7 +100,7 @@ const LoginPortfolio = (props) => (
                 <SocialButton>
                     <div className={"row"}>
                         <div className={"col-3"}>
-                            <img src={GithubIcon} style={{ height: "50px", width: "auto"}} />
+                            <img src={GithubIcon} alt="Github Logo" style={{ height: "50px", width: "auto"}} />
                         </div>
                         <div className={"col-9"}>
                             <p>Github</p>        

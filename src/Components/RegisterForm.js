@@ -26,6 +26,8 @@ const socialTemplate = (props) => (
     </div>
 );
 
+/*
+might be used to make whole form double column
 const twoColumnTemplate = (props) => {
     const {id, classNames, label, help, required, description, errors, children} = props;
     return (
@@ -38,6 +40,7 @@ const twoColumnTemplate = (props) => {
       </div>
     );
   }
+*/
 
 const HorizontalFieldTemplate = ({ TitleField, properties, title, description }) => {
     return (

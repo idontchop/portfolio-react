@@ -1,5 +1,4 @@
-import ReactDOM from 'react-dom';
-import React, { useImperativeHandle } from 'react';
+import React from 'react';
 import ReactCrop from 'react-image-crop';
 import Dropzone from 'react-dropzone';
 import 'react-image-crop/dist/ReactCrop.css';
@@ -37,10 +36,6 @@ const NoProfileImage = styled.img`
     height: auto;
     padding: 1.5em;
 `;
-
-const cropImageStyle = {
-    width: "80%",
-};
 
 const dragOpacity = (props) => {
 
@@ -158,7 +153,7 @@ class PortfolioImageCrop extends React.Component {
      */
     async onDrop ( acceptedFiles ) {
         
-        if ( acceptedFiles.length != 1 ) {
+        if ( acceptedFiles.length !== 1 ) {
             this.setState({dropMessage: "Drop an Image"})
         } else {
             this.setProfileImageState (acceptedFiles[0]);

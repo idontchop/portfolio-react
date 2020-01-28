@@ -77,12 +77,12 @@ const getPayload = async (response, type) => {
     if ( type === 'json') {
         responseData = await response.json().catch ( () => {
             // failed to extract payload
-            throw {'error': response.status, 'errorMessage': "json extraction failed"}
+            throw Error({'error': response.status, 'errorMessage': "json extraction failed"})
         })
     } else if ( type === 'blob' ) {
         responseData = await response.blob().catch ( () => {
             // failed to extract blob payload
-            throw {'error': response.status, 'errorMessage': "data extraction failed"}
+            throw Error({'error': response.status, 'errorMessage': "data extraction failed"})
         })
     }
 
@@ -120,7 +120,7 @@ const PortfolioApi = {
             })
         
         if ( !checkResponse(response) ) {
-            throw {'error': response.status, 'errorMessage': "Error returned from Post"}
+            throw Error({'error': response.status, 'errorMessage': "Error returned from Post"})
         }
 
         return await getPayload(response,'json').catch ( (err) => {
@@ -141,7 +141,7 @@ const PortfolioApi = {
              })
 
         if ( !checkResponse(response) ) {
-            throw {'error': response.status, 'errorMessage': "Error putting"}
+            throw Error({'error': response.status, 'errorMessage': "Error putting"})
         }
 
         return await getPayload(response,'json').catch ( (err) => {
@@ -164,7 +164,7 @@ const PortfolioApi = {
         })
 
         if ( !checkResponse(response) ) {
-            throw {'error': response.status, 'errorMessage': "error retrieving"};
+            throw Error({'error': response.status, 'errorMessage': "error retrieving"});
         }
 
         return await getPayload(response,'json').catch ( (err) => {
@@ -181,7 +181,7 @@ const PortfolioApi = {
             })
 
         if ( !checkResponse(response) ) {
-            throw { 'error': response.status, 'message': "load pic failed"};
+            throw Error({ 'error': response.status, 'message': "load pic failed"});
         }
 
         return await getPayload(response,'blob').catch ( (err) => {

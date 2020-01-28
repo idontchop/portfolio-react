@@ -141,7 +141,7 @@ class ShowUser extends React.Component {
     componentDidUpdate(prevProps, prevState) {
 
         // Error display handling
-        if ( !prevState.error && !!this.state.error || 
+        if ( (!prevState.error && !!this.state.error) || 
              ( !!prevState.error && prevState.error !== this.state.error) ) {
             // an error happened
             console.log("ERROR", this.state.error, this.state.errorMessage);
@@ -215,7 +215,6 @@ class ShowUser extends React.Component {
 
     profileToFormData () {
 
-        console.log("profiletoformdata")
         let socialNetworks = ['facebook', 'twitter', 'github', 'linkedin'];
         let dataChecks = ['email', 'company', 'url'];       // checks for falsy values
         if (!!this.state.userProfile ) {
@@ -236,8 +235,6 @@ class ShowUser extends React.Component {
                 }
             });
             
-            console.log("formdata: ");
-            console.log(formData);
             return formData;
 
         } else return {};
@@ -273,7 +270,7 @@ class ShowUser extends React.Component {
                 this.loadProfile();
                 this.loadProfilePic();
                 this.setState({loggedIn: true});
-            } else throw {"error": "login credential mismatch", errorMessage: "weird lol tampering?"};
+            } else throw Error({"error": "login credential mismatch", errorMessage: "weird lol tampering?"});
 
         } catch (err) {            
             this.message( err.error === 409 ? "Username Conflict" : "Login Error", 
@@ -352,7 +349,7 @@ class ShowUser extends React.Component {
         // handle button text
         let publishButtonText = !!this.state.user && this.state.user.publish === true ?
             'Unpublish' : 'Publish';
-        console.log(this.state)
+        //console.log(this.state)
 
         if ( this.state.isLoading ) // loading
             return <Loading size="small" />
