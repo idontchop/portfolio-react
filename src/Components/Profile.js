@@ -54,6 +54,23 @@ const OnHoverDiv = styled.div`
     #background-color: rgb(134, 136, 139, 0.65);
 `;
 
+const TopDiv = styled.div`
+    padding-top: 0px;
+    text-align: right;
+`;
+
+const TopDivP = styled.span`
+    background-color: rgb(172, 176, 181, 0.85);
+    padding: 5px 7px 3px 7px;
+    font-size: 0.9em;
+    color: white;
+    text-shadow: #000 1px 1px 0px, #000 1px 1px 0px;
+    font-family: "Ink Free", "Kalem", cursive, script;
+    border-radius: 0 9px;
+    #background-color: rgb(134, 136, 139, 0.85);
+`;
+
+
 const smImg = styled.img`
     width: 30px;
     height: 31px;
@@ -131,6 +148,48 @@ const linkSm = (props) => {
     
 }
 
+const lastVisited = (date) => {
+
+    console.log("date: ", date);
+    let sec = Math.floor( (new Date() - new Date(date) ) / 1000 );
+
+    // years
+    let interval = sec / 31536000 ;
+    if ( interval >= 1 ) {
+        return addS(interval, "year");
+    }
+
+    // months
+    interval = sec / 2592000;
+    if ( interval >= 1 ) {
+        return addS(interval, "month");
+    }
+
+    // days
+    interval = sec / 86400;
+    if ( interval >= 1 ) {
+        return addS(interval, "day");
+    }
+
+    // hours
+    interval = sec / 3600;
+    if ( interval >= 1 ) {
+        return addS(interval, "hour");
+    }
+
+    // days
+    interval = sec / 60;
+    return addS(interval, "minute");
+
+}
+
+const addS = (i,s) => {
+    if ( Math.floor(i) > 1 ) {
+        s = s + 's';
+    }
+
+    return Math.floor(i) + " " + s + " ago";
+}
 
 
 
@@ -141,6 +200,7 @@ const Profile = (props) => {
     return (
     <div>
         <ProfileWrapperDiv ref={pwref} {...props}>
+            <TopDiv><TopDivP>{lastVisited(props.created)}</TopDivP></TopDiv>
             <ProfileOnHover {...props} />
         </ProfileWrapperDiv>
     </div>

@@ -196,6 +196,7 @@
     border-radius: 0;
     height: 38px;
     font-family: serif;
+    padding: 2px;
 }
 
 .nate-forms button {
@@ -208,6 +209,11 @@
     padding: 0;
     margin: 0;
     font-size: 1em;
+    padding-left: 6px;
+}
+
+.nate-remove-margin-bottom {
+    margin-top: -0.6em;
 }
 
 .facebookImg {

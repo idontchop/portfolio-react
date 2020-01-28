@@ -15,7 +15,7 @@ const socialTemplate = (props) => (
                 <div className="col-1">
                   {e.hasRemove && 
                   
-                  <button type="button" style={{marginTop: "26px", height: "34px"}}
+                  <button type="button" style={{marginTop: "16px", height: "34px"}}
                     onClick={e.onDropIndexClick(e.index)}
                     >X</button>}
                 </div>
@@ -59,7 +59,7 @@ const HorizontalFieldTemplate = ({ TitleField, properties, title, description })
 
 const SocialObjectTemplate = ( props ) => {
   return (
-    <div className="container-fluid">
+    <div className="container-fluid nate-remove-margin-bottom">
       <div className="row no-gutters">
           <div className="col-4">
             {props.properties[0].content}
