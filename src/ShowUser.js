@@ -145,6 +145,7 @@ class ShowUser extends React.Component {
              ( !!prevState.error && prevState.error !== this.state.error) ) {
             // an error happened
             console.log("ERROR", this.state.error, this.state.errorMessage);
+            this.message("Error: " + this.state.error, 'error');
         }
         
     }
@@ -192,9 +193,11 @@ class ShowUser extends React.Component {
         try {
             let userProfileData = await PortfolioApi.putJson('profile',formData);
             this.setState({userProfile: userProfileData});
+            this.message("Profile Updated!", 'info')
         } catch (err) {
             // could indicate several problems.
             this.setState({'error': "Error in updateProfile", 'errorMessage': err});
+            this.message("Error in updateProfile", 'error');
         }   
         
     }
@@ -273,8 +276,8 @@ class ShowUser extends React.Component {
             } else throw {"error": "login credential mismatch", errorMessage: "weird lol tampering?"};
 
         } catch (err) {            
-            this.setState({error: err.error === 409 ? "Username Conflict" : "Login Error", 
-                errorMessage: err});
+            this.message( err.error === 409 ? "Username Conflict" : "Login Error", 
+                'error');
         }
     }
 
@@ -334,6 +337,16 @@ class ShowUser extends React.Component {
 
     }
 
+    buildMessageDiv () {
+        return (
+            <MessageWrapperDiv>
+            {this.state.message && <MessageDiv {...this.state.message}>
+                {!!this.state.message ? this.state.message.text : ""}
+                </MessageDiv>}
+            </MessageWrapperDiv>
+        )
+    }
+
     render() {
         
         // handle button text
@@ -349,6 +362,7 @@ class ShowUser extends React.Component {
                     <div className={"row"}>
                         <FormDiv>
                             <LoginPortfolio portfolioUrl={this.props.portfolioUrl} registerForm = {(f,e) => this.registerForm(f,e)}/>
+                            {this.buildMessageDiv()}
                         </FormDiv>
                     </div>
                 </UserWrapperDiv>
@@ -367,11 +381,7 @@ class ShowUser extends React.Component {
                         <RegisterForm className={"col"}
                             formData={this.profileToFormData()}
                             onSubmit={(f,e) => this.updateProfile(f,e)} />
-                        <MessageWrapperDiv>
-                            {this.state.message && <MessageDiv {...this.state.message}>
-                                {!!this.state.message ? this.state.message.text : ""}
-                            </MessageDiv>}
-                        </MessageWrapperDiv>
+                        {this.buildMessageDiv()}
 
                     </FormDiv>                    
                 </div>

@@ -4,10 +4,10 @@ import ChatApi from './ChatApi'; // "injected" dependancy for chat impl
 //const portfolioUrl = "http://localhost:8080/portfolio";
 // prod
 const portfolioUrl = process.env.NODE_ENV === "development" ?
-    "http://localhost:8080/portfolio" : "https://idontchop.com/portfolio";
+    "http://localhost:8080/portfolio" : "https://idontchop.com/portfolio-war";
 
 const portfolioHome = process.env.NODE_ENV === "development" ?
-    "http://localhost:3000" : "https://idontchop.com/portfolio-prototype";
+    "http://localhost:3000" : "https://idontchop.com/portfolio";
 
 const buildHeaders = (method, type, formData) => {
 
