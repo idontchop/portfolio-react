@@ -164,7 +164,9 @@ class GuestBook extends React.Component {
         console.log("fetching " + id)
         try {
             let guest = await PortfolioApi.getJson('guestBook', id);
-            let i = this.state.data.findIndex ( e => e.id === id );
+            console.log(this.state.data);
+            let i = this.state.data.findIndex ( e => e.id == id );
+            console.log(guest,i);
 
              this.setState ( prevState => {
                 let newGuestBook = [...prevState.data];
