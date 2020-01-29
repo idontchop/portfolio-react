@@ -6,6 +6,18 @@ import PortfolioApi from './lib/PortfolioApi.js';
 import PortfolioSocket from './lib/PortfolioSocket';
 import Loading from './Components/Loading';
 
+/**
+ * stores the number of profiles to display based on screen width
+ */
+const numToDisplay = [
+    [360, 4],
+    [600, 4],
+    [768, 3],
+    [992, 4],
+    [1200, 5],
+    [1900, 6]
+]
+
 const GuestBookWrapper = styled.div`
     display: block;  
     text-align: left;
@@ -102,12 +114,11 @@ class GuestBook extends React.Component {
 
         this.state = {isLoading: true };
         
-        if (window.innerWidth < 600)
-            this.state.displayAmount = 4;    // number of profiles to display
-        else this.state.displayAmount = 6;
+        this.state.displayAmount = 
+            numToDisplay.filter ( i => window.innerWidth < i[0])
+            .reduce ( (a,b) =>  (a[0] < b[0]) ? a : b  )[1];
 
-
-
+            console.log(this.state.displayAmount);
         this.loadGuestBook();
     }
 

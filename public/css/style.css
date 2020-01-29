@@ -94,6 +94,13 @@
     font-family: "Roboto", Arial, Helvetica, sans-serif;
 }
 
+.sectionBody h3 {
+    margin: 1.5em;
+    font-family: "Roboto", Arial, Helvetica, sans-serif;
+    font-size: 1.5em;
+    
+}
+
 .videoContainer {
     z-index: -9;
     position: relative;
