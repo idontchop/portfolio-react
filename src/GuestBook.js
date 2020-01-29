@@ -118,10 +118,6 @@ class GuestBook extends React.Component {
             [{route: '/topic/updateUser', callback: (message) => this.updateGuest(message.body)}
             ]);
 
-        let p = new URLSearchParams(window.location.search);          
-
-        console.log(p.get('token'));
-
     }
 
     /**
