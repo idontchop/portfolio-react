@@ -58,7 +58,7 @@ const App = (props) => {
         
         {JSON.stringify(ob._embedded.messageThreads)}
         {ob._embedded.messageThreads.map( e => (
-            <MessageThreadHead {...e} />
+            <MessageThreadHead key={e.created} {...e} />
         ))}
         <button onClick={() => contact(1)}>Contact Nate!</button>
       </div>}
