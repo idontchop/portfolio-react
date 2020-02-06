@@ -67,8 +67,18 @@ const buildParams = (params) => {
     return paramsString;
 }
 
-const buildUrlWithPathParam = (pathParam) => {
-    return pathParam + "/";
+/**
+ * If passed a full url, this does nothing, otherwise
+ * returns the default url if no argument
+ * if argument doens't start with http, returns default
+ * url plus the argument path
+ * 
+ * @param {full url or path ext} pathParam 
+ */
+const buildUrlWithPathParam = (pathParam = portfolioChatUrl) => {
+    
+    return (pathParam.startsWith("http:") ) ? 
+            pathParam : portfolioChatUrl + pathParam + '/';
 }
 
 /**
@@ -91,10 +101,11 @@ const PortfolioChatApi = {
     // for retrieving data (profile, guestbook)
     getJson: async (pathParam, params) => {
 
-        let url = portfolioChatUrl;
-
+        let url;
         if (!!pathParam) {
-            url += buildUrlWithPathParam(pathParam);
+            url = buildUrlWithPathParam(pathParam);
+        } else {
+            url = portfolioChatUrl;
         }
 
         if (!!params) {
@@ -120,9 +131,11 @@ const PortfolioChatApi = {
     // for updating profile
     putForm: async (pathParam, formData, method = 'put') => {
 
-        let url = portfolioChatUrl;
+        let url;
         if (!!pathParam) {
-            url += buildUrlWithPathParam(pathParam);
+            url = buildUrlWithPathParam(pathParam);
+        } else {
+            url = portfolioChatUrl;
         }
 
         let response = await fetch ( 

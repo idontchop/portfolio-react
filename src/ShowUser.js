@@ -5,6 +5,7 @@ import RegisterForm from './Components/RegisterForm';
 import styled, { keyframes } from 'styled-components';
 import PortfolioApi from './lib/PortfolioApi.js';
 import Loading from './Components/Loading.js';
+import ChatApp from './Chat/App';
 
 const UserWrapperDiv = styled.div`
     background-color: rgb(134,136,139,.6);
@@ -345,6 +346,7 @@ class ShowUser extends React.Component {
     }
 
     render() {
+        console.log(this.props, this.state);
         
         // handle button text
         let publishButtonText = !!this.state.user && this.state.user.publish === true ?
@@ -367,6 +369,7 @@ class ShowUser extends React.Component {
         else return ( // logged in
             
             <UserWrapperDiv >
+                <ChatApp user={this.state.user} />
                 <div className={"row"}>
                     <FormDiv className={"col-md-5"}>
                         <PortfolioImageCrop className={"col"}

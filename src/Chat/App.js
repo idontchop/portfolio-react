@@ -2,14 +2,17 @@ import React, {useState, useEffect} from 'react';
 import PortfolioChatApi from './lib/PortfolioChatApi.js';
 import styled from 'styled-components';
 import MessageThreadHead from './Components/MessageThreadHead.js';
+import PropTypes from 'prop-types';
 
 const ChatDiv = styled.div`
     position: fixed;
     border: 2px black solid;
     background-color: white;
     display: inline-block;
+    max-width: 360px;
     top: 200px;
     left: 0px;
+    z-index: 9;
 `;
 
 /**
@@ -55,15 +58,18 @@ const App = (props) => {
      <ChatDiv>
       {!!loading && <div>loading</div>}
       {!loading && <div>
-        
-        {JSON.stringify(ob._embedded.messageThreads)}
+    
         {ob._embedded.messageThreads.map( e => (
-            <MessageThreadHead key={e.created} {...e} />
+            <MessageThreadHead user={props.user} key={e.created} {...e} />
         ))}
         <button onClick={() => contact(1)}>Contact Nate!</button>
       </div>}
     </ChatDiv>
     );
   }
+
+  App.propTypes = {
+      user: PropTypes.object.isRequired
+  };
   
   export default App;
