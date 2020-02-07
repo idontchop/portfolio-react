@@ -11,10 +11,21 @@ const memberBorder = '10px 10px 1px 10px';
 
 // Message Wrapper (chat bubble)
 const MessageWrapper = styled.div`
-    background-color: rgb(${props => props.isUser ? userColor : memberColor },.6);
+    
     margin: 3px 15px;
     padding: 2px;
-    border-radius: ${props => props.isUser ? userBorder:memberBorder};
+    display: block;
+    text-align: ${props=> props.isUser ? 'left' : 'right'};
+    
+
+    p {
+        font-size: 0.85em;
+        display: inline-block;
+        padding: 5px 10px;
+        margin: 0;
+        border-radius: ${props => props.isUser ? userBorder:memberBorder};
+        background-color: rgb(${props => props.isUser ? userColor : memberColor },.6);
+    }
 `;
 /**
  * Displays the cascaded divs of messages in a messagethread.
@@ -66,8 +77,6 @@ const MessageThread = (props) => {
             </MessageWrapper>
         </div>
     ));
-
-    console.log(props.user)
 
     return (
         <div>

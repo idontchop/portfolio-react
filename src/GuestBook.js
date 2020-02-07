@@ -124,8 +124,6 @@ class GuestBook extends React.Component {
 
     componentDidMount () {
 
-        
-
         // Register sockets for updates to user profiles and new users
         PortfolioSocket.register ( 
             [{route: '/topic/updateUser', callback: (message) => this.updateGuest(message.body)}

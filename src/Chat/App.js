@@ -3,6 +3,7 @@ import PortfolioChatApi from './lib/PortfolioChatApi.js';
 import styled from 'styled-components';
 import MessageThreadHead from './Components/MessageThreadHead.js';
 import PropTypes from 'prop-types';
+import PortfolioChatSocket from './lib/PortfolioChatSocket';
 
 const ChatDiv = styled.div`
     position: fixed;
@@ -29,8 +30,17 @@ const App = (props) => {
     const [messageThreads, setThreads] = useState({});
     const [loading, setLoading] = useState(true);
 
+    // memberNameData holds the display name of a user
+    // it is set and managed by getMemberName()
+    // getMemberName looks through this when called with an id
+    // if not found, uses the passed in function call meant to 
+    // call an api
+    const memberNameData = {};
+    // holds JSX elements corresponding to chat head
+    // managed by getMemberDisplay
+    const memberDisplayData = {};
 
-    const gg = async () => {
+    const getThreads = async () => {
         let obj = await PortfolioChatApi.getJson("messageThreads");
         setOb(obj)
         setLoading(false)
@@ -48,8 +58,17 @@ const App = (props) => {
         }
     }
 
+    // Componenent Did Mount
     useEffect ( () => {
-        gg();
+        
+        // get threads from api
+        getThreads();
+
+        // register ourselves /secured/user/queue/specific-thread
+        PortfolioChatSocket.register ( 
+            [{route: '/secured/user', callback: (message) => console.log(message)}
+            ]);
+
     }, [])
    
 

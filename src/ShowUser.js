@@ -346,7 +346,6 @@ class ShowUser extends React.Component {
     }
 
     render() {
-        console.log(this.props, this.state);
         
         // handle button text
         let publishButtonText = !!this.state.user && this.state.user.publish === true ?
