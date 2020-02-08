@@ -80,7 +80,6 @@ const App = (props) => {
         // get threads from api
         getThreads();
 
-
         PortfolioChatSocket.subscribe ( 
             {route: '/secured/user', callback: (frame) => incomingNewMessage(frame) }
             );

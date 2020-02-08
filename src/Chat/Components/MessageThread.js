@@ -78,16 +78,19 @@ const MessageThread = (props) => {
 
     }, []);
 
-    // build messages
-    let Messages = messages.map ( e => (
-        <div key={e.created}>
-            <MessageWrapper isUser={e.sender.name === props.user.username}>
-                <p>{e.content}
-                <span>by {e.sender.name === props.user.username ? 'You' : e.sender.name}</span>
-                </p>
-            </MessageWrapper>
-        </div>
-    ));
+    useEffect ( () => {
+
+        // build messages
+        let Messages = messages.map ( e => (
+            <div key={e.created}>
+                <MessageWrapper isUser={e.sender.name === props.user.username}>
+                    <p>{e.content}
+                    <span>by {e.sender.name === props.user.username ? 'You' : e.sender.name}</span>
+                    </p>
+                </MessageWrapper>
+            </div>
+        ));
+    })
 
     return (
         <div>
