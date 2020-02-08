@@ -27,6 +27,7 @@ const ChatDiv = styled.div`
 const App = (props) => {
 
     const [ob, setOb] = useState({});
+    const [newMessages, setNewMessages] = useState([]);
     const [messageThreads, setThreads] = useState({});
     const [loading, setLoading] = useState(true);
 
@@ -58,20 +59,34 @@ const App = (props) => {
         }
     }
 
+    const incomingNewMessage = (frame) => {
+        
+        if (!! frame.body ) {
+            
+            let message = JSON.parse(frame.body);
+            if ( !! message.messageThread ) {
+
+                // Found messageThread, properly formatted message
+                // push to state
+                console.log(message);
+                setNewMessages ( prevState => [...prevState,message]);
+            }
+        }
+    }
+
     // Componenent Did Mount
     useEffect ( () => {
         
         // get threads from api
         getThreads();
 
-        // register ourselves /secured/user/queue/specific-thread
-        PortfolioChatSocket.register ( 
-            [{route: '/secured/user', callback: (message) => console.log(message)}
-            ]);
+
+        PortfolioChatSocket.subscribe ( 
+            {route: '/secured/user', callback: (frame) => incomingNewMessage(frame) }
+            );
 
     }, [])
    
-
 
     return (
      <ChatDiv>
@@ -79,7 +94,7 @@ const App = (props) => {
       {!loading && <div>
     
         {ob._embedded.messageThreads.map( e => (
-            <MessageThreadHead user={props.user} key={e.created} {...e} />
+            <MessageThreadHead user={props.user} newMessages={newMessages} key={e.created} {...e} />
         ))}
         <button onClick={() => contact(1)}>Contact Nate!</button>
       </div>}

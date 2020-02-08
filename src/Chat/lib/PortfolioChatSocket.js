@@ -20,28 +20,51 @@ const buildStompHeader = () => {
     return bheaders;
     
 }
+
+
 const PortfolioChatSocket = {
 
+    
     register: (registrations) => {
         const socket = SockJS(portfolioChatUrl + '/socket');
-        const stompClient = Stomp.over(socket);
-        stompClient.connect ( buildStompHeader(),
+        PortfolioChatSocket.stompClient = Stomp.over(socket);
+        PortfolioChatSocket.stompClient.reconnect_delay = 5000;
+        PortfolioChatSocket.stompClient.connect ( buildStompHeader(),
             (frame) => {
-                
+                console.log("STOMP Connected in register", frame);
                 registrations.forEach ( (r) => {
-                    stompClient.subscribe( r.route, r.callback);
-                    let url = stompClient.ws._transport.url;
+                    PortfolioChatSocket.stompClient.subscribe( r.route, r.callback);
+                    let url = PortfolioChatSocket.stompClient.ws._transport.url;
                     console.log(url);
                     url = url.replace(
                         "ws://localhost:8080/portfolioChat/socket/",  "");
                       url = url.replace("/websocket", "");
                       url = url.replace(/^[0-9]+\//, "");
                       console.log(url);
-                    stompClient.subscribe('/secured/user/queue/specific-user-user' + url,
+                      PortfolioChatSocket.stompClient.subscribe('/secured/user/queue/specific-user-user' + url,
                     r.callback);
                 });
 
             });
+
+    },
+    subscribe: (r) => {
+        const socket = SockJS(portfolioChatUrl + '/socket');
+        const stompClient = Stomp.over(socket);
+        stompClient.reconnect_delay = 5000;
+        stompClient.connect ( buildStompHeader(), 
+            (frame) => {
+            console.log("STOMP Connected in Subscribe", frame);
+            let url = stompClient.ws._transport.url;
+            url = url.replace(
+                "ws://localhost:8080/portfolioChat/socket/",  "");
+              url = url.replace("/websocket", "");
+              url = url.replace(/^[0-9]+\//, "");
+              stompClient.subscribe('/secured/user/queue/specific-user-user' + url,
+            r.callback);
+        })
+
+        PortfolioChatSocket.stompClient = stompClient;
 
     }
 }

@@ -4,10 +4,11 @@ import MessageThread from './MessageThread';
 
 const ms = (props) => {
 
+    console.log(props)
     return (
         <div>
         {!props.memberIds && <div>loading</div>}
-        {!!props._links && <MessageThread user={props.user} {...props._links.messages} />}
+        {!!props._links && <MessageThread user={props.user} {...props._links} />}
         </div>
     )
 }

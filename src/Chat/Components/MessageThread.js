@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import PortfolioChatApi from '../lib/PortfolioChatApi';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import PortfolioChatSocket from '../lib/PortfolioChatSocket.js'
 
 // css for styling chat bubbles
 const userColor = '134,136,139';
@@ -44,18 +45,28 @@ const MessageThread = (props) => {
     let [messages, setMessages] = useState([]);
     let [isLoading, setLoading] = useState(true);
 
+    let getThreadId = (props) => {
+
+    }
+
     /**
+     * Component Did Mount
+     * 
      * API call, fills state with messages for supplied messagethread href
+     * 
+     * Build socket listener for new messages to this thread.
      */
     useEffect(  () =>  {
 
         let msgObj;
 
+        console.log("MessageThread: ", props.href);
+
         // load messages
         ( async () => {
             try {
 
-                msgObj = await PortfolioChatApi.getJson(props.href);
+                msgObj = await PortfolioChatApi.getJson(props.messages.href);
 
                 setMessages(msgObj._embedded.messages);
                 setLoading(false);
@@ -90,7 +101,7 @@ const MessageThread = (props) => {
 
 MessageThread.propTypes = {
     user: PropTypes.object.isRequired,
-    href: PropTypes.string.isRequired
+    messages: PropTypes.object.isRequired
 }
 
 export default MessageThread;
