@@ -8,7 +8,9 @@ const ms = (props) => {
     return (
         <div>
         {!props.memberIds && <div>loading</div>}
-        {!!props._links && <MessageThread user={props.user} {...props._links} />}
+        {!!props._links && 
+            <MessageThread user={props.user} 
+                newMessages={props.newMessages} {...props._links} />}
         </div>
     )
 }

@@ -45,8 +45,12 @@ const MessageThread = (props) => {
     let [messages, setMessages] = useState([]);
     let [isLoading, setLoading] = useState(true);
 
-    let getThreadId = (props) => {
-
+    /**
+     * Finds thread id from passed props
+     * will be in an href under self
+     */
+    let getThreadId = () => {
+        return parseInt(props.self.href.match(/\d*$/g)[0]);
     }
 
     /**
@@ -59,8 +63,6 @@ const MessageThread = (props) => {
     useEffect(  () =>  {
 
         let msgObj;
-
-        console.log("MessageThread: ", props.href);
 
         // load messages
         ( async () => {
@@ -78,10 +80,41 @@ const MessageThread = (props) => {
 
     }, []);
 
+    /**
+     * Component Did Update
+     * 
+     * Combines messages state with newMessages props
+     * 
+     */
     useEffect ( () => {
 
-        // build messages
-        let Messages = messages.map ( e => (
+        
+
+    });
+
+
+
+    // build messages
+    const buildMessages = (m,nm) => {
+
+        // adds newMessages from props to a new array
+        // that is concated with our state messages
+        let mm = m;
+        if ( nm !== undefined) {
+            mm = m.concat(
+                nm.reduce ( (mt, nm) => {
+                    console.log(nm.messageThread.id, getThreadId(), nm.messageThread.id === getThreadId());
+                    if ( nm.messageThread.id === getThreadId()) {
+                        mt.push(nm);
+                        console.log("reduce")
+                    }
+                    return mt;
+                }, [])
+            );
+        }
+
+        // maps the new array to UI
+        return mm.map ( e => (
             <div key={e.created}>
                 <MessageWrapper isUser={e.sender.name === props.user.username}>
                     <p>{e.content}
@@ -90,13 +123,14 @@ const MessageThread = (props) => {
                 </MessageWrapper>
             </div>
         ));
-    })
+    }
+
 
     return (
         <div>
             {isLoading && <div>Loading...</div>}
             {!isLoading && messages.length === 0 ? <div>No Messages...</div>: <div></div>}
-            <div>{Messages}</div>
+            <div>{buildMessages(messages, props.newMessages )}</div>
         </div>
     )
 
