@@ -3,6 +3,7 @@ import PortfolioChatApi from '../lib/PortfolioChatApi';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import PortfolioChatSocket from '../lib/PortfolioChatSocket.js'
+import NewMessageForm from './NewMessageForm';
 
 // css for styling chat bubbles
 const userColor = '134,136,139';
@@ -10,6 +11,11 @@ const memberColor = '131,124,139';
 const userBorder = '10px 10px 10px 1px';
 const memberBorder = '10px 10px 1px 10px';
 
+// wraps whole window, goal is to lift it from bottom
+const ThreadWrapper = styled.div`
+    margin-bottom: 20px;
+
+`;
 // Message Wrapper (chat bubble)
 const MessageWrapper = styled.div`
     
@@ -130,7 +136,8 @@ const MessageThread = (props) => {
         <div>
             {isLoading && <div>Loading...</div>}
             {!isLoading && messages.length === 0 ? <div>No Messages...</div>: <div></div>}
-            <div>{buildMessages(messages, props.newMessages )}</div>
+            <ThreadWrapper>{buildMessages(messages, props.newMessages )}</ThreadWrapper>
+            <div><NewMessageForm /></div>
         </div>
     )
 

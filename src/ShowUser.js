@@ -366,9 +366,10 @@ class ShowUser extends React.Component {
                 </UserWrapperDiv>
             );
         else return ( // logged in
-            
+            <div>
+            <ChatApp user={this.state.user} />
             <UserWrapperDiv >
-                <ChatApp user={this.state.user} />
+                
                 <div className={"row"}>
                     <FormDiv className={"col-md-5"}>
                         <PortfolioImageCrop className={"col"}
@@ -405,6 +406,7 @@ class ShowUser extends React.Component {
                 </div>
 
             </UserWrapperDiv>
+            </div>
             
         )
     }
