@@ -52,7 +52,8 @@ const App = (props) => {
             let formData = new FormData();
             formData.append("id",id);
             let obj2 = await PortfolioChatApi.postForm("newThread",formData);
-            console.log(obj2);
+            
+            getThreads();
 
         } catch (err) {
             console.log(err)
@@ -95,7 +96,8 @@ const App = (props) => {
         {ob._embedded.messageThreads.map( e => (
             <MessageThreadHead user={props.user} newMessages={newMessages} key={e.created} {...e} />
         ))}
-        <button onClick={() => contact(1)}>Contact Nate!</button>
+        {ob._embedded.messageThreads.length === 0 &&
+            <button onClick={() => contact(1)}>Contact Nate! (testing)</button>}
       </div>}
     </ChatDiv>
     );

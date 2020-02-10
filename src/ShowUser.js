@@ -163,6 +163,7 @@ class ShowUser extends React.Component {
             userData = await PortfolioApi.getJson('user');
             PortfolioApi.setToken(userData.tokenValue);     // refreshes token with new expiration
             this.setState({user: userData, loggedIn: true});
+            console.log("loaduser",this.state.user);
 
         } catch (err) {
             
@@ -268,9 +269,8 @@ class ShowUser extends React.Component {
                 // successful if registration is form (login) or reponse doesn't include registration (new)
                 PortfolioApi.setToken(responseData.tokenValue);
                 
-                this.loadProfile();
-                this.loadProfilePic();
-                this.setState({loggedIn: true});
+                this.loadUser();
+
             } else throw Error({"error": "login credential mismatch", errorMessage: "weird lol tampering?"});
 
         } catch (err) {            
@@ -350,7 +350,7 @@ class ShowUser extends React.Component {
         // handle button text
         let publishButtonText = !!this.state.user && this.state.user.publish === true ?
             'Unpublish' : 'Publish';
-        //console.log(this.state)
+        console.log(this.state)
 
         if ( this.state.isLoading ) // loading
             return <Loading size="small" />

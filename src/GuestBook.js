@@ -183,10 +183,10 @@ class GuestBook extends React.Component {
     }
 
     render () {
-        //console.log (this.state);
+        console.log (this.state);
         return (
             <CenterDiv>
-            <GuestBookWrapper >                
+            <GuestBookWrapper > 
             { this.state.isLoading && <Loading />}
             {!this.state.isLoading && this.state.data
                 .filter ( visitor => visitor.publish )  // publish could have false if user unpublishes
@@ -216,10 +216,6 @@ class GuestBook extends React.Component {
             
             </GuestBookWrapper>
 
-            
-
-            
-            
             </CenterDiv>
         );
 

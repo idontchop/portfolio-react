@@ -1,7 +1,10 @@
 import Stomp from 'stompjs';
 
 const portfolioChatUrl = process.env.NODE_ENV === "development" ?
-"http://localhost:8080/portfolioChat" : "http://localhost:8080/portfolioChat";
+"http://localhost:8080/portfolioChat" : "https://idontchop.com/portfolioChat/";
+
+const wsChatUrl = process.env.NODE_ENV === "development" ?
+"ws://localhost:8080/portfolioChat/socket/" : "https://idontchop.com/portfolioChat//socket/";
 
 const SockJS = require('sockjs-client');
 
@@ -37,7 +40,7 @@ const PortfolioChatSocket = {
                     let url = PortfolioChatSocket.stompClient.ws._transport.url;
                     console.log(url);
                     url = url.replace(
-                        "ws://localhost:8080/portfolioChat/socket/",  "");
+                        wsChatUrl,  "");
                       url = url.replace("/websocket", "");
                       url = url.replace(/^[0-9]+\//, "");
                       console.log(url);
@@ -56,8 +59,9 @@ const PortfolioChatSocket = {
             (frame) => {
             console.log("STOMP Connected in Subscribe", frame);
             let url = stompClient.ws._transport.url;
+            console.log(url);
             url = url.replace(
-                "ws://localhost:8080/portfolioChat/socket/",  "");
+                wsChatUrl,  "");
               url = url.replace("/websocket", "");
               url = url.replace(/^[0-9]+\//, "");
               stompClient.subscribe('/secured/user/queue/specific-user-user' + url,

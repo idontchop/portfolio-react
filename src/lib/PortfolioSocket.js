@@ -10,7 +10,6 @@ const PortfolioSocket = {
     register: (registrations) => {
         const socket = SockJS(portfolioUrl + '/socket');
         const stompClient = Stomp.over(socket);
-        stompClient.debug = null;
         stompClient.connect ( {},
             (frame) => {
                 registrations.forEach ( (r) => {

@@ -112,7 +112,6 @@ const MessageThread = (props) => {
                     console.log(nm.messageThread.id, getThreadId(), nm.messageThread.id === getThreadId());
                     if ( nm.messageThread.id === getThreadId()) {
                         mt.push(nm);
-                        console.log("reduce")
                     }
                     return mt;
                 }, [])
@@ -137,7 +136,7 @@ const MessageThread = (props) => {
             {isLoading && <div>Loading...</div>}
             {!isLoading && messages.length === 0 ? <div>No Messages...</div>: <div></div>}
             <ThreadWrapper>{buildMessages(messages, props.newMessages )}</ThreadWrapper>
-            <div><NewMessageForm /></div>
+            <div><NewMessageForm threadId={getThreadId()}/></div>
         </div>
     )
 

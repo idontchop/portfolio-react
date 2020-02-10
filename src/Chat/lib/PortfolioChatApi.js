@@ -1,6 +1,6 @@
 
 const portfolioChatUrl = process.env.NODE_ENV === "development" ?
-"http://localhost:8080/portfolioChat/" : "http://localhost:8080/portfolioChat";
+"http://localhost:8080/portfolioChat/" : "https://idontchop.com/portfolioChat/";
 
 /**
  * 
@@ -77,7 +77,7 @@ const buildParams = (params) => {
  */
 const buildUrlWithPathParam = (pathParam = portfolioChatUrl) => {
     
-    return (pathParam.startsWith("http:") ) ? 
+    return (pathParam.startsWith("http") ) ? 
             pathParam : portfolioChatUrl + pathParam + '/';
 }
 
@@ -146,7 +146,7 @@ const PortfolioChatApi = {
                 })
 
         if ( !checkResponse(response) ) {
-            throw Error({'error': response.status, 'errorMessage': "Error putting"})
+            throw Error({'error': response.status, 'errorMessage': `Error ${method}ting - ${url}`})
         }
 
         return await getPayload(response,'json').catch ( (err) => {
