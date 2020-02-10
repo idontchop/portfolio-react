@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef, useLayoutEffect } from 'react';
 import PortfolioChatApi from '../lib/PortfolioChatApi';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import PortfolioChatSocket from '../lib/PortfolioChatSocket.js'
 import NewMessageForm from './NewMessageForm';
 
 // css for styling chat bubbles
@@ -13,7 +12,24 @@ const memberBorder = '10px 10px 1px 10px';
 
 // wraps whole window, goal is to lift it from bottom
 const ThreadWrapper = styled.div`
-    margin-bottom: 20px;
+    width: inherit;
+    height: inherit;
+    max-width: inherit;
+    max-height: inherit;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    clear: both;
+    max-height: ${window.innerHeight * .58}px;
+`;
+
+const MessagesWrapper = styled.div`
+    overflow-Y: scroll;
+    width: 100%;
+    height: 80%;
+    max-height: 80%;
+    display: flex;
+    flex-direction: column;
 
 `;
 // Message Wrapper (chat bubble)
@@ -21,9 +37,8 @@ const MessageWrapper = styled.div`
     
     margin: 3px 15px;
     padding: 2px;
-    display: block;
+
     text-align: ${props=> props.isUser ? 'left' : 'right'};
-    
 
     p {
         font-size: 0.85em;
@@ -51,6 +66,7 @@ const MessageThread = (props) => {
     let [messages, setMessages] = useState([]);
     let [isLoading, setLoading] = useState(true);
 
+    const scrollNode = useRef();
     /**
      * Finds thread id from passed props
      * will be in an href under self
@@ -78,6 +94,8 @@ const MessageThread = (props) => {
 
                 setMessages(msgObj._embedded.messages);
                 setLoading(false);
+                
+
 
             } catch (err) {
                 console.log("Unable to load: ", err, msgObj, props.href);
@@ -94,11 +112,20 @@ const MessageThread = (props) => {
      */
     useEffect ( () => {
 
-        
+    
 
     });
 
+    /**
+        Updates to scroll bar on every redraw
+     */
+    useLayoutEffect ( () => {
+        if ( !!scrollNode && !!scrollNode.current) {
+            console.log("scrolltop:", scrollNode.current.scrollTop);
+            scrollNode.current.scrollTop = scrollNode.current.scrollHeight;
+        }    
 
+    })
 
     // build messages
     const buildMessages = (m,nm) => {
@@ -130,15 +157,19 @@ const MessageThread = (props) => {
         ));
     }
 
-
-    return (
-        <div>
-            {isLoading && <div>Loading...</div>}
-            {!isLoading && messages.length === 0 ? <div>No Messages...</div>: <div></div>}
-            <ThreadWrapper>{buildMessages(messages, props.newMessages )}</ThreadWrapper>
-            <div><NewMessageForm threadId={getThreadId()}/></div>
+    if (isLoading) {
+        return <div>Loading...</div>
+    } else if (!isLoading && messages.length === 0 ) {
+        return <div>No Messages...</div>
+    } else return (
+        <div style={{height: 'inherit', width: 'inherit', maxHeight: 'inherit', maxWidth: 'inherit'}}>
+            <ThreadWrapper>
+                <MessagesWrapper ref={scrollNode}>{buildMessages(messages, props.newMessages )}</MessagesWrapper>
+                <NewMessageForm threadId={getThreadId()}/>
+            </ThreadWrapper>
+            
         </div>
-    )
+        )
 
 }
 

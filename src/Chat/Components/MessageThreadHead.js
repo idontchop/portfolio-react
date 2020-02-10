@@ -4,9 +4,9 @@ import MessageThread from './MessageThread';
 
 const ms = (props) => {
 
-    console.log(props)
+    
     return (
-        <div>
+        <div style={{height: 'inherit', width: 'inherit', maxHeight: 'inherit', maxWidth: 'inherit'}}>
         {!props.memberIds && <div>loading</div>}
         {!!props._links && 
             <MessageThread user={props.user} 

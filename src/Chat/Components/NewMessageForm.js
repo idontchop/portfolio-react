@@ -4,7 +4,7 @@ import PortfolioChatApi from '../lib/PortfolioChatApi';
 
 const MessageInput = styled.textarea`
     font-size: 0.7em;
-    display: inline-block;
+    display: flex;
     width: 100%;
     height: 17px;
     max-height: 50px;
@@ -13,8 +13,9 @@ const MessageInput = styled.textarea`
     line-height: 1em;
     overflow: hidden;
     border: 1 solid #86888D;
-    position: absolute;
-    bottom: 0;
+    position: relative;
+    bottom: 0px;
+    left: 0;
     border-radius: 2px;
     
 `;
@@ -60,7 +61,7 @@ const NewMessageForm = (props) => {
         let formData = new FormData();
         formData.append("content", messageContent);
         try {
-            await PortfolioChatApi.postForm(`newTextMessage/${props.threadId}`, formData)
+            await PortfolioChatApi.postForm(`${PATHEXT + props.threadId}`, formData)
         } catch (err) {
             console.log(err);
         }
