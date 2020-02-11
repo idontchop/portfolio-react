@@ -78,7 +78,7 @@ const buildParams = (params) => {
 const buildUrlWithPathParam = (pathParam = portfolioChatUrl) => {
     
     return (pathParam.startsWith("http") ) ? 
-            pathParam : portfolioChatUrl + pathParam + '/';
+            pathParam : portfolioChatUrl + pathParam;
 }
 
 /**

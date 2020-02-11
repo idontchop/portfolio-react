@@ -117,7 +117,6 @@ class ShowUser extends React.Component {
 
     async componentDidMount () {
 
-
         if ( this.state.isLoading ) {
             await this.loadUser();
         }
@@ -345,6 +344,31 @@ class ShowUser extends React.Component {
         )
     }
 
+    /**
+     * Returns JSX chat bubble for use with supplied chat app. Chat app
+     * will call this function to get proper bubble.
+     * @param {id of user} id 
+     */
+    async buildChatBubble (id) {
+
+        let chatBubbleData = await PortfolioApi.getJson ('guestBook', id);
+
+
+        let ChatBubbleStyled = styled.img `
+            border-radius: 50%;
+            border: 1px solid black;
+            width: 45px;
+            height: 45px;
+        `;
+
+        let chatBubble = 
+        (<ChatBubbleStyled src={`${this.props.portfolioUrl}/image/${!!chatBubbleData.media[0] ? chatBubbleData.media[0].id + "?" + chatBubbleData.media[0].created : ""}`} />
+        )
+
+        return chatBubble;
+
+    }
+
     render() {
         
         // handle button text
@@ -367,7 +391,8 @@ class ShowUser extends React.Component {
             );
         else return ( // logged in
             <div>
-            <ChatApp user={this.state.user} />
+            <ChatApp user={this.state.user} chatBubbleCallBack={ (id) => this.buildChatBubble(id) } />
+            
             <UserWrapperDiv >
                 
                 <div className={"row"}>

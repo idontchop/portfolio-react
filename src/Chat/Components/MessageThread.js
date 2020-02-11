@@ -12,19 +12,27 @@ const memberBorder = '10px 10px 1px 10px';
 
 // wraps whole window, goal is to lift it from bottom
 const ThreadWrapper = styled.div`
-    width: inherit;
+    width: 350px;
+    border-radius: 4px;
+    border: solid 3px rgba(134,136,139,.2);
+    box-shadow: 0px 0px 0px 5px rgba(134,136,139,.5);
     height: inherit;
     max-width: inherit;
     max-height: inherit;
+    background-color: white;
     overflow: hidden;
     display: flex;
     flex-direction: column;
     clear: both;
+    position: relative;
+    left: 50px;
+    padding: 3px;
     max-height: ${window.innerHeight * .58}px;
 `;
 
 const MessagesWrapper = styled.div`
-    overflow-Y: scroll;
+    overflow-Y: auto;
+    overflow-X: wrap;
     width: 100%;
     height: 80%;
     max-height: 80%;
@@ -35,18 +43,20 @@ const MessagesWrapper = styled.div`
 // Message Wrapper (chat bubble)
 const MessageWrapper = styled.div`
     
-    margin: 3px 15px;
-    padding: 2px;
+    margin: 0px 3px 10px 3px;
+    padding: ${props=> props.isUser ? '0px 0px 0px 6px' : '0px 6px 0px 0px'};
 
-    text-align: ${props=> props.isUser ? 'left' : 'right'};
+    text-align: ${props=> props.isUser ? 'right' : 'left'};
 
     p {
-        font-size: 0.85em;
+        font-size: 0.75em;
         display: inline-block;
         padding: 5px 10px;
         margin: 0;
-        border-radius: ${props => props.isUser ? userBorder:memberBorder};
-        background-color: rgb(${props => props.isUser ? userColor : memberColor },.6);
+        word-wrap: break-word;
+        word-break: break-all;
+        border-radius: ${props => props.isUser ? memberBorder:userBorder};
+        background-color: rgb(${props => props.isUser ? memberColor : userColor },.6);
     }
 `;
 /**
@@ -80,19 +90,21 @@ const MessageThread = (props) => {
      * 
      * API call, fills state with messages for supplied messagethread href
      * 
-     * Build socket listener for new messages to this thread.
+     * TODO: Pages
      */
     useEffect(  () =>  {
 
+        const messagesByThreadUrl = 
+        `messages/search/findAllSince?date=01/01/2019&id=${getThreadId()}`;
         let msgObj;
 
         // load messages
         ( async () => {
             try {
 
-                msgObj = await PortfolioChatApi.getJson(props.messages.href);
+                msgObj = await PortfolioChatApi.getJson(messagesByThreadUrl);
 
-                setMessages(msgObj._embedded.messages);
+                setMessages(msgObj._embedded.messages.reverse());
                 setLoading(false);
                 
 
@@ -121,11 +133,21 @@ const MessageThread = (props) => {
      */
     useLayoutEffect ( () => {
         if ( !!scrollNode && !!scrollNode.current) {
-            console.log("scrolltop:", scrollNode.current.scrollTop);
             scrollNode.current.scrollTop = scrollNode.current.scrollHeight;
         }    
 
     })
+
+    /**
+     * Primarily solves goal to display new lines
+     */
+    const content = (c) => {
+
+        return c.split('\n').map (( item, i ) => {
+            return <span style={{display: "block"}} key={i}>{item}</span>
+        })
+
+    }
 
     // build messages
     const buildMessages = (m,nm) => {
@@ -136,7 +158,6 @@ const MessageThread = (props) => {
         if ( nm !== undefined) {
             mm = m.concat(
                 nm.reduce ( (mt, nm) => {
-                    console.log(nm.messageThread.id, getThreadId(), nm.messageThread.id === getThreadId());
                     if ( nm.messageThread.id === getThreadId()) {
                         mt.push(nm);
                     }
@@ -149,8 +170,7 @@ const MessageThread = (props) => {
         return mm.map ( e => (
             <div key={e.created}>
                 <MessageWrapper isUser={e.sender.name === props.user.username}>
-                    <p>{e.content}
-                    <span>by {e.sender.name === props.user.username ? 'You' : e.sender.name}</span>
+                    <p>{content(e.content)}
                     </p>
                 </MessageWrapper>
             </div>

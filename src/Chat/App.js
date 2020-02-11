@@ -8,8 +8,7 @@ import PortfolioChatSocket from './lib/PortfolioChatSocket';
 const ChatDiv = styled.div`
     position: fixed;
     padding: 2px;
-    border: 2px black solid;
-    background-color: white;
+    background-opacity: 0;
     display: inline-block;
     max-width: 360px;
     bottom: 40%;
@@ -96,7 +95,7 @@ const App = (props) => {
       {!loading && 
     
         ob._embedded.messageThreads.map( e => (
-            <MessageThreadHead user={props.user} newMessages={newMessages} key={e.created} {...e} />
+            <MessageThreadHead user={props.user} chatBubbleCallBack={props.chatBubbleCallBack} newMessages={newMessages} key={e.created} {...e} />
         ))}
         {!loading && ob._embedded.messageThreads.length === 0 &&
             <button onClick={() => contact(1)}>Contact Nate! (testing)</button>}

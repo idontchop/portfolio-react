@@ -6,7 +6,7 @@ const MessageInput = styled.textarea`
     font-size: 0.7em;
     display: flex;
     width: 100%;
-    height: 17px;
+    height: 19px;
     max-height: 50px;
     max-width: 100%;
     resize: none;
@@ -43,33 +43,44 @@ const NewMessageForm = (props) => {
     // Handles text area growth
     const handleKeyDown = (e) => {
 
-        console.log(e.target.scrollHeight, e.target.style.height);
-        let newHeight = (e.key === 'Enter') ? 15 : 0;
-        newHeight += e.target.scrollHeight + 2; // scroll height always 2 less
-        e.target.style.height = `${newHeight}px`;
+        // if key pressed is Enter without shift, do a submit
+        if ( !e.shiftKey && e.key === 'Enter' ) {
+            handleSubmit(e);
+        } else { // else handle scroll height
+            let newHeight = (e.shiftKey && e.key === 'Enter') ? 19 : 0;
+            newHeight += e.target.scrollHeight + 2; // scroll height always 2 less
+            e.target.style.height = `${newHeight}px`;
+        }
 
     }
 
-    const onChange = (e) => {
+    const onChange =  (e) => {
+
         setMessageContent(e.target.value);
+        if (e.target.value === "")
+            e.target.style.height = `19px`;
     }
 
     // Submit new message
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        let formData = new FormData();
-        formData.append("content", messageContent);
-        try {
-            await PortfolioChatApi.postForm(`${PATHEXT + props.threadId}`, formData)
-        } catch (err) {
-            console.log(err);
+        if ( messageContent !== "") {
+
+            let formData = new FormData();
+            formData.append("content", messageContent);
+            try {
+                await PortfolioChatApi.postForm(`${PATHEXT + props.threadId}`, formData)
+                setMessageContent("");
+            } catch (err) {
+                console.log(err);
+            }
         }
     }
 
     return (
         <form>
-            <div className="container">
+            <div style={{padding: "3px 2px"}} className="container">
                 <div className="row no-gutters">
                     <div className="col-11">
                         <MessageInput value={messageContent} onChange={onChange} onKeyDown={handleKeyDown}/>
