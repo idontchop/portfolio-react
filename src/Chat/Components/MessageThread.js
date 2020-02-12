@@ -25,7 +25,8 @@ const ThreadWrapper = styled.div`
     flex-direction: column;
     clear: both;
     position: relative;
-    left: 50px;
+    left: 65px;
+    bottom: 50px;
     padding: 3px;
     max-height: ${window.innerHeight * .58}px;
 `;
@@ -59,6 +60,8 @@ const MessageWrapper = styled.div`
         background-color: rgb(${props => props.isUser ? memberColor : userColor },.6);
     }
 `;
+
+
 /**
  * Displays the cascaded divs of messages in a messagethread.
  * Expects to receive the expanded data from a spring rest call
@@ -166,29 +169,31 @@ const MessageThread = (props) => {
             );
         }
 
+        // if no messages
+        if ( mm.length === 0 ) 
+            return <p>No Messages</p>
         // maps the new array to UI
         return mm.map ( e => (
-            <div key={e.created}>
-                <MessageWrapper isUser={e.sender.name === props.user.username}>
-                    <p>{content(e.content)}
-                    </p>
-                </MessageWrapper>
-            </div>
+            <MessageWrapper key={e.created} isUser={e.sender.name === props.user.username}>
+                <p>{content(e.content)}
+                </p>
+            </MessageWrapper>
         ));
     }
 
     if (isLoading) {
         return <div>Loading...</div>
-    } else if (!isLoading && messages.length === 0 ) {
-        return <div>No Messages...</div>
     } else return (
-        <div style={{height: 'inherit', width: 'inherit', maxHeight: 'inherit', maxWidth: 'inherit'}}>
+        <>
             <ThreadWrapper>
-                <MessagesWrapper ref={scrollNode}>{buildMessages(messages, props.newMessages )}</MessagesWrapper>
+                <MessagesWrapper ref={scrollNode}>
+                    {buildMessages(messages, props.newMessages )}
+                    {props.children}
+                </MessagesWrapper>
                 <NewMessageForm threadId={getThreadId()}/>
             </ThreadWrapper>
             
-        </div>
+        </>
         )
 
 }

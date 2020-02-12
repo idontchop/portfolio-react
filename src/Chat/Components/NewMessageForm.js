@@ -47,9 +47,12 @@ const NewMessageForm = (props) => {
         if ( !e.shiftKey && e.key === 'Enter' ) {
             handleSubmit(e);
         } else { // else handle scroll height
+            let scrollDiff = e.target.offsetHeight - e.target.scrollHeight;
+            if (scrollDiff < 0 || scrollDiff > 4 ) scrollDiff = 4;
             let newHeight = (e.shiftKey && e.key === 'Enter') ? 19 : 0;
-            newHeight += e.target.scrollHeight + 2; // scroll height always 2 less
+            newHeight += e.target.scrollHeight + scrollDiff; // scroll height always 2 less
             e.target.style.height = `${newHeight}px`;
+            console.log(e.target.style.height);
         }
 
     }
@@ -57,7 +60,7 @@ const NewMessageForm = (props) => {
     const onChange =  (e) => {
 
         setMessageContent(e.target.value);
-        if (e.target.value === "")
+        if (e.target.value === "" && e.target.style.height !== `19px`)
             e.target.style.height = `19px`;
     }
 
@@ -80,7 +83,7 @@ const NewMessageForm = (props) => {
 
     return (
         <form>
-            <div style={{padding: "3px 2px"}} className="container">
+            <div style={{padding: "3px 2px", border: "solid 1px black"}} className="container">
                 <div className="row no-gutters">
                     <div className="col-11">
                         <MessageInput value={messageContent} onChange={onChange} onKeyDown={handleKeyDown}/>

@@ -364,7 +364,7 @@ class ShowUser extends React.Component {
         let chatBubble = 
         (<ChatBubbleStyled src={`${this.props.portfolioUrl}/image/${!!chatBubbleData.media[0] ? chatBubbleData.media[0].id + "?" + chatBubbleData.media[0].created : ""}`} />
         )
-
+        console.log("chat bubble ran")
         return chatBubble;
 
     }

@@ -12,7 +12,17 @@ const Ms = (props) => {
 
     const BubbleButton = styled.button`
         background: none;
-        border: none;
+        border: ${props => props.expanded ? 'solid green 4px' : 'none'};
+        border-radius: 50%;
+        padding: 0;
+    `;
+
+    // close X, sits to upper right
+    const CloseButton = styled.button`
+        background: rgba(134,136,139, 0.4);
+        position: absolute;
+        padding: 0px 1px;
+
     `;
 
     useEffect ( () => {
@@ -21,7 +31,8 @@ const Ms = (props) => {
             !!props.memberNames && 
             chatBubbleLoading &&
             setBubble ( await props.chatBubbleCallBack(props.memberNames[1]) )
-            && setChatBubbleLoading(false);
+            if (chatBubble !== <></>)
+                setChatBubbleLoading(false);
         })();
 
     }, []);
@@ -29,11 +40,16 @@ const Ms = (props) => {
     return (
         <div style={{height: 'inherit', width: 'inherit', maxHeight: 'inherit', maxWidth: 'inherit'}}>
         {!props.memberIds && <div>loading</div>}
-        {!!props.memberIds && 
-            <BubbleButton onClick={ () => setExpanded(!expanded) }>{chatBubble}</BubbleButton>}
+        {!!props.memberIds &&     
+            <BubbleButton onClick={ () => setExpanded(!expanded) } expanded={expanded}>
+                {chatBubbleLoading ? <div>{props.memberNames[1]}</div> : chatBubble}
+                </BubbleButton> }
         {!!props._links && expanded && 
             <MessageThread user={props.user} 
-                newMessages={props.newMessages} {...props._links} />}
+                newMessages={props.newMessages} {...props._links} >
+            <CloseButton onClick= { () => setExpanded(false)}>&#8617;</CloseButton>
+            </MessageThread>}
+        
         </div>
     )
 }
