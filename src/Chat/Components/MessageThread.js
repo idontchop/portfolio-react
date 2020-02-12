@@ -105,6 +105,7 @@ const MessageThread = (props) => {
         ( async () => {
             try {
 
+                console.log("loading", getThreadId())
                 msgObj = await PortfolioChatApi.getJson(messagesByThreadUrl);
 
                 setMessages(msgObj._embedded.messages.reverse());

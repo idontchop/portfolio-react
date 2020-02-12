@@ -76,6 +76,15 @@ const App = (props) => {
         }
     }
 
+    const newMessagesProp = (reset = false) => {
+        if ( reset ) {
+            setNewMessages([]); // called by message thread head when hidden
+            return [];
+        } else {
+            return newMessages;
+        }
+    }
+
     // Componenent Did Mount
     useEffect ( () => {
         
@@ -88,14 +97,14 @@ const App = (props) => {
 
     }, [])
    
-
     return (
      <ChatDiv>
       {!!loading && <div>loading</div>}
       {!loading && 
     
         ob._embedded.messageThreads.map( e => (
-            <MessageThreadHead user={props.user} chatBubbleCallBack={props.chatBubbleCallBack} newMessages={newMessages} key={e.created} {...e} />
+            <MessageThreadHead user={props.user} chatBubbleCallBack={props.chatBubbleCallBack} 
+            newMessages={(r) => newMessagesProp(r)} key={e.created} {...e} />
         ))}
         {!loading && ob._embedded.messageThreads.length === 0 &&
             <button onClick={() => contact(1)}>Contact Nate! (testing)</button>}

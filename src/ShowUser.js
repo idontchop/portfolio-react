@@ -351,21 +351,31 @@ class ShowUser extends React.Component {
      */
     async buildChatBubble (id) {
 
-        let chatBubbleData = await PortfolioApi.getJson ('guestBook', id);
+        try {
+            let chatBubbleData = await PortfolioApi.getJson ('guestBook', id);
 
 
-        let ChatBubbleStyled = styled.img `
-            border-radius: 50%;
-            border: 1px solid black;
-            width: 45px;
-            height: 45px;
-        `;
+            let ChatBubbleStyled = styled.img `
+                border-radius: 50%;
+                border: 1px solid black;
+                width: 45px;
+                height: 45px;
+            `;
 
-        let chatBubble = 
-        (<ChatBubbleStyled src={`${this.props.portfolioUrl}/image/${!!chatBubbleData.media[0] ? chatBubbleData.media[0].id + "?" + chatBubbleData.media[0].created : ""}`} />
-        )
-        console.log("chat bubble ran")
-        return chatBubble;
+            
+
+            let chatBubble = 
+            (<ChatBubbleStyled src={`${this.props.portfolioUrl}/image/${!!chatBubbleData.media[0] ? chatBubbleData.media[0].id + "?" + chatBubbleData.media[0].created : ""}`} />
+            )
+            console.log("chat bubble ran")
+
+            return chatBubble;
+
+        } catch (err) {
+            console.log("Caught error Chat Bubble", err, id);
+        }
+
+        return <div>?</div>;
 
     }
 

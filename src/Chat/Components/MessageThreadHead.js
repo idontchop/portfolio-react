@@ -36,6 +36,14 @@ const Ms = (props) => {
         })();
 
     }, []);
+
+    useEffect ( () => {
+        console.log("expanded hook")
+        if (!expanded) {
+            console.log("false")
+            props.newMessages(true);
+        }
+    }, [expanded])
     
     return (
         <div style={{height: 'inherit', width: 'inherit', maxHeight: 'inherit', maxWidth: 'inherit'}}>
@@ -46,7 +54,7 @@ const Ms = (props) => {
                 </BubbleButton> }
         {!!props._links && expanded && 
             <MessageThread user={props.user} 
-                newMessages={props.newMessages} {...props._links} >
+                newMessages={props.newMessages()} {...props._links} >
             <CloseButton onClick= { () => setExpanded(false)}>&#8617;</CloseButton>
             </MessageThread>}
         
