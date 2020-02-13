@@ -125,7 +125,6 @@ const PortfolioChatApi = {
             throw err;
         })
     },
-
     // unused, but sends data as post
     postForm: (pathParam, formData) => PortfolioChatApi.putForm(pathParam, formData, 'post'),
     // for updating profile

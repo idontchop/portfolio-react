@@ -31,6 +31,7 @@ const App = (props) => {
     const [newMessages, setNewMessages] = useState([]);
     const [messageThreads, setThreads] = useState({});
     const [loading, setLoading] = useState(true);
+    const [numNewMessages, setNumNewMessage] = useState([]);
 
     // memberNameData holds the display name of a user
     // it is set and managed by getMemberName()
@@ -42,10 +43,35 @@ const App = (props) => {
     // managed by getMemberDisplay
     const memberDisplayData = {};
 
+    // receives message thread object and extracts server id of thread
+    let getThreadId = (mt) => {
+        return parseInt(mt._links.self.href.match(/\d*$/g)[0]);
+    }
+
+    // Counts number of new messages on server
+    const countNumNewMessages =  (messageThreads) => {
+
+        
+        messageThreads.forEach ( async (mt) => {
+            let nm = {};
+            let t = await PortfolioChatApi.getJson('unSeen/' + getThreadId(mt));
+            nm[getThreadId(mt)] = parseInt(t['num']);
+            setNumNewMessage ( prevState => {
+                prevState.push(nm);
+                return prevState;
+            });
+        })
+
+  
+
+    }
+
     const getThreads = async () => {
         let obj = await PortfolioChatApi.getJson("messageThreads");
         setOb(obj)
         setLoading(false)
+        console.log(obj);
+        countNumNewMessages(obj._embedded.messageThreads);
     }
 
     const contact = async (id) => {
@@ -76,10 +102,39 @@ const App = (props) => {
         }
     }
 
-    const newMessagesProp = (reset = false) => {
+    /**
+     * This is called when message threads are expanded and collaspsed. Handles
+     * the new messages object.
+     * 
+     * @param {} reset true if newMessages should be reset
+     * @param {*} thread 
+     */
+    const newMessagesProp = (reset = false, threadId) => {
+
+        console.log(threadId)
+
         if ( reset ) {
-            setNewMessages([]); // called by message thread head when hidden
+
+            // reset new messages and tell API messages are read
+            setNewMessages( prevState => {
+                let newState = [];
+                prevState.forEach ( m => {
+                    if (m.id !== threadId ) {
+                        // remove messages that are part of passed in thread id
+                        newState.push(m);
+                    }                    
+                })
+
+                return newState;
+            }); // called by message thread head when hidden
+
+            try {
+                PortfolioChatApi.putForm('seenThread/' + threadId, new FormData());
+            } catch (err) {
+                console.log("Caught error updating seenThread", err);
+            }
             return [];
+
         } else {
             return newMessages;
         }
@@ -104,7 +159,8 @@ const App = (props) => {
     
         ob._embedded.messageThreads.map( e => (
             <MessageThreadHead user={props.user} chatBubbleCallBack={props.chatBubbleCallBack} 
-            newMessages={(r) => newMessagesProp(r)} key={e.created} {...e} />
+            newMessages={(r,id) => newMessagesProp(r,id)} key={e.created} {...e}
+            numNewMessages={getThreadId(e)} />
         ))}
         {!loading && ob._embedded.messageThreads.length === 0 &&
             <button onClick={() => contact(1)}>Contact Nate! (testing)</button>}
