@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import MessageThreadHead from './Components/MessageThreadHead.js';
 import PropTypes from 'prop-types';
 import PortfolioChatSocket from './lib/PortfolioChatSocket';
+import Stomp from 'stompjs';
 
 const ChatDiv = styled.div`
     position: fixed;
@@ -97,7 +98,6 @@ const App = (props) => {
      * @param {} frame 
      */
     const incomingNewMessage = (frame) => {
-        console.log(loading, ob, numNewMessages, newMessages);
 
         if (!! frame.body ) {
             
@@ -108,20 +108,33 @@ const App = (props) => {
                 // push to state
                 //console.log(message, ob);
                 updateNumNewMessage(message.messageThread.id);
-                setNewMessages ( prevState => [...prevState,message]);
                 
-                console.log("prevstate")
+                
+                // ran into problem here with scope of stomp's callback, should
+                // dig into why it's creating a new object.
+                // Perhaps Stomp calls will simply need to use stateful components
+                // Went too big on this functional component
+                // For now, this hack will work, checks the ob state to see if 
+                // this message thread exists. Sets a flag to run getThreads()
+                // if necessary
+                let getNewThreads = false;
                 setOb ( prevState => {
-                    console.log(prevState);
+                    if (prevState._embedded.messageThreads.length === 0 ||
+                        !prevState._embedded.messageThreads.some ( (m) => message.messageThread.id === getThreadId(m) ) ) {
+                        getNewThreads = true; 
+                    }
+    
                     return prevState;
                 })
 
-                // we are simply trying to know if we should call getThreads or not
-                //if (ob._embedded.messageThreads.length === 0 ||
-                //    ob._embedded.messageThreads.some ( (m) => message.messageThread.id === getThreadId(m) ) ) {
-                //        // we don't have this thread, so probably need to refetch
-                //        getThreads();
-                //}
+                // either get new threads from servers which will include messages
+                // or update new messages state
+                if (getNewThreads) {
+                    getThreads();
+                } else {
+                    setNewMessages ( prevState => [...prevState,message]);
+                }
+                
             }
         }
     }
@@ -171,15 +184,15 @@ const App = (props) => {
     }
 
     // Componenent Did Mount
-    useEffect ( function ()  {
+    useEffect (  () => {
 
         /*
         How do we solve this? TODO
         */
         PortfolioChatSocket.subscribe ( 
-            {route: '/secured/user', callback: incomingNewMessage }
+            {route: '/secured/user', callback: incomingNewMessage.bind(this) }
             );
-
+        
         // get threads from api
         getThreads();
 
