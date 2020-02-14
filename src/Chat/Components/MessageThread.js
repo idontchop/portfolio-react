@@ -159,7 +159,8 @@ const MessageThread = (props) => {
         // adds newMessages from props to a new array
         // that is concated with our state messages
         let mm = m;
-        if ( nm !== undefined) {
+        console.log(nm);
+        if ( nm !== undefined ) {
             mm = m.concat(
                 nm.reduce ( (mt, nm) => {
                     if ( nm.messageThread.id === getThreadId()) {

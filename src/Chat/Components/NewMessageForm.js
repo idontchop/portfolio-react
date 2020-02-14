@@ -83,7 +83,7 @@ const NewMessageForm = (props) => {
 
     return (
         <form>
-            <div style={{padding: "3px 2px", border: "solid 1px black"}} className="container">
+            <div style={{padding: "3px 2px"}} className="container">
                 <div className="row no-gutters">
                     <div className="col-11">
                         <MessageInput value={messageContent} onChange={onChange} onKeyDown={handleKeyDown}/>

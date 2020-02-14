@@ -66,6 +66,7 @@ const PortfolioChatSocket = {
               url = url.replace(/^[0-9]+\//, "");
               stompClient.subscribe('/secured/user/queue/specific-user-user' + url,
             r.callback);
+            console.log(r.callback)
         })
 
         PortfolioChatSocket.stompClient = stompClient;

@@ -19,22 +19,26 @@ const Ms = (props) => {
 
     // close X, sits to upper right
     const CloseButton = styled.button`
-        background: rgba(134,136,139, 0.4);
+        background: rgba(166, 129, 129, 0.9);
         position: absolute;
-        padding: 0px 1px;
+        left: -2px;
+        top: -2px;
+        padding: 1px 3px;
+        border-radius: 7px 0 0 0;
     `;
 
     const NewMessagesDiv = styled.div`
         background-color: rgba(166, 129, 129);
-        display: block;
-        position: absolute;
-        bottom: -2px;
-        left: 35px;
+        display: inline-block;
+        position: relative;
+        bottom: -13px;
+        right: 10px;
         border: 1px solid black;
         border-radius: 5px;
 
         p {
             font-size: 0.6em;
+            font-weight: bold;
             color: white;
             padding: 2px;
             margin: 1px;
@@ -58,6 +62,7 @@ const Ms = (props) => {
                 if ( props.user.username === props.memberNames[1]) {
                     bubbleIndex = 0;
                 }
+                console.log("setBubble")
                 setBubble ( await props.chatBubbleCallBack(props.memberNames[bubbleIndex]) )
             }
             if (chatBubble !== <></>)
@@ -66,7 +71,7 @@ const Ms = (props) => {
 
     }, []);
 
-    // Can't use effect here because of api call
+    // Can't use effect here because of initial api call
     const collaspeExpand = (newExpanded) => {
         setExpanded(newExpanded);
 
@@ -76,7 +81,6 @@ const Ms = (props) => {
         }
     }
     
-    console.log(props)
     return (
         <div style={{height: 'inherit', width: 'inherit', maxHeight: 'inherit', maxWidth: 'inherit'}}>
         {!props.memberIds && <div>loading</div>}
