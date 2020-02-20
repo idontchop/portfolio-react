@@ -140,7 +140,7 @@ const MessageThread = (props) => {
 
     const handleScrollUp = (e) => {
 
-        console.log("fire", isScrollTop)
+        console.log("fire", isScrollTop, e.target.scrollTop)
         if ( e.target.scrollTop === 0 && !isScrollTop ) {
             
             setScrollTop(true);
@@ -151,7 +151,7 @@ const MessageThread = (props) => {
             setScrollBottom(true);
             setScrollTop(false);
         } else {
-
+            setScrollBottom(false)
         }
 
     }
@@ -207,11 +207,16 @@ const MessageThread = (props) => {
 
             scrollNode.current.scrollTop = scrollNode.current.scrollHeight;
 
-        } else if ( !!scrollNode && !!scrollNode.current ) {
+        } else if ( isScrollTop && !!scrollNode && !!scrollNode.current ) {
             console.log("layout effect t", page, scrollNode.current.scrollTop)
             // just keep it off the top
-            scrollNode.current.scrollTop = 1;
+            scrollNode.current.scrollTop = 350;
 
+        } else if (scrollNode && scrollNode.current) {
+            console.log("layout effect wala", page, scrollNode.current.scrollTop)
+            if ( scrollNode.current.scrollTop === 0) {
+                scrollNode.current.scrollTop = 350;
+            }
         }
 
         // if not first page, user has scrolled up, so we will 

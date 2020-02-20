@@ -1,32 +1,41 @@
-import React,{useState} from 'react';
+import React,{useState, useRef} from 'react';
 import styled from 'styled-components';
 import PortfolioChatApi from '../lib/PortfolioChatApi';
+
+const userColor = '134,136,139';
 
 const MessageInput = styled.textarea`
     font-size: 0.7em;
     display: flex;
     width: 100%;
-    height: 19px;
+    height: 23px;
     max-height: 50px;
     max-width: 100%;
     resize: none;
     line-height: 1em;
     overflow: hidden;
-    border: 1 solid #86888D;
+    border: 0;
+    background-color: rgba(${userColor}, 0.2);
     position: relative;
     bottom: 0px;
     left: 0;
     border-radius: 2px;
+    padding: 5px 15px 2px 4px;
+
+    &:focus {
+        outline: 0;
+    }
     
 `;
 
 const MessageButton = styled.button`
     font-size: 0.7em;
-    border: white 2px solid;
+    border: 0;
+    background-color: Transparent;
     display: inline-block;
     position: absolute;
     bottom: 0;
-    left: 2px;
+    right: 1px;
 `;
 
 //added to api url + thread number
@@ -40,6 +49,7 @@ const MAXINPUTHEIGHT = 50;
 const NewMessageForm = (props) => {
     
     const [messageContent, setMessageContent] = useState("");
+    const messageInput = useRef();
 
     // Handles text area growth
     const handleKeyDown = (e) => {
@@ -50,7 +60,7 @@ const NewMessageForm = (props) => {
         } else { // else handle scroll height
             let scrollDiff = e.target.offsetHeight - e.target.scrollHeight;
             if (scrollDiff < 0 || scrollDiff > 4 ) scrollDiff = 4;
-            let newHeight = (e.shiftKey && e.key === 'Enter') ? 19 : 0;
+            let newHeight = (e.shiftKey && e.key === 'Enter') ? 23 : 0;
             newHeight += e.target.scrollHeight + scrollDiff; // scroll height always 2 less
             e.target.style.height = `${newHeight}px`;
             console.log(e.target.style.height);
@@ -61,8 +71,8 @@ const NewMessageForm = (props) => {
     const onChange =  (e) => {
 
         setMessageContent(e.target.value);
-        if (e.target.value === "" && e.target.style.height !== `19px`)
-            e.target.style.height = `19px`;
+        if (e.target.value === "" && e.target.style.height !== `23px`)
+            e.target.style.height = `23px`;
     }
 
     // Submit new message
@@ -76,6 +86,12 @@ const NewMessageForm = (props) => {
             try {
                 await PortfolioChatApi.postForm(`${PATHEXT + props.threadId}`, formData)
                 setMessageContent("");
+                
+                // reset text area and focus
+                if ( messageInput && messageInput.current ) {
+                    messageInput.current.style.height = `23px`;
+                    messageInput.current.focus()
+                }
             } catch (err) {
                 console.log(err);
             }
@@ -83,11 +99,26 @@ const NewMessageForm = (props) => {
     }
 
     return (
+        <div style={{position: "relative", marginTop: "2px"}}>
         <form>
-            <div style={{padding: "3px 2px"}} className="container">
+            <MessageInput 
+                value={messageContent} 
+                onChange={onChange} onKeyDown={handleKeyDown}
+                ref={messageInput} />
+            <MessageButton onClick={handleSubmit}>></MessageButton>
+        </form>
+        </div>
+
+    );
+
+    /*
+    return (
+        <form>
+            <div className="container">
                 <div className="row no-gutters">
                     <div className="col-11">
-                        <MessageInput value={messageContent} onChange={onChange} onKeyDown={handleKeyDown}/>
+                        <MessageInput value={messageContent} onChange={onChange} onKeyDown={handleKeyDown} />
+                        
                     </div>
                     <div className="col-1">
                         <MessageButton onClick={handleSubmit}>></MessageButton>
@@ -95,7 +126,7 @@ const NewMessageForm = (props) => {
                 </div>
             </div>
         </form>
-    );
+    );*/
 }
 
 export default NewMessageForm;
