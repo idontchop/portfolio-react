@@ -23,7 +23,7 @@ const BubbleButton = styled.button`
 const CloseButton = styled.button`
     background: rgba(166, 129, 129, 0.9);
     position: absolute;
-    left: -2px;
+    left: -5px;
     top: -2px;
     padding: 1px 3px;
     border-radius: 7px 0 0 0;
@@ -33,8 +33,8 @@ const NewMessagesDiv = styled.div`
     background-color: rgba(166, 129, 129);
     display: inline-block;
     position: absolute;
-    top: -8px;
-    left: -10px;
+    top: 0px;
+    left: 20px;
     border: 1px solid black;
     border-radius: 5px;
 

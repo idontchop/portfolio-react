@@ -120,7 +120,7 @@ const App = (props) => {
                 // Found messageThread, properly formatted message
                 // push to state
                 //console.log(message, ob);
-                //updateNumNewMessage(message.messageThread.id);
+                updateNumNewMessage(message.messageThread.id);
                 
                 
                 // ran into problem here with scope of stomp's callback, should

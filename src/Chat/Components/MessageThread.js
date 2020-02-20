@@ -22,6 +22,7 @@ const ThreadWrapper = styled.div`
     overflow: hidden;
     display: flex;
     flex-direction: column;
+    position: relative;
     clear: both;
     padding: 3px;
     max-height: ${window.innerHeight * .38}px;
@@ -35,6 +36,7 @@ const MessagesWrapper = styled.div`
     max-height: 80%;
     display: flex;
     flex-direction: column;
+    position: relative;
 
 `;
 // Message Wrapper (chat bubble)
@@ -271,8 +273,9 @@ const MessageThread = (props) => {
             <MessagesWrapper ref={scrollNode} onScroll={ (e) => handleScrollUp(e)}>
                 {isScrollTop && <p>{"Loading"}</p>}
                 {buildMessages(messages, props.newMessages )}
-                {props.children}
+                
             </MessagesWrapper>
+            {props.children}
             <NewMessageForm threadId={getThreadId()}/>
         </ThreadWrapper>
         )
