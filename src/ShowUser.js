@@ -374,13 +374,15 @@ class ShowUser extends React.Component {
 
             let chatDivStyle = {
                 width: "150px",
-                maxWidth: "150px"
+                maxWidth: "150px",
+                display: "inline-block"
             }
+
             let chatBubble = 
             (<div style={chatDivStyle}>
                 <img src={`${this.props.portfolioUrl}/image/${!!chatBubbleData.media[0] ? chatBubbleData.media[0].id + "?" + chatBubbleData.media[0].created : ""}`}
                 style={chatBubbleImgStyle} />
-                {` ` + chatBubbleData.name}
+            {` ` + chatBubbleData.name}
             </div>
             )
             console.log("chat bubble ran")

@@ -12,7 +12,7 @@ const memberBorder = '10px 10px 1px 10px';
 
 // wraps whole window, goal is to lift it from bottom
 const ThreadWrapper = styled.div`
-    width: 350px;
+    width: 320px;
     border-radius: 4px;
     white-space: normal;
     height: inherit;
@@ -75,6 +75,16 @@ const MessageThread = (props) => {
     let [messages, setMessages] = useState([]);
     let [isLoading, setLoading] = useState(true);
 
+    // handles scroll back load
+    // total pages to know when end is reached, sets to one at first so it tries to load
+    // page is the next page to be loaded
+    let [totalPages, setTotalPages] = useState(1);
+    let [page, setPage] = useState(0);
+
+    let [isScrollTop, setScrollTop] = useState(false);
+    let [isScrollBottom, setScrollBottom] = useState(true);
+    let [lastScrollHeight, setLastScrollHeight] = useState(0);
+
     const scrollNode = useRef();
     /**
      * Finds thread id from passed props
@@ -84,17 +94,20 @@ const MessageThread = (props) => {
         return parseInt(props.self.href.match(/\d*$/g)[0]);
     }
 
-    /**
-     * Component Did Mount
-     * 
-     * API call, fills state with messages for supplied messagethread href
-     * 
-     * TODO: Pages
-     */
-    useEffect(  () =>  {
+    const loadPage = () => {
+
+        if ( page === totalPages ) {
+
+            // end of messages on server, layout flag
+            setScrollTop(false);
+            
+        } else {
 
         const messagesByThreadUrl = 
-        `messages/search/findAllSince?date=01/01/2019&id=${getThreadId()}`;
+        `messages/search/findAllSince?date=01/01/2019&id=${getThreadId()}&`+
+        `page=${page}`;
+
+        console.log(messagesByThreadUrl)
         let msgObj;
 
         // load messages
@@ -104,13 +117,54 @@ const MessageThread = (props) => {
                 console.log("loading", getThreadId())
                 msgObj = await PortfolioChatApi.getJson(messagesByThreadUrl);
 
-                setMessages(msgObj._embedded.messages.reverse());
+                setMessages( prevMessages => 
+                    [...msgObj._embedded.messages.reverse(), ...prevMessages ] 
+                );
+
+                // layout flags
                 setLoading(false);
+                setScrollTop(false);
+
+                // update page selection for next pull
+                setPage ( prevPage => prevPage + 1 );
+                setTotalPages(msgObj.page.totalPages);
                 
             } catch (err) {
                 console.log("Unable to load: ", err, msgObj, props.href);
             }
         })();
+
+        }
+
+    }
+
+    const handleScrollUp = (e) => {
+
+        console.log("fire", isScrollTop)
+        if ( e.target.scrollTop === 0 && !isScrollTop ) {
+            
+            setScrollTop(true);
+            setLastScrollHeight(e.target.clientHeight - 1);            
+            setScrollBottom(false);
+            loadPage();
+        } else if ( (e.target.scrollTop === (e.target.scrollHeight - e.target.offsetHeight)) && !isScrollBottom ) {
+            setScrollBottom(true);
+            setScrollTop(false);
+        } else {
+
+        }
+
+    }
+
+    /**
+     * Component Did Mount
+     * 
+     * API call, fills state with messages for supplied messagethread href
+     * 
+     */
+    useEffect(  () =>  {
+
+        loadPage();
 
     }, []);
 
@@ -122,17 +176,45 @@ const MessageThread = (props) => {
      */
     useEffect ( () => {
 
-    
-
     });
+
+
 
     /**
         Updates to scroll bar on every redraw
+        Mainly want to keep it from hugging top and redraw to bottom
+        on initial page load
      */
     useLayoutEffect ( () => {
-        if ( !!scrollNode && !!scrollNode.current) {
+
+        /*
+        complicated?
+
+        If we receive a new message and scroll was on bottom:
+            keep scroll to bottom
+        
+        If user is scrolled up:
+            leave scroll on same spot if new messages arrive
+
+        If user scrolled to top:
+            Retrieve new messages but leave user on same spot
+
+        */
+
+        // stick to bottom if scroll is somewhat close
+        if ( isScrollBottom && !!scrollNode && !!scrollNode.current) {
+            console.log("layout effect b", page, scrollNode.current.scrollTop)
+
             scrollNode.current.scrollTop = scrollNode.current.scrollHeight;
-        }    
+
+        } else if ( !!scrollNode && !!scrollNode.current ) {
+            console.log("layout effect t", page, scrollNode.current.scrollTop)
+            // just keep it off the top
+            scrollNode.current.scrollTop = 1;
+
+        }
+
+        // if not first page, user has scrolled up, so we will 
 
     })
 
@@ -180,16 +262,14 @@ const MessageThread = (props) => {
     if (isLoading) {
         return <div>Loading... (message thread)...</div>
     } else return (
-        <div>
-            <ThreadWrapper>
-                <MessagesWrapper ref={scrollNode}>
-                    {buildMessages(messages, props.newMessages )}
-                    {props.children}
-                </MessagesWrapper>
-                <NewMessageForm threadId={getThreadId()}/>
-            </ThreadWrapper>
-            
-        </div>
+        <ThreadWrapper>
+            <MessagesWrapper ref={scrollNode} onScroll={ (e) => handleScrollUp(e)}>
+                {isScrollTop && <p>{"Loading"}</p>}
+                {buildMessages(messages, props.newMessages )}
+                {props.children}
+            </MessagesWrapper>
+            <NewMessageForm threadId={getThreadId()}/>
+        </ThreadWrapper>
         )
 
 }

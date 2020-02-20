@@ -4,41 +4,47 @@ import MessageThread from './MessageThread';
 import styled from 'styled-components';
 
 const BubbleButton = styled.button`
-background: white;
-border: ${props => props.expanded ? 'solid white 4px' : 'solid white 4px'};        
-padding: 0;
-width: 100%;
-display: inline-block;
-position relative;
-overflow: hidden;
+    background: white;
+    border: ${props => props.expanded ? 'solid white 4px' : 'solid white 4px'};        
+    padding: 0;
+    width: 100%;
+    display: inline-block;
+    position relative;
+    overflow: hidden;
+    outline: 0;
+    text-align: center;
+
+    &:focus {
+        outline: 0;
+    }
 `;
 
 // close X, sits to upper right
 const CloseButton = styled.button`
-background: rgba(166, 129, 129, 0.9);
-position: absolute;
-left: -2px;
-top: -2px;
-padding: 1px 3px;
-border-radius: 7px 0 0 0;
+    background: rgba(166, 129, 129, 0.9);
+    position: absolute;
+    left: -2px;
+    top: -2px;
+    padding: 1px 3px;
+    border-radius: 7px 0 0 0;
 `;
 
 const NewMessagesDiv = styled.div`
-background-color: rgba(166, 129, 129);
-display: inline-block;
-position: absolute;
-top: -8px;
-left: -10px;
-border: 1px solid black;
-border-radius: 5px;
+    background-color: rgba(166, 129, 129);
+    display: inline-block;
+    position: absolute;
+    top: -8px;
+    left: -10px;
+    border: 1px solid black;
+    border-radius: 5px;
 
-p {
-    font-size: 0.6em;
-    font-weight: bold;
-    color: white;
-    padding: 2px;
-    margin: 1px;
-}
+    p {
+        font-size: 0.6em;
+        font-weight: bold;
+        color: white;
+        padding: 2px;
+        margin: 1px;
+    }
 `;
 
 
