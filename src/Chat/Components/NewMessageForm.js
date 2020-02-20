@@ -75,7 +75,7 @@ const NewMessageForm = (props) => {
             formData.append("content", messageContent);
             try {
                 await PortfolioChatApi.postForm(`${PATHEXT + props.threadId}`, formData)
-                //setMessageContent("");
+                setMessageContent("");
             } catch (err) {
                 console.log(err);
             }

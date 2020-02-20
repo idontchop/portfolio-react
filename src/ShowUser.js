@@ -354,23 +354,34 @@ class ShowUser extends React.Component {
         try {
             let chatBubbleData = await PortfolioApi.getJson ('guestBook', id);
 
+/*
 
             let ChatBubbleStyled = styled.img `
                 border-radius: 50%;
                 border: 1px solid black;
                 width: 45px;
                 height: 45px;
-            `;
+            `;*/
 
-            let ChatDiv = styled.div`
-                width: 150px;
-                max-width: 150px;
-            `;
+            let chatBubbleImgStyle = {
+                borderRadius: "50%",
+                border: "1px solid black",
+                width: "45px",
+                height: "45px"
+            }
+
+
+
+            let chatDivStyle = {
+                width: "150px",
+                maxWidth: "150px"
+            }
             let chatBubble = 
-            (<ChatDiv>
-            <ChatBubbleStyled src={`${this.props.portfolioUrl}/image/${!!chatBubbleData.media[0] ? chatBubbleData.media[0].id + "?" + chatBubbleData.media[0].created : ""}`} />
-            {` ` + chatBubbleData.name}
-            </ChatDiv>
+            (<div style={chatDivStyle}>
+                <img src={`${this.props.portfolioUrl}/image/${!!chatBubbleData.media[0] ? chatBubbleData.media[0].id + "?" + chatBubbleData.media[0].created : ""}`}
+                style={chatBubbleImgStyle} />
+                {` ` + chatBubbleData.name}
+            </div>
             )
             console.log("chat bubble ran")
 
