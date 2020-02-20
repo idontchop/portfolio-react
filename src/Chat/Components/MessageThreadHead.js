@@ -10,11 +10,15 @@ const Ms = (props) => {
     const [chatBubble, setBubble] = useState(<></>);
     const [chatBubbleLoading, setChatBubbleLoading] = useState(true);
 
+
     const BubbleButton = styled.button`
-        background: none;
-        border: ${props => props.expanded ? 'solid green 4px' : 'none'};
-        border-radius: 50%;
+        background: white;
+        border: ${props => props.expanded ? 'solid white 4px' : 'solid white 4px'};        
         padding: 0;
+        width: 100%;
+        display: inline-block;
+        position relative;
+        overflow: hidden;
     `;
 
     // close X, sits to upper right
@@ -30,9 +34,9 @@ const Ms = (props) => {
     const NewMessagesDiv = styled.div`
         background-color: rgba(166, 129, 129);
         display: inline-block;
-        position: relative;
-        bottom: -13px;
-        right: 10px;
+        position: absolute;
+        top: -8px;
+        left: -10px;
         border: 1px solid black;
         border-radius: 5px;
 
@@ -50,6 +54,7 @@ const Ms = (props) => {
     }
 
     useEffect ( () => {
+        
         
         // gets the chat user circle
         (async () => {
@@ -74,29 +79,31 @@ const Ms = (props) => {
     // Can't use effect here because of initial api call
     const collaspeExpand = (newExpanded) => {
         setExpanded(newExpanded);
+        console.log("collaspeexpand")
 
         // chat box was collapsed.
         if ( !newExpanded ) {
-            props.newMessages(true, getThreadId() );
+            props.newMessagesCallback(true, getThreadId() );
         }
     }
     
+
     return (
-        <div style={{height: 'inherit', width: 'inherit', maxHeight: 'inherit', maxWidth: 'inherit'}}>
-        {!props.memberIds && <div>loading</div>}
-        {!!props.memberIds &&     
-            <BubbleButton onClick={ () => collaspeExpand(!expanded) } expanded={expanded}>
-                {chatBubbleLoading ? <div>{props.memberNames[1]}</div> : chatBubble}
-                {props.numNewMessages > 0 && !expanded &&  <NewMessagesDiv><p>{props.numNewMessages}</p></NewMessagesDiv>}
-                </BubbleButton> }
-        
+        <>
+        {!props.memberIds && <div>loading (messagethreadhead)...</div>}
         {!!props._links && expanded && 
             <MessageThread user={props.user} 
-                newMessages={props.newMessages()} {...props._links} >
+                newMessages={props.newMessages} {...props._links} >
             <CloseButton onClick= { () => collaspeExpand(false)}>&#8617;</CloseButton>
             </MessageThread>}
-        
-        </div>
+        {!!props.memberIds &&     
+            <BubbleButton onClick={ () => collaspeExpand(!expanded) } expanded={expanded}>
+                {props.numNewMessages > 0 && !expanded &&  <NewMessagesDiv><p>{props.numNewMessages}</p></NewMessagesDiv>}
+
+                {chatBubbleLoading ? <div>{props.memberNames[1]}</div> : chatBubble}
+
+                </BubbleButton> }
+        </>
     )
 }
 

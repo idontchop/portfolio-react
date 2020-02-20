@@ -14,8 +14,7 @@ const memberBorder = '10px 10px 1px 10px';
 const ThreadWrapper = styled.div`
     width: 350px;
     border-radius: 4px;
-    border: solid 3px rgba(134,136,139,.2);
-    box-shadow: 0px 0px 0px 5px rgba(134,136,139,.5);
+    white-space: normal;
     height: inherit;
     max-width: inherit;
     max-height: inherit;
@@ -24,11 +23,8 @@ const ThreadWrapper = styled.div`
     display: flex;
     flex-direction: column;
     clear: both;
-    position: relative;
-    left: 65px;
-    bottom: 50px;
     padding: 3px;
-    max-height: ${window.innerHeight * .58}px;
+    max-height: ${window.innerHeight * .38}px;
 `;
 
 const MessagesWrapper = styled.div`
@@ -111,8 +107,6 @@ const MessageThread = (props) => {
                 setMessages(msgObj._embedded.messages.reverse());
                 setLoading(false);
                 
-
-
             } catch (err) {
                 console.log("Unable to load: ", err, msgObj, props.href);
             }
@@ -184,9 +178,9 @@ const MessageThread = (props) => {
     }
 
     if (isLoading) {
-        return <div>Loading...</div>
+        return <div>Loading... (message thread)...</div>
     } else return (
-        <>
+        <div>
             <ThreadWrapper>
                 <MessagesWrapper ref={scrollNode}>
                     {buildMessages(messages, props.newMessages )}
@@ -195,7 +189,7 @@ const MessageThread = (props) => {
                 <NewMessageForm threadId={getThreadId()}/>
             </ThreadWrapper>
             
-        </>
+        </div>
         )
 
 }

@@ -26,6 +26,7 @@ const MessageButton = styled.button`
     display: inline-block;
     position: absolute;
     bottom: 0;
+    left: 2px;
 `;
 
 //added to api url + thread number
@@ -74,7 +75,7 @@ const NewMessageForm = (props) => {
             formData.append("content", messageContent);
             try {
                 await PortfolioChatApi.postForm(`${PATHEXT + props.threadId}`, formData)
-                setMessageContent("");
+                //setMessageContent("");
             } catch (err) {
                 console.log(err);
             }

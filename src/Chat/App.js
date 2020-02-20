@@ -11,12 +11,25 @@ const ChatDiv = styled.div`
     padding: 2px;
     background-opacity: 0;
     display: inline-block;
-    max-width: 360px;
-    bottom: 40%;
-    left: 0px;
+    width: 100%;
+    bottom: -2px;
+    left: 0;
     z-index: 9;
-    max-height: ${window.innerHeight * .6}px;
+    text-align: right;
+    white-space: nowrap;
+    overflow-x: auto;
+    padding-bottom: 0px;
+    max-height: ${window.innerHeight * .8}px;
 `;
+
+const ThreadWrapperDiv = styled.div`
+    display: inline-block;
+    background-color: white;
+    border: 2px solid #86888D;
+    border-radius: 5px 5px 0px 0px;
+    padding: 0 1px;
+`;
+
 
 /**
  * Chat module will be designed to be easily portable to another
@@ -107,7 +120,7 @@ const App = (props) => {
                 // Found messageThread, properly formatted message
                 // push to state
                 //console.log(message, ob);
-                updateNumNewMessage(message.messageThread.id);
+                //updateNumNewMessage(message.messageThread.id);
                 
                 
                 // ran into problem here with scope of stomp's callback, should
@@ -149,7 +162,7 @@ const App = (props) => {
      */
     const newMessagesProp = (reset = false, threadId) => {
 
-        console.log(threadId)
+        console.log(threadId, reset)
 
         if ( reset ) {
 
@@ -195,6 +208,7 @@ const App = (props) => {
         
         // get threads from api
         getThreads();
+        console.log("Loaded threads")
 
     }, [])
    
@@ -202,13 +216,16 @@ const App = (props) => {
     console.log(numNewMessages);
     return (
      <ChatDiv>
-      {!!loading && <div>loading</div>}
+      {!!loading && <div>loading (app)</div>}
       {!loading && 
     
         ob._embedded.messageThreads.map( e => (
+            <ThreadWrapperDiv>
             <MessageThreadHead user={props.user} chatBubbleCallBack={props.chatBubbleCallBack} 
-            newMessages={(r,id) => newMessagesProp(r,id)} key={e.created} {...e}
+            newMessages={newMessages}
+            newMessagesCallback={(r,id) => newMessagesProp(r,id)} key={e.created} {...e}
             numNewMessages={numNewMessages[getThreadId(e)]} />
+            </ThreadWrapperDiv>
         ))}
         {!loading && ob._embedded.messageThreads.length === 0 &&
             <button onClick={() => contact(1)}>Contact Nate! (testing)</button>}

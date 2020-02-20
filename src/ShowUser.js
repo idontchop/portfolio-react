@@ -362,10 +362,15 @@ class ShowUser extends React.Component {
                 height: 45px;
             `;
 
-            
-
+            let ChatDiv = styled.div`
+                width: 150px;
+                max-width: 150px;
+            `;
             let chatBubble = 
-            (<ChatBubbleStyled src={`${this.props.portfolioUrl}/image/${!!chatBubbleData.media[0] ? chatBubbleData.media[0].id + "?" + chatBubbleData.media[0].created : ""}`} />
+            (<ChatDiv>
+            <ChatBubbleStyled src={`${this.props.portfolioUrl}/image/${!!chatBubbleData.media[0] ? chatBubbleData.media[0].id + "?" + chatBubbleData.media[0].created : ""}`} />
+            {` ` + chatBubbleData.name}
+            </ChatDiv>
             )
             console.log("chat bubble ran")
 
