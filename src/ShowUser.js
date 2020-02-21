@@ -382,7 +382,7 @@ class ShowUser extends React.Component {
             (<div style={chatDivStyle}>
                 <img src={`${this.props.portfolioUrl}/image/${!!chatBubbleData.media[0] ? chatBubbleData.media[0].id + "?" + chatBubbleData.media[0].created : ""}`}
                 style={chatBubbleImgStyle} />
-            {` ` + chatBubbleData.name}
+            {` ` + chatBubbleData.name !== "null" ? chatBubbleData.name : "anonymous"}
             </div>
             )
             console.log("chat bubble ran")

@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import PropTypes from 'prop-types';
 import MessageThread from './MessageThread';
 import styled from 'styled-components';
@@ -21,12 +21,16 @@ const BubbleButton = styled.button`
 
 // close X, sits to upper right
 const CloseButton = styled.button`
-    background: rgba(166, 129, 129, 0.9);
-    position: absolute;
-    left: -5px;
-    top: -2px;
+    background: none;
+    border: none;
+    position: relative;
+    display: inline-block;
+    right: 0px;
+    top: -10px;
     padding: 1px 3px;
-    border-radius: 7px 0 0 0;
+    height: 10px;
+    width: 20px;
+    font-size: 0.6em;
 `;
 
 const NewMessagesDiv = styled.div`
@@ -56,6 +60,7 @@ const Ms = (props) => {
     const [chatBubbleLoading, setChatBubbleLoading] = useState(true);
 
 
+    const threadRef = useRef();
 
 
     let getThreadId = () => {
@@ -85,6 +90,17 @@ const Ms = (props) => {
 
     }, []);
 
+    useEffect ( () => {
+
+        // sends our X coords back if expanded, we wait quarter of a second mainly to let
+        // messagethread have a change to render, but also gives a bit of affect.
+        if ( expanded && props.scrollCenterCallback && threadRef && threadRef.current ) {
+            setTimeout ( () =>
+                props.scrollCenterCallback(threadRef.current.getBoundingClientRect() ) ,
+                150);
+        }
+    }, [expanded] )
+
     // Can't use effect here because of initial api call
     const collaspeExpand = (newExpanded) => {
         setExpanded(newExpanded);
@@ -94,17 +110,21 @@ const Ms = (props) => {
         if ( !newExpanded ) {
             props.newMessagesCallback(true, getThreadId() );
         }
+
+
     }
+    
     
 
     console.log("rendering MTH")
     return (
-        <>
+        <div ref={threadRef}>
+            
         {!props.memberIds && <div>loading (messagethreadhead)...</div>}
         {!!props._links && expanded && 
-            <MessageThread user={props.user} 
+            <MessageThread  user={props.user} 
                 newMessages={props.newMessages} {...props._links} >
-            <CloseButton onClick= { () => collaspeExpand(false)}>&#8617;</CloseButton>
+            <CloseButton onClick= { () => collaspeExpand(false)}>&#10005;</CloseButton>
             </MessageThread>}
         {!!props.memberIds &&     
             <BubbleButton onClick={ () => collaspeExpand(!expanded) } expanded={expanded}>
@@ -113,7 +133,7 @@ const Ms = (props) => {
                 {chatBubbleLoading ? <div>{props.memberNames[1]}</div> : chatBubble}
 
                 </BubbleButton> }
-        </>
+        </div>
     )
 }
 

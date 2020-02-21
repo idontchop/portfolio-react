@@ -1,10 +1,9 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import PortfolioChatApi from './lib/PortfolioChatApi.js';
 import styled from 'styled-components';
 import MessageThreadHead from './Components/MessageThreadHead.js';
 import PropTypes from 'prop-types';
 import PortfolioChatSocket from './lib/PortfolioChatSocket';
-import Stomp from 'stompjs';
 
 const ChatDiv = styled.div`
     position: fixed;
@@ -20,6 +19,26 @@ const ChatDiv = styled.div`
     overflow-x: auto;
     padding-bottom: 0px;
     max-height: ${window.innerHeight * .8}px;
+
+    &::-webkit-scrollbar {
+        height: 8px;
+       }
+
+    /* Track */
+    &::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    }
+
+    /* Handle */
+    &::-webkit-scrollbar-thumb {
+    background: #888;
+    }
+
+    /* Handle on hover */
+    &::-webkit-scrollbar-thumb:hover {
+    background: #555;
+    }
+
 `;
 
 const ThreadWrapperDiv = styled.div`
@@ -211,11 +230,44 @@ const App = (props) => {
         console.log("Loaded threads")
 
     }, [])
+
+    /**
+     * Sets the x scroll of the chat div when a messagethreadhead is expanded
+     * If not scrolling, does not affect.
+     */
+    const scrollCenter = ( (x) => {
+        console.log(x)
+        if ( x['x'] + 320 > window.innerWidth) {
+            console.log("Greater than width: ", threadNode.current.scrollLeft, ( (x['x'] + 320) - window.innerWidth ));
+            let scrollLeft = threadNode.current.scrollLeft + 
+                ( (x['x'] + 320) - window.innerWidth ) + 20;
+                //threadNode.current.scrollLeft = 150;
+            threadNode.current.scrollBy ( {
+                left: scrollLeft, behavior: 'smooth'
+            })
+            console.log(threadNode.current.scrollLeft, threadNode.current.scrollHeight,scrollLeft);
+        } else if ( x['x'] < 0 ) {
+            console.log("Less than width: ", threadNode.current.scrollLeft, x['x']);
+
+            let scrollRight = x['x'] - 10;
+
+            threadNode.current.scrollBy ( {
+                left: scrollRight, behavior: 'smooth'
+            })
+
+        }
+    })
    
     console.log(ob);
     console.log(numNewMessages);
+
+    const threadNode = useRef();
+    if ( !!threadNode && !!threadNode.current ) {
+        console.log(threadNode, threadNode.current, 
+            threadNode.current.getBoundingClientRect(), threadNode.current.scrollLeft)
+    }
     return (
-     <ChatDiv>
+     <ChatDiv ref={threadNode}>
       {!!loading && <div>loading (app)</div>}
       {!loading && 
     
@@ -223,6 +275,7 @@ const App = (props) => {
             <ThreadWrapperDiv>
             <MessageThreadHead user={props.user} chatBubbleCallBack={props.chatBubbleCallBack} 
             newMessages={newMessages}
+            scrollCenterCallback={(x) => scrollCenter(x)}
             newMessagesCallback={(r,id) => newMessagesProp(r,id)} key={e.created} {...e}
             numNewMessages={numNewMessages[getThreadId(e)]} />
             </ThreadWrapperDiv>

@@ -10,6 +10,10 @@ const memberColor = '131,124,139';
 const userBorder = '10px 10px 10px 1px';
 const memberBorder = '10px 10px 1px 10px';
 
+const HeaderWrapper = styled.div`
+    width: 320px;
+`;
+
 // wraps whole window, goal is to lift it from bottom
 const ThreadWrapper = styled.div`
     width: 320px;
@@ -88,6 +92,7 @@ const MessageThread = (props) => {
     let [lastScrollHeight, setLastScrollHeight] = useState(0);
 
     const scrollNode = useRef();
+    const threadNode = useRef();
     /**
      * Finds thread id from passed props
      * will be in an href under self
@@ -266,16 +271,20 @@ const MessageThread = (props) => {
         ));
     }
 
+    /* position tests */
+
+    /* end tests */
     if (isLoading) {
         return <div>Loading... (message thread)...</div>
     } else return (
-        <ThreadWrapper>
+        <ThreadWrapper ref={threadNode}>
+            <HeaderWrapper>
+                {props.children}
+            </HeaderWrapper>
             <MessagesWrapper ref={scrollNode} onScroll={ (e) => handleScrollUp(e)}>
                 {isScrollTop && <p>{"Loading"}</p>}
-                {buildMessages(messages, props.newMessages )}
-                
+                {buildMessages(messages, props.newMessages )}                
             </MessagesWrapper>
-            {props.children}
             <NewMessageForm threadId={getThreadId()}/>
         </ThreadWrapper>
         )
