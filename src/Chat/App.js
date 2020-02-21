@@ -89,11 +89,21 @@ const App = (props) => {
     }
 
     const getThreads = async () => {
-        let obj = await PortfolioChatApi.getJson("messageThreads");
-        setOb(obj)
-        setLoading(false)
-        console.log(obj);
-        countNumNewMessages(obj._embedded.messageThreads);
+        let numThreads = -1;
+        try {
+            let obj = await PortfolioChatApi.getJson("messageThreads");
+            if ( !!obj._embedded ) {
+                numThreads = obj._embedded.messageThreads.length;
+            }
+            setOb(obj)
+            setLoading(false)
+            console.log(obj, ob);
+            countNumNewMessages(obj._embedded.messageThreads);
+        } catch (err) {
+            console.log("failed to load threads")
+        }
+
+        return numThreads;
     }
 
     const contact = async (id) => {
@@ -226,8 +236,19 @@ const App = (props) => {
             );
         
         // get threads from api
-        getThreads();
-        console.log("Loaded threads")
+        // create thread if one doesn't exist
+        ( async () => {
+            try {
+                let numThreads = await getThreads();
+                console.log("Loaded threads", numThreads)
+                if (numThreads === 0) {
+                    setTimeout ( () => contact (1), 3000);
+                }
+
+            } catch (err) {
+                console.log("error loading threads")
+            }
+        })();
 
     }, [])
 
