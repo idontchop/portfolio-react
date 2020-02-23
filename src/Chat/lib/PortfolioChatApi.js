@@ -125,6 +125,31 @@ const PortfolioChatApi = {
             throw err;
         })
     },
+
+    getBlob: async (pathParam) => {
+
+        let url;
+        if (!!pathParam) {
+            url = buildUrlWithPathParam(pathParam);
+        } else {
+            url = portfolioChatUrl;            
+        }
+
+        let response = await fetch ( url, 
+            buildHeaders('get','blob')).catch ( () => {
+                console.log("fetch blob failed", url);
+            })
+
+        if ( !checkResponse(response) ) {
+            console.log(response)
+            throw Error({'error': !!response ? response.status: "failed", 'errorMessage': "error retrieving"});
+        }
+
+        return await getPayload(response,'blob').catch ( (err) => {
+            throw err;
+        })
+    },
+    
     // unused, but sends data as post
     postForm: (pathParam, formData) => PortfolioChatApi.putForm(pathParam, formData, 'post'),
     // for updating profile

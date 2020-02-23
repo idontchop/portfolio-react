@@ -6,6 +6,7 @@ import styled, { keyframes } from 'styled-components';
 import PortfolioApi from './lib/PortfolioApi.js';
 import Loading from './Components/Loading.js';
 import ChatApp from './Chat/App';
+import withFullScreenModal from './Chat/lib/WithFullScreenModal'
 
 const UserWrapperDiv = styled.div`
     background-color: rgb(134,136,139,.6);
@@ -367,15 +368,18 @@ class ShowUser extends React.Component {
                 borderRadius: "50%",
                 border: "1px solid black",
                 width: "45px",
-                height: "45px"
+                height: "45px",
+                margin: "0px 15px"
             }
 
 
 
             let chatDivStyle = {
                 width: "150px",
-                maxWidth: "150px",
-                display: "inline-block"
+                maxWidth: "250px",
+                display: "block",
+                fontSize: "0.8em"
+
             }
 
             let chatBubble = 
@@ -418,7 +422,7 @@ class ShowUser extends React.Component {
                 </UserWrapperDiv>
             );
         else return ( // logged in
-            <div>
+            <div>            
             <ChatApp user={this.state.user} chatBubbleCallBack={ (id) => this.buildChatBubble(id) } />
             
             <UserWrapperDiv >
