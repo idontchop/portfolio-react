@@ -201,7 +201,7 @@ const App = (props) => {
             setNewMessages( prevState => {
                 let newState = [];
                 prevState.forEach ( m => {
-                    if (m.id !== threadId ) {
+                    if (m.messageThread.id !== threadId ) {
                         // remove messages that are part of passed in thread id
                         newState.push(m);
                     }                    
