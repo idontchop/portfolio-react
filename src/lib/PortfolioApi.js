@@ -94,6 +94,9 @@ const getPayload = async (response, type) => {
  * Used for interacting with the Spring backend. 
  * Return will include an object with key "error" if
  * problem fetching
+ * 
+ * @Version 1.0
+ * @Date Feb 9, 2020
  */
 const PortfolioApi = {
 
