@@ -3,6 +3,8 @@ import PortfolioChatApi from '../lib/PortfolioChatApi';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import NewMessageForm from './NewMessageForm';
+import withFullScreenModal from '../lib/WithFullScreenModal';
+import DropImage from './DropImage';
 
 // css for styling chat bubbles
 const userColor = '134,136,139';
@@ -28,7 +30,7 @@ const ThreadWrapper = styled.div`
     flex-direction: column;
     position: relative;
     clear: both;
-    padding: 3px;
+    padding: 3px 0px;
     max-height: ${window.innerHeight * .38}px;
 `;
 
@@ -51,17 +53,75 @@ const MessageWrapper = styled.div`
 
     text-align: ${props=> props.isUser ? 'right' : 'left'};
 
-    p {
+    div {
+        p {
         font-size: 0.75em;
         display: inline-block;
         padding: 5px 10px;
         margin: 0;
         word-wrap: break-word;
         word-break: break-all;
+        text-align: left;
         border-radius: ${props => props.isUser ? memberBorder:userBorder};
         background-color: rgb(${props => props.isUser ? memberColor : userColor },.6);
+        }
     }
 `;
+
+const MessageImage = styled.img`
+    max-width: 280px;
+    height: auto;
+    border-radius: 5px;
+`;
+
+const UploadButton = styled.button`
+    background: none;
+    border: none;
+    position: relative;
+    display: inline-block;
+    right: 0px;
+    top: -10px;
+    padding: 1px 3px;
+    height: 10px;
+    width: 20px;
+    font-size: 0.6em;
+    `;
+
+
+/**
+ * Returns an image as part of a message thread.
+ * 
+ * @param {image id} id 
+ * @param {message with the image} content 
+ */
+const Image =  (props) => {
+
+    let [imageLoading, setImageLoading] = useState(true);
+    let [image, setImage] = useState();
+    let [fullScreen, setFullScreen] = useState(false);
+
+
+    useEffect ( () => {
+        let imagePromise = PortfolioChatApi.getBlob(`image/27/${props.id}`);
+        
+        imagePromise.then(i => {
+            setImage(URL.createObjectURL(i));
+            setImageLoading(false);
+        })
+    }, []);
+    
+    return imageLoading ? <p>loading</p> : (
+        <>
+        {fullScreen ?  withFullScreenModal( () => setFullScreen(false),
+         <img src={image} style={{width: "100%", height: "auto"}} />,
+         {width: "80%", height: "auto"} ) : <></>}
+        <p><MessageImage src={image} 
+            onClick={ () => setFullScreen(true)}
+            onLoad={ () => props.onFinish()} />
+        <span>{props.content}</span>
+        </p>
+        </>);
+}
 
 
 /**
@@ -90,6 +150,7 @@ const MessageThread = (props) => {
     let [isScrollTop, setScrollTop] = useState(false);
     let [isScrollBottom, setScrollBottom] = useState(true);
     let [lastScrollHeight, setLastScrollHeight] = useState(0);
+    let [showUploadModal, setShowUploadModal] = useState(false);
 
     const scrollNode = useRef();
     const threadNode = useRef();
@@ -99,6 +160,21 @@ const MessageThread = (props) => {
      */
     let getThreadId = () => {
         return parseInt(props.self.href.match(/\d*$/g)[0]);
+    }
+
+    
+
+    /**
+     * returns the ID of message.
+     * This is necessary since the spring data doesn't return an id field
+     * @param {a message} message 
+     */
+    let getMessageId = (message) => {
+        if ( !!message.id ) { // socket message, easy
+            return message.id;
+        } else {
+            return parseInt(message._links.self.href.match(/\d*$/g)[0])
+        }
     }
 
     const loadPage = () => {
@@ -131,6 +207,7 @@ const MessageThread = (props) => {
                 // layout flags
                 setLoading(false);
                 setScrollTop(false);
+                console.log("loaded", messages)
 
                 // update page selection for next pull
                 setPage ( prevPage => prevPage + 1 );
@@ -147,17 +224,19 @@ const MessageThread = (props) => {
 
     const handleScrollUp = (e) => {
 
-        console.log("fire", isScrollTop, e.target.scrollTop)
+
+        console.log("fire", e.type, isScrollBottom, isScrollTop, e.target.scrollTop, (e.target.scrollHeight - e.target.offsetHeight), e.target.scrollHeight, e)
         if ( e.target.scrollTop === 0 && !isScrollTop ) {
             
             setScrollTop(true);
             setLastScrollHeight(e.target.clientHeight - 1);            
             setScrollBottom(false);
             loadPage();
-        } else if ( (e.target.scrollTop === (e.target.scrollHeight - e.target.offsetHeight)) && !isScrollBottom ) {
+        } else if ( e.target.scrollTop >= (e.target.scrollHeight - e.target.offsetHeight) * .95 ) {
             setScrollBottom(true);
             setScrollTop(false);
-        } else {
+        } else if (!isLoading) {
+            console.log("set bottom:", messages)
             setScrollBottom(false)
         }
 
@@ -172,6 +251,9 @@ const MessageThread = (props) => {
     useEffect(  () =>  {
 
         loadPage();
+        setScrollBottom(true);
+        resetScrollBar();
+        console.log("component did mount")
 
     }, []);
 
@@ -182,6 +264,7 @@ const MessageThread = (props) => {
      * 
      */
     useEffect ( () => {
+        console.log("useeffect")
 
     });
 
@@ -194,8 +277,18 @@ const MessageThread = (props) => {
      */
     useLayoutEffect ( () => {
 
-        /*
+        resetScrollBar();
+
+        // if not first page, user has scrolled up, so we will 
+
+    })
+
+    const resetScrollBar = () => {
+                /*
         complicated?
+
+        setToBottom is for images. If image began loading with scrollBottom
+        to true, it should be true when it finishes.
 
         If we receive a new message and scroll was on bottom:
             keep scroll to bottom
@@ -225,10 +318,7 @@ const MessageThread = (props) => {
                 scrollNode.current.scrollTop = 350;
             }
         }
-
-        // if not first page, user has scrolled up, so we will 
-
-    })
+    }
 
     /**
      * Primarily solves goal to display new lines
@@ -240,6 +330,8 @@ const MessageThread = (props) => {
         })
 
     }
+
+
 
     // build messages
     const buildMessages = (m,nm) => {
@@ -264,9 +356,9 @@ const MessageThread = (props) => {
             return <p>No Messages</p>
         // maps the new array to UI
         return mm.map ( e => (
-            <MessageWrapper key={e.created} isUser={e.sender.name === props.user.username}>
-                <p>{content(e.content)}
-                </p>
+            <MessageWrapper key={getMessageId(e)} isUser={e.sender.name === props.user.username}>
+                <div>{e.type === "MESSAGE" ? <p>{content(e.content)}</p> : <Image id={getMessageId(e)} content={e.content} onFinish={ () => resetScrollBar() } />}
+                </div>
             </MessageWrapper>
         ));
     }
@@ -279,6 +371,10 @@ const MessageThread = (props) => {
     } else return (
         <ThreadWrapper ref={threadNode}>
             <HeaderWrapper>
+            <UploadButton onClick={() => setShowUploadModal(true)}>&#9709;</UploadButton>
+                { !!showUploadModal && withFullScreenModal(
+                    () => setShowUploadModal(false), <DropImage threadId={getThreadId()} />)
+                }
                 {props.children}
             </HeaderWrapper>
             <MessagesWrapper ref={scrollNode} onScroll={ (e) => handleScrollUp(e)}>

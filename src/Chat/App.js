@@ -50,6 +50,8 @@ const ThreadWrapperDiv = styled.div`
 `;
 
 
+
+
 /**
  * Chat module will be designed to be easily portable to another
  * app. Receives function in props: user
@@ -199,7 +201,7 @@ const App = (props) => {
             setNewMessages( prevState => {
                 let newState = [];
                 prevState.forEach ( m => {
-                    if (m.id !== threadId ) {
+                    if (m.messageThread.id !== threadId ) {
                         // remove messages that are part of passed in thread id
                         newState.push(m);
                     }                    
@@ -293,11 +295,11 @@ const App = (props) => {
       {!loading && 
     
         ob._embedded.messageThreads.map( e => (
-            <ThreadWrapperDiv>
+            <ThreadWrapperDiv key={e.created}>
             <MessageThreadHead user={props.user} chatBubbleCallBack={props.chatBubbleCallBack} 
             newMessages={newMessages}
             scrollCenterCallback={(x) => scrollCenter(x)}
-            newMessagesCallback={(r,id) => newMessagesProp(r,id)} key={e.created} {...e}
+            newMessagesCallback={(r,id) => newMessagesProp(r,id)} {...e}
             numNewMessages={numNewMessages[getThreadId(e)]} />
             </ThreadWrapperDiv>
         ))}

@@ -33,6 +33,9 @@ const CloseButton = styled.button`
     font-size: 0.6em;
 `;
 
+
+
+
 const NewMessagesDiv = styled.div`
     background-color: rgba(166, 129, 129);
     display: inline-block;
@@ -106,8 +109,8 @@ const Ms = (props) => {
         setExpanded(newExpanded);
         console.log("collaspeexpand")
 
-        // chat box was collapsed.
-        if ( !newExpanded ) {
+        // chat box was expanded.
+        if ( newExpanded ) {
             props.newMessagesCallback(true, getThreadId() );
         }
 
@@ -124,6 +127,7 @@ const Ms = (props) => {
         {!!props._links && expanded && 
             <MessageThread  user={props.user} 
                 newMessages={props.newMessages} {...props._links} >
+            
             <CloseButton onClick= { () => collaspeExpand(false)}>&#10005;</CloseButton>
             </MessageThread>}
         {!!props.memberIds &&     

@@ -15,12 +15,12 @@ const MessageInput = styled.textarea`
     line-height: 1em;
     overflow: hidden;
     border: 0;
-    background-color: rgba(${userColor}, 0.2);
+    background-color: rgba(${userColor}, 0.15);
     position: relative;
     bottom: 0px;
     left: 0;
-    border-radius: 2px;
     padding: 5px 15px 2px 4px;
+    border-bottom: 1px solid #86888D;
 
     &:focus {
         outline: 0;
