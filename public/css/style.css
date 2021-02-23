@@ -1,5 +1,23 @@
 
+a {
+	color: #0c387d;
+	font-weight: bold;
+}
 
+ul {
+  list-style: none;
+}
+ul li::before {
+  content: "✔";
+  display: inline-block;
+  margin-right: 0.2rem;
+}
+
+ul li.listContact::before {
+	content: "📁";
+  display: inline-block;
+  margin-right: 0.2rem;
+}
 
 .social-left {
     background-color: #b5b5b5;
@@ -80,12 +98,25 @@
 }
 
 .sectionBody {
-    border: 2px solid #86888B;
+    border-top: 2px solid #86888B;
+    border-right: 2px solid #86888B;
+    border-left: 2px solid #86888B;
     width: 100%;
     margin: -5px auto -5px auto;
     position: relative;
     border-radius: 5px;
+	padding-bottom: 25px;
 
+}
+
+.projectSeperator {
+	margin-top: 45px;
+}
+
+.projectSeperator hr {
+	width: 70%;
+	height: 2px;
+	color: #86888B;
 }
 
 .sectionBody p {
@@ -100,9 +131,31 @@
     
 }
 
+.sectionBody h4 {
+    margin: 0.9em;
+    font-family: "Roboto", Arial, Helvetica, sans-serif;
+    font-size: 1em;
+	font-weight: bold;
+    
+}
+
 .videoContainer {
-    z-index: -9;
+	-webkit-box-shadow: -10px 0px 13px -7px #000000, 10px 0px 13px -7px #000000, 5px 5px 7px 10px rgba(0,0,0,0); 
+box-shadow: -10px 0px 13px -7px #000000, 10px 0px 13px -7px #000000, 5px 5px 7px 10px rgba(0,0,0,0);
+    z-index: 1;
     position: relative;
+	margin: 50px auto 20px auto;
+
+	height: 203px;
+	width: 360px;
+
+
+	padding: 0;
+}
+
+.imgHighlight {
+	-webkit-box-shadow: -10px 0px 13px -7px #000000, 10px 0px 13px -7px #000000, 5px 5px 7px 10px rgba(0,0,0,0); 
+	box-shadow: -10px 0px 13px -7px #000000, 10px 0px 13px -7px #000000, 5px 5px 7px 10px rgba(0,0,0,0);
 }
 
 .headerBar h1 {
@@ -120,6 +173,32 @@
     display: none;
 }
 
+.indentH1 {
+	display: block;
+	text-indent: 5em;
+}
+
+.introSpace {
+	margin: 50px auto;
+	padding: 10px;
+	font-family: "GT Pressura", "Roboto", Courier;
+	font-size: 1.5em;
+	color: transparent;
+	background: #666666;
+	-webkit-background-clip: text;
+	-moz-background-clip: text;
+	background-clip: text;
+	text-shadow: 0px 3px 3px rgba(255,255,255,0.5);
+}
+
+.h1Div {
+    width: 100%;
+    margin: -5px auto -5px auto;
+    position: relative;
+    border-radius: 5px;
+	max-width: 540px;
+}
+
 @media only screen and (max-width: 576px) {
 
     .sectionBody {
@@ -133,6 +212,9 @@
         padding: 5px;
         display: block;
     }
+	.introSpace {
+		font-size: 1.2em;
+	}
         
 }
 
@@ -153,12 +235,19 @@
     .sectionBody {
         max-width: 960px;
     }
+	
+	.videoContainer {
+		height: 270px;
+		width: 480px;
+	}
 }
 
 @media only screen and (min-width: 1200px) {
     .sectionBody {
         max-width: 1140px;
     }
+	
+
 
 }
 
@@ -237,3 +326,6 @@
 .twitterImg {
     background: url("https://idontchop.com/images/portfolio-circles-export.png") -5px -37px;
 }
+
+
+
