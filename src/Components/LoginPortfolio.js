@@ -82,7 +82,7 @@ const LoginPortfolio = (props) => (
             </a>
             </div>
             <div className={"col-lg-4"}>
-            {/*<a href={props.portfolioUrl + oauth2Ext + "linkedin"}>
+            <a href={props.portfolioUrl + oauth2Ext + "linkedin"}>
                 <SocialButton>
                 <div className={"row"}>
                         <div className={"col-3"}>
@@ -93,7 +93,7 @@ const LoginPortfolio = (props) => (
                         </div>
                     </div>
                 </SocialButton>
-            </a>*/}
+            </a>
             </div>
             <div className={"col-lg-4"}>
             <a href={props.portfolioUrl + oauth2Ext + "github"}>
