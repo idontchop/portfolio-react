@@ -13,12 +13,12 @@ function App() {
   <div>
     <Presentation fullScreen>
       <ConfigurableSlide fadeOut>
-        <div style={{height: "102vh"}}>
+
         <Header />
         <div class="h1Div">
           <h2 class="introSpace"> return experiencedDeveloper() <span class="indentH1">.flatMap ( addMSDA() )</span> <span class="indentH1">.flatMap ( addDevOps() )</span> <span class="indentH1">.doOnSuccess ( disruptiveProduct() )</span> </h2>
         </div>
-        </div>
+
       </ConfigurableSlide>
       <ConfigurableSlide slideIn>
         <Welcome />
