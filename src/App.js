@@ -4,18 +4,33 @@ import './App.css';
 import './style.css'
 import 'bootstrap/dist/css/bootstrap.css';
 import {Welcome} from './Components/Welcome'
+import Header from './Components/Header'
 import {Presentation, ConfigurableSlide} from 'react-scroll-presentation'
 
 
 function App() {
   return (
   <div>
-    <Presentation>
+    <Presentation fullScreen>
+      <ConfigurableSlide fadeOut>
+        <div style={{height: "102vh"}}>
+        <Header />
+        <div class="h1Div">
+          <h2 class="introSpace"> return experiencedDeveloper() <span class="indentH1">.flatMap ( addMSDA() )</span> <span class="indentH1">.flatMap ( addDevOps() )</span> <span class="indentH1">.doOnSuccess ( disruptiveProduct() )</span> </h2>
+        </div>
+        </div>
+      </ConfigurableSlide>
       <ConfigurableSlide slideIn>
+        <Welcome />
+      </ConfigurableSlide>
+      <ConfigurableSlide alternateSlideIn>
+        <Welcome />
+        <Welcome />
         <Welcome />
       </ConfigurableSlide>
     </Presentation>
 
+    <main>
     <div className="pageSection2">
       <div className="sectionHeader container dateTheme">
         <div className="sectionHeaderH2Wrapper">
@@ -31,6 +46,7 @@ function App() {
         
       </div>
     </div>
+    </main>
 
   </div>
   );

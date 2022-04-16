@@ -1,7 +1,7 @@
 import React from 'react'
 export const Welcome = () => {
 
-return <div className="pageSection2" style={{height: "100vh"}}>
+return <div className="pageSection2">
 <div className="sectionHeader container dateTheme">
   <div className="sectionHeaderH2Wrapper">
     <h2>Welcome!</h2>
