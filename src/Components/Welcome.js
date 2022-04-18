@@ -7,8 +7,7 @@ import react_pic from '../images/react.jpg'
 export const Welcome = () => {
 
 return <div className="pageSection2">
-<div className="sectionBody">
-  <div className="container-fluid">
+<div className="sectionBody container">
     <div className="row">
       {/*<div className="col-md-6">
         <div className="videoContainer">
@@ -54,7 +53,6 @@ return <div className="pageSection2">
           </div>
         </div>              
       </div>
-    </div>
   </div>
 </div>
 </div>

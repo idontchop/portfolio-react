@@ -10,14 +10,14 @@ import {Presentation, ConfigurableSlide} from 'react-scroll-presentation'
 
 function App() {
   return (
-  <div>
+  <div style={{maxWidth: '1024px', margin: "auto"}}>
     <Presentation fullScreen>
 
         {/*<Header />*/}
         {/*<div class="h1Div">
           <h2 class="introSpace"> return experiencedDeveloper() <span class="indentH1">.flatMap ( addMSDA() )</span> <span class="indentH1">.flatMap ( addDevOps() )</span> <span class="indentH1">.doOnSuccess ( disruptiveProduct() )</span> </h2>
         </div>*/}
-      <ConfigurableSlide title="Welcome" fadeOut>
+      <ConfigurableSlide title="Welcome" fadeOut={{hold: 2}}>
         <Welcome />
       </ConfigurableSlide>
       <ConfigurableSlide alternateSlideIn>
@@ -26,7 +26,7 @@ function App() {
       </ConfigurableSlide>
     </Presentation>
 
-    <main>
+    <main style={{maxWidth: '1024px', margin: "auto"}}>
     <div className="pageSection2">
       <div className="sectionHeader container dateTheme">
         <div className="sectionHeaderH2Wrapper">
