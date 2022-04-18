@@ -1,12 +1,12 @@
 import React from 'react'
+import profile_pic from '../images/profile_pic.jpg'
+import appdist_pic from '../images/appdist.png'
+import architecture_pic from '../images/architecture-03.jpg'
+import react_pic from '../images/react.jpg'
+
 export const Welcome = () => {
 
 return <div className="pageSection2">
-<div className="sectionHeader container dateTheme">
-  <div className="sectionHeaderH2Wrapper">
-    <h2>Welcome!</h2>
-  </div>
-</div>
 <div className="sectionBody">
   <div className="container-fluid">
     <div className="row">
@@ -17,19 +17,42 @@ return <div className="pageSection2">
             Video Alt Display </video>
         </div>
       </div>*/}
-      <div className="col-md-6"> 
-        <p>Hello, my name is <b>Nathan Dunn</b>, I'm a Software Developer from Las Vegas, Nevada.</p>
-        <p>My experience on web apps ranges from the browser (React) to the bare metal Linux machine
-          running Docker, and everything in between.</p>
-          <ul>
-            <li><a href="#GuestBook">Guest Book</a></li>
-            <li><a href="#Projects">Current Projects</a></li>
-            <li><a href="#Skills">Skills and Experience</a></li>
-          </ul>
-          <ul>
-          <li className="listContact">Nate at I Don't Chop</li>
-          <li className="listContact"><a href="https://www.linkedin.com/in/idontchop/">@idontchop</a></li>
-          </ul>
+      <div className="col-sm-6 text-center leftSlideIn06s"> 
+        <img src={profile_pic} className="imgProfile" />
+        <p><b>Nathan Dunn</b></p>
+        <p>Full Stack Developer/Architect</p>
+      </div>
+      <div className="col-sm-6 sectionBodyInsert p-0 rightSlideIn08s"> 
+        <div className="container-fluid p-0">
+          <div className="row no-gutters">
+            <div className="col-6">
+              <img src={architecture_pic} className="imgHighlight" />
+            </div>
+            <div className="col-6">
+              <h4>Backend</h4><p>Cloud/Service Design & Development</p>
+            </div>    
+          </div>
+        </div>        
+        <div className="container-fluid p-0 rightSlideIn1s">
+          <div className="row no-gutters">
+            <div className="col-6">
+              <img src={react_pic} className="imgHighlight" />
+            </div>
+            <div className="col-6">
+              <h4>Front End</h4><p>Progressive Web App Design & Development</p>
+            </div>    
+          </div>
+        </div>  
+        <div className="container-fluid p-0 rightSlideIn12s">
+          <div className="row no-gutters">
+            <div className="col-6">
+              <img src={appdist_pic} className="imgHighlight" />
+            </div>
+            <div className="col-6">
+              <h4>Data Analysis</h4><p>Data Research / Analysis</p>
+            </div>    
+          </div>
+        </div>              
       </div>
     </div>
   </div>

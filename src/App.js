@@ -12,19 +12,15 @@ function App() {
   return (
   <div>
     <Presentation fullScreen>
-      <ConfigurableSlide fadeOut>
 
-        <Header />
-        <div class="h1Div">
+        {/*<Header />*/}
+        {/*<div class="h1Div">
           <h2 class="introSpace"> return experiencedDeveloper() <span class="indentH1">.flatMap ( addMSDA() )</span> <span class="indentH1">.flatMap ( addDevOps() )</span> <span class="indentH1">.doOnSuccess ( disruptiveProduct() )</span> </h2>
-        </div>
-
-      </ConfigurableSlide>
-      <ConfigurableSlide slideIn>
+        </div>*/}
+      <ConfigurableSlide title="Welcome" fadeOut>
         <Welcome />
       </ConfigurableSlide>
       <ConfigurableSlide alternateSlideIn>
-        <Welcome />
         <Welcome />
         <Welcome />
       </ConfigurableSlide>
