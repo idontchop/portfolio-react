@@ -196,9 +196,11 @@ box-shadow: -10px 0px 13px -7px #000000, 10px 0px 13px -7px #000000, 5px 5px 7px
 
 .imgHighlight {
 	margin: 1em;
-    width: 120px;
-    -webkit-box-shadow: -10px 0px 13px -7px #000000, 10px 0px 13px -7px #000000, 5px 5px 7px 10px rgba(0,0,0,0); 
-	box-shadow: -10px 0px 13px -7px #000000, 10px 0px 13px -7px #000000, 5px 5px 7px 10px rgba(0,0,0,0);
+    width: 200px;
+    height: 120px;
+    object-fit:contain;
+    -webkit-box-shadow: 5px 5px 15px 5px #707070; 
+    box-shadow: 5px 5px 15px 5px #707070;
 }
 
 .imgProfile {

@@ -26,23 +26,21 @@ function App() {
       </ConfigurableSlide>
     </Presentation>
 
-    <main style={{maxWidth: '1024px', margin: "auto"}}>
+
     <div className="pageSection2">
+    <div className="sectionBody">
       <div className="sectionHeader container dateTheme">
         <div className="sectionHeaderH2Wrapper">
           <h2><a name="GuestBook"></a>Guest Book</h2>
         </div>
-      </div>
-      <div className="sectionBody">
-          
-
         <p>Please take a momemnt to sign my <b>Guest Book</b>. Even if I don't fit the position you are filling, by leaving your
         name, it might help me appear more legitimate to the next recruiter!</p>
+      </div>
           <GuestBook />
         
       </div>
     </div>
-    </main>
+
 
   </div>
   );

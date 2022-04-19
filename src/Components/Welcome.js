@@ -16,12 +16,13 @@ return <div className="pageSection2">
             Video Alt Display </video>
         </div>
       </div>*/}
-      <div className="col-sm-6 text-center leftSlideIn06s"> 
+      <div className="col-sm-6 text-center leftSlideIn06s d-flex align-items-center flex-column"> 
         <img src={profile_pic} className="imgProfile" />
         <p><b>Nathan Dunn</b></p>
         <p>Full Stack Developer/Architect</p>
+        <p>Las Vegas, USA</p>
       </div>
-      <div className="col-sm-6 sectionBodyInsert p-0 rightSlideIn08s"> 
+      <div className="col-sm-6 sectionBodyInsert p-0 rightSlideIn08s  d-flex align-items-center flex-column"> 
         <div className="container-fluid p-0">
           <div className="row no-gutters">
             <div className="col-6">
