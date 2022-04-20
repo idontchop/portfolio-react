@@ -7,6 +7,8 @@ import {Welcome} from './Components/Welcome'
 import Header from './Components/Header'
 import {Presentation, ConfigurableSlide} from 'react-scroll-presentation'
 
+import PresentationHeader from './Presentation/PresentationHeader'
+
 
 function App() {
   return (
@@ -20,9 +22,8 @@ function App() {
       <ConfigurableSlide title="Welcome" fadeOut={{hold: 2}}>
         <Welcome />
       </ConfigurableSlide>
-      <ConfigurableSlide alternateSlideIn>
-        <Welcome />
-        <Welcome />
+      <ConfigurableSlide header>
+        <PresentationHeader title="header" />
       </ConfigurableSlide>
     </Presentation>
 
