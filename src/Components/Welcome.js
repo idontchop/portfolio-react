@@ -1,8 +1,8 @@
 import React from 'react'
 import profile_pic from '../images/profile_pic.jpg'
-import appdist_pic from '../images/appdist.png'
-import architecture_pic from '../images/architecture-03.jpg'
-import react_pic from '../images/react.jpg'
+import appdist_pic from '../images/data.png'
+import architecture_pic from '../images/backend.png'
+import react_pic from '../images/react.png'
 
 export const Welcome = () => {
 
@@ -16,20 +16,21 @@ return <div className="pageSection2">
             Video Alt Display </video>
         </div>
       </div>*/}
-      <div className="col-sm-6 text-center leftSlideIn06s d-flex align-items-center flex-column"> 
+      <div className="col-md-6 text-center leftSlideIn06s d-flex justify-content-center align-items-center flex-column"> 
         <img src={profile_pic} className="imgProfile" />
-        <p><b>Nathan Dunn</b></p>
-        <p>Full Stack Developer/Architect</p>
-        <p>Las Vegas, USA</p>
+        <h4><b>Nathan Dunn</b></h4>
+        <h4>Full Stack Developer/Architect</h4>
+        <h4>Las Vegas, USA</h4>
+        
       </div>
-      <div className="col-sm-6 sectionBodyInsert p-0 rightSlideIn08s  d-flex align-items-center flex-column"> 
+      <div className="col-md-6 sectionBodyInsert p-0 rightSlideIn08s d-flex justify-content-center align-items-center flex-column"> 
         <div className="container-fluid p-0">
           <div className="row no-gutters">
             <div className="col-6">
               <img src={architecture_pic} className="imgHighlight" />
             </div>
             <div className="col-6">
-              <h4>Backend</h4><p>Cloud/Service Design & Development</p>
+              <h4>Back End</h4><p>Cloud/Service Design & Development</p>
             </div>    
           </div>
         </div>        

@@ -82,17 +82,15 @@ const CenterDiv = styled.div`
 `;
 
 const LoadMoreButton = styled.button`
-    display: block;
+    display: inline-block;
     
-    margin: 5px auto;
+    margin: 5px;
 
     border-radius: 9px;
     padding: 5px 15px;
     color: black;
     background-color: #A68181;
     border: black 1px solid;
-    margin: 3px auto;
-    display: block;
     -webkit-box-shadow: 0px 0px 5px 5px rgba(219,219,219,0.7); 
     box-shadow: 0px 0px 5px 5px rgba(219,219,219,0.7);
 
@@ -141,6 +139,11 @@ class GuestBook extends React.Component {
         console.log(this.state.displayAmount);
     }
 
+    resetVisitors () {
+        this.setState({displayAmount: numToDisplay.filter ( i => window.innerWidth < i[0])
+            .reduce ( (a,b) =>  (a[0] < b[0]) ? a : b  )[1]})
+    }
+
     /**
      * Initial loading
      */
@@ -165,7 +168,7 @@ class GuestBook extends React.Component {
         try {
             let guest = await PortfolioApi.getJson('guestBook', id);
             console.log(this.state.data);
-            let i = this.state.data.findIndex ( e => e.id == id );
+            let i = this.state.data.findIndex ( e => e.id === id );
             console.log(guest,i);
 
              this.setState ( prevState => {
@@ -183,7 +186,6 @@ class GuestBook extends React.Component {
     }
 
     render () {
-        console.log (this.state);
         return (
             <CenterDiv>
             <GuestBookWrapper > 
@@ -207,10 +209,13 @@ class GuestBook extends React.Component {
                 </ProfileWrapper>
             )} 
 
+            <div style={{textAlign: "center", display: "block"}}>
             { !this.state.isLoading &&
                 this.state.data.length !== this.state.displayAmount &&
                 <LoadMoreButton onClick={() => this.loadMoreVisitors()}>Show More Visitors</LoadMoreButton>}
-            
+            { !this.state.isLoading && this.state.displayAmount > 6 &&
+                <LoadMoreButton onClick={() => this.resetVisitors()}>X</LoadMoreButton>}
+            </div>
 
             <ShowUser portfolioUrl={portfolioUrl} />
             

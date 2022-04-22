@@ -44,7 +44,7 @@ const schema = {
     properties: {
         name: { type: "string", title: "Name", default: ""},
         password: {type: "string", title: "Password" },
-        confPassword: {type: "string", title: "Repeat Password (for signup)"}
+        confPassword: {type: "string", title: "Repeat (for signup) "}
     }
     
 };
