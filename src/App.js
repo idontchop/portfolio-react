@@ -6,10 +6,9 @@ import './App.css';
 import './style.css'
 import {Welcome} from './Components/Welcome'
 import Resume from './Components/Resume'
-import Header from './Components/Header'
+import {PresentationHeader} from './Presentation/Header';
 import {Presentation, ConfigurableSlide} from 'react-scroll-presentation'
 
-import PresentationHeader from './Presentation/PresentationHeader'
 import LoveMire from './Presentation/LoveMire.js';
 import Idc from './Presentation/Idc.js'
 import { standard, night } from "./themes/themes.js";
@@ -53,10 +52,10 @@ function App() {
       <ConfigurableSlide title="Welcome" fadeOut={{hold: 2}}>
         <Welcome />
       </ConfigurableSlide>
-      {/*<ConfigurableSlide header>
+      <ConfigurableSlide header>
         <PresentationHeader title="header" />
-      </ConfigurableSlide>*/}
-      <ConfigurableSlide 
+      </ConfigurableSlide>
+      <ConfigurableSlide title="lovemire"
         alternateSlideIn={{scrollViewPort: true, fullScreen: true, 
         background: LoveMireBackDrop,
         scrollSpeed: 4}}>
@@ -65,7 +64,7 @@ function App() {
         <LoveMire slide="3" />
         <LoveMire slide="4" />
       </ConfigurableSlide>
-      <ConfigurableSlide 
+      <ConfigurableSlide title="idc"
         alternateSlideIn={{scrollViewPort: true, fullScreen: true,
           background: IDontChopBackDrop, 
         scrollSpeed: 4}}>
@@ -88,22 +87,36 @@ function App() {
         </ConfigurableSlide>*/}
     </Presentation>
 
-  </div>
+  
 
-    <div className="pageSection2">
-      <div className="sectionBody">
-        <div className="sectionHeader container">
-          <div className="sectionHeaderH2Wrapper">
-            <h2><a name="GuestBook"></a>Guest Book</h2>
+    <Presentation fullScreen>
+      <ConfigurableSlide header >
+
+          <div className="sectionHeader">
+            <div className="sectionHeaderH2Wrapper">
+              <h2><a name="GuestBook"></a>Guest Book</h2>
+            </div>            
           </div>
-          <p>If you made it this far, Please take a moment to sign my <b>Guest Book</b>! </p>
-          <GuestBook />
-        </div>
-      </div>
-    </div>
 
-    <Resume />
-    
+      </ConfigurableSlide>
+      <ConfigurableSlide slideIn>
+        <GuestBook />
+      </ConfigurableSlide>
+    </Presentation>
+
+    <Presentation fullScreen>
+      <ConfigurableSlide header >
+
+        <div className="sectionHeader">
+          <div className="sectionHeaderH2Wrapper">
+            <h2><a name="GuestBook"></a>About Nathan Dunn</h2>
+          </div>            
+        </div>
+
+      </ConfigurableSlide>  
+      <Resume />
+    </Presentation>
+    </div>
     </ThemeProvider>
   </>
   );

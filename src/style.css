@@ -69,7 +69,6 @@ ul li.listContact::before {
 
 .sectionHeader {
     display: block;
-    padding: 15px;
     border-radius: 5px; 
 }
 
@@ -84,17 +83,20 @@ ul li.listContact::before {
     margin: 0 15px;
     font-size: 1.8em;
     font-family: "Ink Free", "Kalem", cursive, script;
-    color: black;
+    color: 707070;
     display: inline-block;
     line-height: 1.4;
-    border-bottom: 3px solid #3d3437;   
+    border-top: 3px solid #707070;   
+    background-color: rgba(255,255,255,0.8);
+    border-radius: 0 0 5px 5px;
+    padding: 0 15px 5px 15px;
 
 }
 
 .sectionHeaderH2Wrapper {
     margin: 0 15px;
     display: block;
-    border-bottom: 1px solid black;    
+    border-top: 1px solid #707070;    
 }
 
 .sectionBody {    
@@ -418,6 +420,14 @@ box-shadow: -10px 0px 13px -7px #000000, 10px 0px 13px -7px #000000, 5px 5px 7px
 
 .nate-remove-margin-bottom {
     margin-top: -0.6em;
+}
+
+.inkfree {
+    font-family: "Ink Free", "Kalem", cursive, script;
+}
+
+.selected {
+    text-shadow: 0px 0px 15px #707070;
 }
 
 .facebookImg {

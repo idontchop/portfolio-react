@@ -18,6 +18,11 @@
   src: local('OpenSans'), url(./fonts/OpenSans.ttf) format('truetype');
 }
 
+@font-face {
+  font-family: 'Ink Free';
+  src: local('Ink Free'), url(./fonts/Inkfree.ttf) format('truetype');
+}
+
 .App {
   text-align: center;
 }

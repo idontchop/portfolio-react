@@ -79,6 +79,7 @@ const CompanyDiv = styled.div`
 const CenterDiv = styled.div`
     display: block;
     width: 100%;
+    margin-top: 50px;
 `;
 
 const LoadMoreButton = styled.button`
@@ -188,6 +189,7 @@ class GuestBook extends React.Component {
     render () {
         return (
             <CenterDiv>
+                <p>If you made it this far, Please take a moment to sign my <b>Guest Book</b>! </p>
             <GuestBookWrapper > 
             { this.state.isLoading && <Loading />}
             {!this.state.isLoading && this.state.data

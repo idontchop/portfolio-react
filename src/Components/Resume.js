@@ -8,11 +8,11 @@ const Resume = (props) => {
     return (
         <div class="pageSection1">
 
-        <div class="sectionHeader sectionHeader2 container">
+        {/*<div class="sectionHeader sectionHeader2 container">
           <div class="sectionHeaderH2Wrapper">
             <h2><a name="Skills"></a>About Nathan Dunn</h2>
           </div>
-        </div>
+        </div>*/}
 
         <article class="resume">
             
@@ -59,7 +59,7 @@ const Resume = (props) => {
               <hr />
             <div class="row">
             <div class="col-12">
-              <h2>All Current and Past Projects</h2>
+              <h2>Some Current and Past Projects</h2>
               </div>
               <div class="col-sm-6">
                 <h3> Early work... </h3>
