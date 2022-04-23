@@ -32,8 +32,6 @@ function App() {
   },[theme])
 
   React.useEffect( () => {
-    console.log(navigator.userAgent)
-
     // fire and forget
     PortfolioApi.postJson('hit', {message: navigator.userAgent})
       .catch ( e => {console.log("Error saving hit.")})
