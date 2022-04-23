@@ -1,4 +1,5 @@
 import React from 'react';
+import PortfolioApi from './lib/PortfolioApi.js';
 import GuestBook from './GuestBook.js';
 import 'bootstrap/dist/css/bootstrap.css';
 import './App.css';
@@ -29,6 +30,14 @@ function App() {
       document.body.style.backgroundColor = "#FFF"
     }
   },[theme])
+
+  React.useEffect( () => {
+    console.log(navigator.userAgent)
+
+    // fire and forget
+    PortfolioApi.postJson('hit', {message: navigator.userAgent})
+    
+  },[])
 
   return (<>
   <ThemeProvider theme={theme === "night" ? night : standard}>

@@ -45,7 +45,8 @@ const urlExt = {
     newFormUser: `/newFormUser`,
     guestBook: `/guestBook`,
     uploadImage: `/uploadImage`,
-    publish: `/me/publish`
+    publish: `/me/publish`,
+    hit: `/hit`
 }
 
 const buildUrl = (type) => {
