@@ -94,7 +94,7 @@ ul li.listContact::before {
 }
 
 .sectionHeaderH2Wrapper {
-    margin: 0 15px;
+    margin: 0;
     display: block;
     border-top: 1px solid #707070;    
 }

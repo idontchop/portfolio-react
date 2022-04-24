@@ -21,6 +21,7 @@ export const PresentationHeader = (props) => {
 
     const context = useContext(PresentationContext)
     const [currentProject, setCurrentProject] = useState("")
+    const ref = React.useRef()
 
     useEffect( () => {
 
@@ -32,9 +33,10 @@ export const PresentationHeader = (props) => {
         //eslint-disable-next-line
     },[context])
 
+    console.log(ref)
     return (
-        <StyledHeader className="sectionBody">
-            <h4>Current Projects</h4>
+        <StyledHeader ref={ref} className="sectionBody">
+            {(ref.current && ref.current.offsetWidth > 450) && <h4>Current Projects</h4>}
             <h3 className={currentProject === 'lovemire' && "selected"} style={{marginLeft: '20px',
                     color: currentProject === 'lovemire' ? lovemireColor : defaultColor,
                     cursor: 'pointer'}}

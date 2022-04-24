@@ -80,6 +80,10 @@ const CenterDiv = styled.div`
     display: block;
     width: 100%;
     margin-top: 50px;
+
+    p {
+        margin-left: 2em;
+    }
 `;
 
 const LoadMoreButton = styled.button`

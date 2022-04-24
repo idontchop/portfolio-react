@@ -32,7 +32,7 @@ function App() {
 
   React.useEffect( () => {
     // fire and forget
-    PortfolioApi.postJson('hit', {message: navigator.userAgent})
+    PortfolioApi.postJson('hit', {name: 'portfolio', message: navigator.userAgent})
       .catch ( e => {console.log("Error saving hit.")})
 
   },[])
@@ -99,7 +99,7 @@ function App() {
           </div>
 
       </ConfigurableSlide>
-      <ConfigurableSlide slideIn>
+      <ConfigurableSlide slideIn={{hold: 1}}>
         <GuestBook />
       </ConfigurableSlide>
     </Presentation>
