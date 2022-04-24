@@ -73,7 +73,7 @@ const Resume = (props) => {
                 <p> <img src="https://www.idontchop.com/wp-content/uploads/2018/07/pomdir.ans_-300x173.png"
                             class="rounded mx-auto d-block img-fluid" alt="Farmers and Kings ANSI Door Game artwork" /> </p>
       
-                <p>BBS Door Game written in mid-90s as a high school student. Sold over 50 copies!</p>
+                <p>BBS Door Game written in mid-90s as a middle school student. Sold over 50 copies!</p>
                 <h4>Crypto Pull <a href="https://github.com/idontchop/crypto_exchange_rate_pull_py"><img src="https://www.idontchop.com/portfolio/images/GitHub-Mark-120px-plus.png" 
                  class="img-fluid imgLogo"
 				 alt="Github logo" /></a></h4>
