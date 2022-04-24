@@ -406,7 +406,6 @@ class ShowUser extends React.Component {
         // handle button text
         let publishButtonText = !!this.state.user && this.state.user.publish === true ?
             'Unpublish' : 'Publish';
-        console.log(this.state)
 
         if ( this.state.isLoading ) // loading
             return <Loading size="small" />

@@ -23,6 +23,17 @@ export const PresentationHeader = (props) => {
     const [currentProject, setCurrentProject] = useState("")
     const ref = React.useRef()
 
+    let params = new URLSearchParams(window.location.search);
+
+    // user logged into guestbook
+    // TODO: put login process in modal
+    if ( params.has("t") ) {
+        let token = params.get('t')
+        window.localStorage.setItem('token',token);
+        context.setScrollToSlide('guestbook')
+        
+    }
+
     useEffect( () => {
 
         if (context.current !== currentProject) {
@@ -33,7 +44,6 @@ export const PresentationHeader = (props) => {
         //eslint-disable-next-line
     },[context])
 
-    console.log(ref)
     return (
         <StyledHeader ref={ref} className="sectionBody">
             {(ref.current && ref.current.offsetWidth > 450) && <h4>Current Projects</h4>}
@@ -45,8 +55,14 @@ export const PresentationHeader = (props) => {
                 color: currentProject === 'idc' ? idcColor : defaultColor,
                 cursor: 'pointer'}}
                 onClick={() => context.setScrollToSlide('idc')}>IDC</h3>
-            <h2 style={{marginLeft: "auto", marginRight: '5px',cursor: 'pointer'}} className="inkfree"
+            <div style={{marginLeft: "auto", display: 'inline-block'}}>
+                <h2 style={{marginLeft: "auto", marginRight: '5px',display: 'inline-block',cursor: 'pointer'}} 
+                className={'inkfree ' + (currentProject === 'guestbook' && "selected")}
+                onClick={() => context.setScrollToSlide('guestbook',1)}>📖</h2>
+                <h2 style={{marginRight: '5px', display: 'inline-block', cursor: 'pointer'}} 
+                className="inkfree"
                 onClick={() => context.setScrollToSlide(0)}>ND</h2>
+            </div>
         </StyledHeader>
     )
 }

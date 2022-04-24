@@ -25,13 +25,17 @@ const Resume = (props) => {
                   <h4>Strong Languages</h4>
                   <p>Java, Javascript / Typescript, C, SQL</p>
                   <h4>Experienced Languages</h4>
-                  <p>Python, C++, R, PHP, SAS, NoSQL, Rust</p>
+                  <p>Python, C++, R, PHP, SAS, NoSQL</p>
+                  <h4>Dabbling in...</h4>
+                  <p>Rust</p>
               </div>
               <div class="col-md-6">
                   <h4>Strong Tech/Frameworks</h4>
                   <p>Spring (Reactive), React</p>
                   <h4>Experienced Tech/Frameworks</h4>
-                  <p>Conda, Docker, LAMP, Wordpress, Bootstrap, Tableau, Adobe Cloud (PS, AI, PR, XD) </p>
+                  <p>Conda, Docker, Jenkins, LAMP, Wordpress, Bootstrap, Tableau, Adobe Cloud (PS, AI, PR, XD) </p>
+                  <h4>Notable Libraries with experience</h4>
+                  <p>Spring Security/Cloud, Styled-Components, React-spring, Storybook, Rollup</p>
               </div>
       
              </div>
@@ -113,7 +117,7 @@ const Resume = (props) => {
               </div>    
               <div class="col-4">
                   <div style={{position: "sticky", top: 0}}>
-                    <img src={tallmountain} class="img-fluid" alt="Everest Base Camp Trek" />
+                    <img src={tallmountain} class="img-fluid" style={{marginTop: '50px'}} alt="Everest Base Camp Trek" />
                   </div>
               </div>    
               <div class="col-8">

@@ -7,7 +7,7 @@ const portfolioUrl = process.env.NODE_ENV === "development" ?
     "https://idontchop.com/portfolio-war" : "https://idontchop.com/portfolio-war";
 
 const portfolioHome = process.env.NODE_ENV === "development" ?
-    "http://localhost:3000" : "https://idontchop.com/portfolio-prototype";
+    "http://localhost:3000" : "https://idontchop.com/portfolio";
 
 const buildHeaders = (method, type, formData) => {
 

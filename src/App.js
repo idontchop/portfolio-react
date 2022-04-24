@@ -1,6 +1,7 @@
 import React from 'react';
 import PortfolioApi from './lib/PortfolioApi.js';
 import GuestBook from './GuestBook.js';
+import ResumeModal from './Components/ResumeModal'
 import 'bootstrap/dist/css/bootstrap.css';
 import './App.css';
 import './style.css'
@@ -21,6 +22,11 @@ import IDontChopBackDrop from './images/IDontChopBackDrop.png'
 function App() {
 
   const [theme, setTheme] = React.useState("standard")
+  const [showResumeModal, setShowResumeModal] = React.useState(false)
+
+
+
+
 
   React.useEffect( () => {
     if(theme === "night") {
@@ -50,7 +56,7 @@ function App() {
           <h2 class="introSpace"> return experiencedDeveloper() <span class="indentH1">.flatMap ( addMSDA() )</span> <span class="indentH1">.flatMap ( addDevOps() )</span> <span class="indentH1">.doOnSuccess ( disruptiveProduct() )</span> </h2>
         </div>*/}
       <ConfigurableSlide title="Welcome" fadeOut={{hold: 2}}>
-        <Welcome />
+        <Welcome showResume={() => setShowResumeModal(true)} />
       </ConfigurableSlide>
       <ConfigurableSlide header>
         <PresentationHeader title="header" />
@@ -71,25 +77,24 @@ function App() {
         <Idc slide="1"/>
         <Idc slide="2"/>
       </ConfigurableSlide>     
-      {/*<ConfigurableSlide slideIn={{hold: 1}}>
+      <ConfigurableSlide springIn title="guestbook">
       <div className="pageSection2">
       <div className="sectionBody">
         <div className="sectionHeader container">
           <div className="sectionHeaderH2Wrapper">
             <h2><a name="GuestBook"></a>Guest Book</h2>
           </div>
-          <p>If you made it this far, Please take a moment to sign my <b>Guest Book</b>! </p>
           <GuestBook />
         </div>
       </div>
     </div>
 
-        </ConfigurableSlide>*/}
+        </ConfigurableSlide>
     </Presentation>
 
   
 
-    <Presentation fullScreen>
+    {/*<Presentation fullScreen>
       <ConfigurableSlide header >
 
           <div className="sectionHeader">
@@ -102,7 +107,7 @@ function App() {
       <ConfigurableSlide slideIn={{hold: 1}}>
         <GuestBook />
       </ConfigurableSlide>
-    </Presentation>
+        </Presentation>*/}
 
     <Presentation fullScreen>
       <ConfigurableSlide header >
@@ -116,6 +121,9 @@ function App() {
       </ConfigurableSlide>  
       <Resume />
     </Presentation>
+    {showResumeModal && <ResumeModal onClose={() => setShowResumeModal(false)}>
+      <Resume />
+    </ResumeModal>}
     </div>
     </ThemeProvider>
   </>
