@@ -76,6 +76,7 @@ function App() {
         scrollSpeed: 4}}>
         <Idc slide="1"/>
         <Idc slide="2"/>
+        <Idc slide="3"/>
       </ConfigurableSlide>     
       <ConfigurableSlide springIn title="guestbook">
       <div className="pageSection2">

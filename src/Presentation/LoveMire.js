@@ -47,7 +47,9 @@ const LoveMire = (props) => {
         {!props.slide && <Slide>{props.children}</Slide>}
         {props?.slide === "1" && <Slide>
             <div className="sectionBody d-flex justify-content-center align-items-stretch flex-column">
-                <h1>Project: Lovemire</h1><h4>Production name: Flirvy</h4>
+                <h1>Project: Lovemire</h1>
+                <h4>Production name: Flirvy</h4>
+                <h4>Public Beta Target: Winter 2022</h4>
             </div>
             </Slide>}
         {props?.slide === "2" && <Slide>
@@ -55,13 +57,9 @@ const LoveMire = (props) => {
             <div className="sectionBodyInsert d-flex flex-grow-1 ">
                 <Bubbble>
                 <h3>Free to Browse</h3>
+                <h3>Post to Place High</h3>
+                <h3>Flirt for Prizes</h3>
                 <h3>Pay to Win</h3>
-                <p>Incentives to:</p>
-                <ul>
-                    <li>Post Media Regularly</li>
-                    <li>Reply to contacts</li>
-                    <li>Browse multiple geographic areas</li>
-                </ul>
                 </Bubbble>
             </div>
             
@@ -71,9 +69,9 @@ const LoveMire = (props) => {
                 <Bubbble>
                 <h3>Media Interactions</h3>
                 <ul>
-                    <li>Like</li>
-                    <li>Admire</li>
-                    <li>Gift</li>
+                    <li>Like for Score</li>
+                    <li>Admire to be Noticed</li>
+                    <li>Gift Your Favorites</li>
                 </ul>
                 </Bubbble>
             </div>

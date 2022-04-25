@@ -5,7 +5,7 @@ import Gear from '../images/geargraphic.png'
 
 const Slide = styled.div`
 width: 100%;
-height: 50vh;
+height: 33vh;
 display: flex;
 justify-content: center;
 align-items: center;
@@ -42,6 +42,12 @@ const Idc = (props) => {
     return <>
         {!props.slide && <Slide>{props.children}</Slide>}
         {props?.slide === "1" && <Slide>
+        <div className="sectionBody d-flex justify-content-center align-items-stretch flex-column">
+                <h1><a href="https://idontchop.com">I Don't Chop.com</a></h1>
+                <h4>Provides Strategies and Math Tools to Poker Players.</h4>
+            </div>           
+            </Slide>}   
+        {props?.slide === "2" && <Slide>
         <div className="sectionBodyInsert d-flex flex-grow-1 align-items-center justify-content-center"><img className="img-fluid" src={Donkey} /></div>
             <div className="sectionBodyInsert d-flex flex-grow-1 ">
                 <Bubbble>
@@ -56,7 +62,7 @@ const Idc = (props) => {
             </div>
             
             </Slide>}
-        {props?.slide === "2" && <Slide>
+        {props?.slide === "3" && <Slide>
             <div className="sectionBodyInsert d-flex flex-grow-1 ">
                 <Bubbble>
                 <h3>Poker Gear</h3>
@@ -67,7 +73,7 @@ const Idc = (props) => {
                 <img className="img-fluid" src={Gear} />
             </div>
             
-            </Slide>}            
+            </Slide>}                      
     </>
 }
 

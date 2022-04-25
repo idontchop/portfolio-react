@@ -44,11 +44,11 @@ return <div className="pageSection2">
         <img src={profile_pic} className="imgProfile" />
         <h4><b>Nathan Dunn</b></h4>
         <h4>Full Stack Developer/Architect</h4>
-        <h4>Las Vegas, USA</h4>
+        <h4 className="d-none d-md-block">Las Vegas, USA</h4>
         <ResumeButton onClick={() => props.showResume()}>Resume</ResumeButton>
         
       </div>
-      <div className="col-md-6 sectionBodyInsert p-0 rightSlideIn08s d-flex justify-content-center align-items-center flex-column"> 
+      <div className="col-md-6 sectionBodyInsert rightSlideIn08s d-flex justify-content-center align-items-center flex-column"> 
         <div className="container-fluid p-0">
           <div className="row no-gutters">
             <div className="col-6">
