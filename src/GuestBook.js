@@ -115,6 +115,7 @@ class GuestBook extends React.Component {
     constructor(props) {
         super(props);
 
+        console.log("GuestBook loaded")
         this.state = {isLoading: true };
         
         this.state.displayAmount = 
