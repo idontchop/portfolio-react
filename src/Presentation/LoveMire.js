@@ -49,7 +49,6 @@ const LoveMire = (props) => {
             <div className="sectionBody d-flex justify-content-center align-items-stretch flex-column">
                 <h1>Project: Lovemire</h1>
                 <h4>Production name: Flirvy</h4>
-                <h4>Public Beta Target: Winter 2022</h4>
             </div>
             </Slide>}
         {props?.slide === "2" && <Slide>
