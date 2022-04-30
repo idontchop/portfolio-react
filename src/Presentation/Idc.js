@@ -9,7 +9,7 @@ height: 33vh;
 display: flex;
 justify-content: center;
 align-items: center;
-background-color: rgba(255, 255, 255,0.5);
+background-color: rgba(255, 255, 255,0.7);
 
 img {
     display: block;
@@ -43,8 +43,8 @@ const Idc = (props) => {
         {!props.slide && <Slide>{props.children}</Slide>}
         {props?.slide === "1" && <Slide>
         <div className="sectionBody d-flex justify-content-center align-items-stretch flex-column">
-                <h1><a href="https://idontchop.com">I Don't Chop.com</a></h1>
-                <h4>Provides Strategies and Math Tools to Poker Players.</h4>
+                <h1 className="textShadow"><a href="https://idontchop.com">I Don't Chop.com</a></h1>
+                <h3 className="textShadow">Provides Strategies and Math Tools to Poker Players.</h3>
             </div>           
             </Slide>}   
         {props?.slide === "2" && <Slide>
