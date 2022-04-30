@@ -31,9 +31,11 @@ export const PresentationHeader = (props) => {
         let token = params.get('t')
         window.localStorage.setItem('token',token);
 
-        let url = window.location.href
-        window.location.replace(url.split('?')[0] )
-        window.history.pushState({},'portfolio', url.split('?')[0])
+        // this doesn't work well, better to just scroll the user and leave the param
+        //let url = window.location.href
+        //window.location.replace(url.split('?')[0] )
+        //window.history.pushState({},'portfolio', url.split('?')[0])
+        
         context.setScrollToSlide('guestbook')
         
         
