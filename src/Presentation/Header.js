@@ -25,6 +25,8 @@ export const PresentationHeader = (props) => {
 
     let params = new URLSearchParams(window.location.search);
 
+    useEffect ( () => {
+
     // user logged into guestbook
     // TODO: put login process in modal
     if ( params.has("t") ) {
@@ -40,6 +42,9 @@ export const PresentationHeader = (props) => {
         
         
     }
+
+    },[])
+
 
     useEffect( () => {
 
