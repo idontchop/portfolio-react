@@ -67,7 +67,7 @@ const LoginPortfolio = (props) => (
     <LoginWrapperDiv>
         <legend>Login / Sign Guestbook with: </legend>
         <div className={"row"}>
-            <div className={"col-lg-4"}>
+            {/*<div className={"col-lg-6"}>
             <a href={props.portfolioUrl + oauth2Ext + "facebook"}>
                 <SocialButton>
                 <div className={"row"}>
@@ -80,8 +80,8 @@ const LoginPortfolio = (props) => (
                     </div>
                 </SocialButton>
             </a>
-            </div>
-            <div className={"col-lg-4"}>
+            </div>*/}
+            <div className={"col-lg-6"}>
             <a href={props.portfolioUrl + oauth2Ext + "linkedin"}>
                 <SocialButton>
                 <div className={"row"}>
