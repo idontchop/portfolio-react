@@ -33,7 +33,7 @@ const Resume = (props) => {
                   <h4>Strong Tech/Frameworks</h4>
                   <p>Spring (Reactive), React</p>
                   <h4>Experienced Tech/Frameworks</h4>
-                  <p>Conda, Docker, Jenkins, LAMP, Wordpress, Bootstrap, Tableau, Adobe Cloud (PS, AI, PR, XD) </p>
+                  <p>Node (MERN), Conda, Docker, Jenkins, LAMP, Wordpress, Bootstrap, Tableau, Adobe Cloud (PS, AI, PR, XD) </p>
                   <h4>Notable Libraries with experience</h4>
                   <p>Spring Security/Cloud, Styled-Components, React-spring, Storybook, Rollup</p>
               </div>
