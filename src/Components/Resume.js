@@ -96,8 +96,7 @@ const Resume = (props) => {
                 <p>Responsible for designing and developing cloud architecture up to and including public beta.</p>
                 <p>Responsible for initial front end PWA design until investment / contributors obtained.</p>
                 <h4>I Dont Chop <a href="https://idontchop.com" style={{float: "right"}}>🔗</a></h4>      
-                <p>Dating App designed as a fusion between media browsing and companion seeking.</p>
-                <p>Full Stack Development of free poker tools app. Designed to appeal to recreational poker players and tournament directors.</p>
+               <p>Full Stack Development (React + Spring Boot) of free poker tools app. Designed to appeal to recreational poker players and tournament directors.</p>
                 <h4>react-scroll-presentation <a href="https://github.com/idontchop/react-scroll-presentation"><img src="https://www.idontchop.com/portfolio/images/GitHub-Mark-120px-plus.png" 
                  class="img-fluid imgLogo"
 				 alt="Github logo" /></a></h4>      
@@ -105,7 +104,7 @@ const Resume = (props) => {
                 <h4>node-online-service <a href="https://github.com/idontchop/node-online-service"><img src="https://www.idontchop.com/portfolio/images/GitHub-Mark-120px-plus.png" 
                  class="img-fluid imgLogo"
 				 alt="Github logo" /></a></h4>      
-                <p>MERN service that can plug into an Event-Driven architecture to track online users based on event key.</p>                
+                <p>Node + MongoDB service that can plug into an Event-Driven architecture to track online users based on event key.</p>                
                 <h4>portfolioChat <a href="https://github.com/idontchop/portfolioChat"><img src="https://www.idontchop.com/portfolio/images/GitHub-Mark-120px-plus.png" 
                  class="img-fluid imgLogo"
 				 alt="Github logo" /></a></h4>      
