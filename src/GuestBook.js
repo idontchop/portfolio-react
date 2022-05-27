@@ -21,6 +21,7 @@ const numToDisplay = [
 const GuestBookWrapper = styled.div`
     display: block;  
     text-align: left;
+    position: relative;
     
     margin: 1px auto;
  
